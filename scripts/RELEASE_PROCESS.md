@@ -3,7 +3,7 @@
 
 1. Make sure all tests pass, coverage is at 100% and the local branch is in a clean state (nothing to commit). Make sure you have a clean develop virtual environment.
    
-2. Determine the next `price-oracle` version. Create new release branch named `feature/release-{new-version}`, switch to this branch. Update the version in all the packages. Update all hashes and auxillirary info with `tox generators`. Commit if satisfied.
+2. Determine the next `price-oracle` version. Create new release branch named `feature/release-{new-version}`, switch to this branch. Update the version in all the packages. Update all hashes and auxiliary info with `tox generators`. Commit if satisfied.
 
 3. Check the package upgrades are correct by running `autonomy check-packages`. Commit if satisfied.
 
