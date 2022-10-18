@@ -106,6 +106,7 @@ STRICT_CHECK_STRINGS = (
 PACKAGES_DIR = Path(__file__).parent.parent.parent.parent.parent
 
 
+@pytest.mark.e2e
 @pytest.mark.parametrize("nb_nodes", (1,))
 class TestABCIPriceEstimationSingleAgent(
     BaseTestEnd2EndExecution,
@@ -121,6 +122,7 @@ class TestABCIPriceEstimationSingleAgent(
     package_registry_src_rel = PACKAGES_DIR
 
 
+@pytest.mark.e2e
 @pytest.mark.parametrize("nb_nodes", (2,))
 class TestABCIPriceEstimationTwoAgents(
     BaseTestEnd2EndExecution,
@@ -136,6 +138,7 @@ class TestABCIPriceEstimationTwoAgents(
     package_registry_src_rel = PACKAGES_DIR
 
 
+@pytest.mark.e2e
 @pytest.mark.parametrize("nb_nodes", (4,))
 class TestABCIPriceEstimationFourAgents(
     BaseTestEnd2EndExecution,
@@ -151,6 +154,7 @@ class TestABCIPriceEstimationFourAgents(
     package_registry_src_rel = PACKAGES_DIR
 
 
+@pytest.mark.e2e
 @pytest.mark.parametrize("nb_nodes", (4,))
 class TestAgentCatchup(BaseTestEnd2EndExecution, UseGnosisSafeHardHatNet):
     """Test that an agent that is launched later can synchronize with the rest of the network"""
@@ -166,6 +170,7 @@ class TestAgentCatchup(BaseTestEnd2EndExecution, UseGnosisSafeHardHatNet):
     n_terminal = 1
 
 
+@pytest.mark.e2e
 @pytest.mark.skip
 class TestTendermintReset(TestABCIPriceEstimationFourAgents):
     """Test the ABCI oracle skill with four agents when resetting Tendermint."""
@@ -192,6 +197,7 @@ class TestTendermintReset(TestABCIPriceEstimationFourAgents):
     ]
 
 
+@pytest.mark.e2e
 @pytest.mark.skip
 class TestTendermintResetInterrupt(TestAgentCatchup):
     """Test the ABCI oracle skill with four agents when an agent gets temporarily interrupted on Tendermint reset."""
@@ -223,6 +229,7 @@ class TestTendermintResetInterrupt(TestAgentCatchup):
     ]
 
 
+@pytest.mark.e2e
 @pytest.mark.skip
 class TestTendermintResetInterruptNoRejoin(TestTendermintResetInterrupt):
     """

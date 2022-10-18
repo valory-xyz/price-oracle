@@ -49,19 +49,19 @@ HEADER_REGEX = re.compile(
 )?# -\*- coding: utf-8 -\*-
 # ------------------------------------------------------------------------------
 #
-#   Copyright ((20\d\d)(-20\d\d)?) Valory AG
+# {3}Copyright ((20\d\d)(-20\d\d)?) Valory AG
 #
-#   Licensed under the Apache License, Version 2\.0 \(the \"License\"\);
-#   you may not use this file except in compliance with the License\.
-#   You may obtain a copy of the License at
+# {3}Licensed under the Apache License, Version 2\.0 \(the \"License\"\);
+# {3}you may not use this file except in compliance with the License\.
+# {3}You may obtain a copy of the License at
 #
-#       http://www\.apache\.org/licenses/LICENSE-2\.0
+# {7}http://www\.apache\.org/licenses/LICENSE-2\.0
 #
-#   Unless required by applicable law or agreed to in writing, software
-#   distributed under the License is distributed on an \"AS IS\" BASIS,
-#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied\.
-#   See the License for the specific language governing permissions and
-#   limitations under the License\.
+# {3}Unless required by applicable law or agreed to in writing, software
+# {3}distributed under the License is distributed on an \"AS IS\" BASIS,
+# {3}WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied\.
+# {3}See the License for the specific language governing permissions and
+# {3}limitations under the License\.
 #
 # ------------------------------------------------------------------------------
 """,
@@ -195,7 +195,7 @@ def fix_header(check_info: Dict) -> bool:
     copyright_string = ""
     is_update_needed = False
 
-    if check_info["error_code"] in (
+    if check_info.get("error_code") in (
         ErrorTypes.END_YEAR_WRONG,
         ErrorTypes.END_YEAR_MISSING,
     ):
@@ -205,7 +205,7 @@ def fix_header(check_info: Dict) -> bool:
         )
         is_update_needed = True
 
-    elif check_info["error_code"] == ErrorTypes.START_YEAR_GT_END_YEAR:
+    elif check_info.get("error_code") == ErrorTypes.START_YEAR_GT_END_YEAR:
         copyright_string = "#   Copyright {end_year}-{start_year} Valory AG".format(
             start_year=check_info["start_year"],
             end_year=check_info["last_modification"].year,
@@ -327,19 +327,20 @@ def main() -> None:
     def _file_filter(file: Path) -> bool:
         """Filter for files."""
         file_str = str(file)
+        unwanted_parts = (
+            "connections",
+            "contracts",
+            "protocols",
+            "t_protocol",
+            "t_protocol_no_ct",
+            "build",
+        )
 
         # protocols are generated using generate_all_protocols.py
         return (
             not file_str.endswith("_pb2.py")
             and not file_str.endswith("_pb2_grpc.py")
-            and (
-                (
-                    "protocols" not in file.parts
-                    and "t_protocol" not in file.parts
-                    and "t_protocol_no_ct" not in file.parts
-                    and "build" not in file.parts
-                )
-            )
+            and not any(part in file.parts for part in unwanted_parts)
         )
 
     python_files_filtered = filter(_file_filter, python_files)

@@ -15,13 +15,13 @@ jobs:
     strategy:
       matrix:
         os: [ ubuntu-latest, macos-latest, windows-latest ]
-        python-version: ["3.10"]
+        python-version: [ "3.10" ]
 
     timeout-minutes: 10
 
     steps:
     - uses: actions/checkout@v2
-    - uses: actions/setup-python@master
+    - uses: actions/setup-python@v3
       with:
         python-version: ${{ matrix.python-version }}
     - name: Pipenv install requirements and check it can be locked
@@ -32,14 +32,14 @@ jobs:
         pipenv run pip install -e .[all]
         pipenv lock
 
-  copyright_doc_and_pipfile_check:
+  copyright_and_pipfile_check:
     continue-on-error: False
     runs-on: ${{ matrix.os }}
 
     strategy:
       matrix:
-        os: [ubuntu-latest]
-        python-version: ["3.10"]
+        os: [ ubuntu-latest ]
+        python-version: [ "3.10" ]
 
     timeout-minutes: 30
 
@@ -47,7 +47,7 @@ jobs:
     - uses: actions/checkout@v2
       with:
         fetch-depth: 0
-    - uses: actions/setup-python@master
+    - uses: actions/setup-python@v3
       with:
         python-version: ${{ matrix.python-version }}
     - name: Install dependencies
@@ -59,10 +59,6 @@ jobs:
         pip install --user --upgrade setuptools
     - name: Check copyright
       run: tox -e check-copyright
-    - name: Check docs
-      run: tox -e check-api-docs
-    - name: Check doc links and IPFS hashes
-      run: tox -e check-doc-links-hashes
     - name: Check pipfiles
       run: tox -e check-pipfiles
 
@@ -72,14 +68,14 @@ jobs:
 
     strategy:
       matrix:
-        os: [ubuntu-latest]
-        python-version: ["3.10"]
+        os: [ ubuntu-latest ]
+        python-version: [ "3.10" ]
 
     timeout-minutes: 30
 
     steps:
     - uses: actions/checkout@v2
-    - uses: actions/setup-python@master
+    - uses: actions/setup-python@v3
       with:
         python-version: ${{ matrix.python-version }}
     - name: Install dependencies
@@ -89,10 +85,12 @@ jobs:
         sudo apt-get autoclean
         pip install tox
         pip install --user --upgrade setuptools
+
         # install Protobuf compiler
         wget https://github.com/protocolbuffers/protobuf/releases/download/v3.19.4/protoc-3.19.4-linux-x86_64.zip
         unzip protoc-3.19.4-linux-x86_64.zip -d protoc
         sudo mv protoc/bin/protoc /usr/local/bin/protoc
+
         # install IPFS
         sudo apt-get install -y wget
         sudo npm install -g markdown-spellcheck
@@ -100,7 +98,10 @@ jobs:
         tar xvfz go-ipfs.tar.gz
         sudo mv go-ipfs/ipfs /usr/local/bin/ipfs
         ipfs init
-        make protolint_install
+        
+        # Install `mdspell` for spelling checks
+        sudo npm install -g markdown-spellcheck
+
     - name: Check generate protocols
       run: tox -e check-generate-all-protocols
     - name: Security checks
@@ -150,7 +151,7 @@ jobs:
     continue-on-error: True
     needs:
       - lock_check
-      - copyright_doc_and_pipfile_check
+      - copyright_and_pipfile_check
       - linter_checks
     runs-on: ${{ matrix.os }}
 
@@ -159,13 +160,13 @@ jobs:
         os: [ ubuntu-latest, macos-latest, windows-latest ]
         python-version: [ "3.7", "3.8", "3.9", "3.10" ]
 
-    timeout-minutes: 70
+    timeout-minutes: 30
 
     steps:
       - uses: actions/checkout@v2
         with:
           submodules: recursive
-      - uses: actions/setup-python@master
+      - uses: actions/setup-python@v3
         with:
           python-version: ${{ matrix.python-version }}
       - uses: actions/setup-go@v3
@@ -185,48 +186,15 @@ jobs:
           unzip protoc-3.19.4-linux-x86_64.zip -d protoc
           sudo mv protoc/bin/protoc /usr/local/bin/protoc
 
-          # install IPFS
-          sudo apt-get install -y wget
-          wget -O ./go-ipfs.tar.gz https://dist.ipfs.io/go-ipfs/v0.6.0/go-ipfs_v0.6.0_linux-amd64.tar.gz
-          tar xvfz go-ipfs.tar.gz
-          sudo mv go-ipfs/ipfs /usr/local/bin/ipfs
-          ipfs init
-
           # install Tendermint
           wget -O tendermint.tar.gz https://github.com/tendermint/tendermint/releases/download/v0.34.19/tendermint_0.34.19_linux_amd64.tar.gz
           tar -xf tendermint.tar.gz
           sudo mv tendermint /usr/local/bin/tendermint
 
-          # install skaffold
-          curl -Lo skaffold https://storage.googleapis.com/skaffold/releases/v1.39.1/skaffold-linux-amd64 && \
-          sudo chmod +x skaffold
-          sudo install skaffold /usr/local/bin/
-          skaffold --help
-
-          # build required images
-          skaffold build --push=false
-          skaffold build -p ci --push=false
-          TM_DEPLOYMENT_PATH="deployments/Dockerfiles/tendermint/"
-          TM_IMG_NAME="valory/open-autonomy-tendermint"
-          docker build $TM_DEPLOYMENT_PATH -t $TM_IMG_NAME:0.1.0 -t $TM_IMG_NAME:1.0.0 -t $TM_IMG_NAME:latest
-          
-          # pull pre-built images
-          docker pull valory/autonolas-registries:latest
-          docker pull valory/contracts-amm:latest
-          docker pull valory/safe-contract-net:latest
-          docker pull valory/acn-node:latest
-          docker pull tendermint/tendermint:v0.34.19
-          docker pull trufflesuite/ganache:beta
-
-      - if: matrix.os == 'ubuntu-latest'
-        name: Framework unit tests ubuntu-latest
-        run: |
-          tox -e py${{ matrix.python-version }}-linux -- -m 'not e2e'
-      
       - if: matrix.os == 'ubuntu-latest'
         name: Packages unit tests ubuntu-latest
         run: |
-          tox -e packages-py${{ matrix.python-version }}-linux -- -m 'not e2e'
+          tox -e py${{ matrix.python-version }}-linux
 
       - if: matrix.os == 'macos-latest'
         name: Install dependencies (macos-latest)
@@ -241,35 +209,10 @@ jobs:
           brew tap yoheimuta/protolint
           brew install protolint
 
-          # install ipfs
-          curl -O https://dist.ipfs.io/go-ipfs/v0.6.0/go-ipfs_v0.6.0_darwin-amd64.tar.gz
-          tar -xvzf go-ipfs_v0.6.0_darwin-amd64.tar.gz
-          cd go-ipfs
-          sudo ./install.sh
-          cd ..
-          rm -rf go-ipfs
-          ipfs init
-
-          # install Tendermint
-          wget -O tendermint.tar.gz https://github.com/tendermint/tendermint/releases/download/v0.34.19/tendermint_0.34.19_darwin_amd64.tar.gz
-          tar -xf tendermint.tar.gz
-          sudo mv tendermint /usr/local/bin/tendermint
-
-          # install skaffold
-          curl -Lo skaffold https://storage.googleapis.com/skaffold/releases/v1.39.1/skaffold-darwin-amd64 && \
-          sudo chmod +x skaffold
-          sudo install skaffold /usr/local/bin/
-          skaffold --help
-
-      - if: matrix.os == 'macos-latest'
-        name: Framework unit tests macos-latest
-        run: |
-          tox -e py${{ matrix.python-version }}-darwin -- -m 'not e2e'
-      
       - if: matrix.os == 'macos-latest'
         name: Packages unit tests macos-latest
         run: |
-          tox -e packages-py${{ matrix.python-version }}-darwin -- -m 'not e2e'
+          tox -e py${{ matrix.python-version }}-darwin
 
       - if: matrix.os == 'windows-latest'
         name: Install dependencies (windows-latest)
@@ -285,44 +228,11 @@ jobs:
           # to check make was installed
           make --version
           pip install tox
-          # wget https://github.com/protocolbuffers/protobuf/releases/download/v3.19.4/protoc-3.19.4-win64.zip
-          # unzip protoc-3.19.4-win64.zip -d protoc
-          # sudo mv protoc/bin/protoc /usr/local/bin/protoc
 
-          python scripts\update_symlinks_cross_platform.py
-
-          # TODO: install protolint
-          #echo "::set-env name=GOPATH::$(go env GOPATH)"
-          #echo "::add-path::$(go env GOPATH)/bin"
-          #make protolint_install_win
-          # just check protolint runs
-          #protolint version
-
-          # install ipfs
-          curl https://dist.ipfs.io/go-ipfs/v0.6.0/go-ipfs_v0.6.0_windows-amd64.zip -o go-ipfs_v0.6.0.zip
-          Expand-Archive -Path go-ipfs_v0.6.0.zip -DestinationPath ~\Apps\
-          cp ~\Apps\go-ipfs\ipfs.exe C:\Users\runneradmin\go\bin\
-          ipfs init
-
-          # install Tendermint
-          wget -O tendermint.tar.gz https://github.com/tendermint/tendermint/releases/download/v0.34.19/tendermint_0.34.19_windows_amd64.tar.gz
-          tar -xvzf tendermint.tar.gz
-          cp tendermint.exe C:\Users\runneradmin\go\bin\
-
-          # install skaffold
-          curl -Lo skaffold https://storage.googleapis.com/skaffold/releases/v1.39.1/skaffold-windows-amd64.exe
-          cp skaffold C:\Users\runneradmin\go\bin\
-          skaffold --help
-
-      - if: matrix.os == 'windows-latest'
-        name: Framework unit tests windows-latest
-        run: |
-          tox -e py${{ matrix.python-version }}-win -- -m 'not e2e'
-      
       - if: matrix.os == 'windows-latest'
         name: Packages unit tests windows-latest
         run: |
-          tox -e packages-py${{ matrix.python-version }}-win -- -m 'not e2e'
+          tox -e py${{ matrix.python-version }}-win
 
       - if: matrix.os == 'ubuntu-latest'
         name: Upload coverage to Codecov
@@ -338,7 +248,7 @@ jobs:
     continue-on-error: True
     needs:
       - lock_check
-      - copyright_doc_and_pipfile_check
+      - copyright_and_pipfile_check
       - linter_checks
     runs-on: ${{ matrix.os }}
 
@@ -347,13 +257,13 @@ jobs:
         os: [ ubuntu-latest ]
         python-version: [ "3.10" ]
 
-    timeout-minutes: 150
+    timeout-minutes: 30
 
     steps:
       - uses: actions/checkout@v2
         with:
           submodules: recursive
-      - uses: actions/setup-python@master
+      - uses: actions/setup-python@v3
         with:
           python-version: ${{ matrix.python-version }}
       - name: Install dependencies
@@ -381,20 +291,11 @@ jobs:
           tar -xf tendermint.tar.gz
           sudo mv tendermint /usr/local/bin/tendermint
 
-          # install Skaffold needed in order to build the Flask with Tendermint image
-          curl -Lo skaffold https://storage.googleapis.com/skaffold/releases/v1.39.1/skaffold-linux-amd64 &&\
-            sudo install skaffold /usr/local/bin/
-
-          # build the Flask with Tendermint image
-          TM_DEPLOYMENT_PATH="deployments/Dockerfiles/tendermint/"
-          TM_IMG_NAME="valory/open-autonomy-tendermint"
-          docker build $TM_DEPLOYMENT_PATH -t $TM_IMG_NAME:0.1.0 -t $TM_IMG_NAME:1.0.0 -t $TM_IMG_NAME:latest
-          
           # pull pre-built images
           docker pull valory/autonolas-registries:latest
           docker pull valory/contracts-amm:latest
           docker pull valory/safe-contract-net:latest
 
-      - name: Unit tests
+      - name: e2e tests
         run: |
-          tox --develop -e packages-py${{ matrix.python-version }}-linux -- -m 'e2e'
+          tox --develop -e e2e-py${{ matrix.python-version }}-linux
