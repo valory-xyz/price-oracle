@@ -17,6 +17,8 @@
 #
 # ------------------------------------------------------------------------------
 
+# pylint: skip-file
+
 """Integration tests for various transaction settlement skill's failure modes."""
 from collections import deque
 from math import ceil
@@ -27,9 +29,7 @@ from unittest import mock
 import pytest
 from aea_ledger_ethereum import EthereumApi
 from aea_test_autonomy.docker.base import skip_docker_tests
-from aea_test_autonomy.fixture_helpers import (  # pylint: unsed-import # noqa: F401
-    ammnet_scope_class,
-)
+from aea_test_autonomy.fixture_helpers import ammnet_scope_class  # noqa: F401
 from web3.types import RPCEndpoint, Wei
 
 from packages.open_aea.protocols.signing import SigningMessage
