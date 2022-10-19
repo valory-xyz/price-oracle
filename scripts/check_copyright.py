@@ -329,7 +329,9 @@ def main() -> None:
         file_str = str(file)
         unwanted_parts = (
             "connections",
-            "contracts",
+            "gnosis_safe",
+            "gnosis_safe_proxy_factory",
+            "service_registry",
             "protocols",
             "t_protocol",
             "t_protocol_no_ct",
