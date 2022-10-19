@@ -1,0 +1,43 @@
+.oar-oracle: &oar-oracle
+  AEA_VERSION: "1.21.0"
+  AUTHOR: "valory"
+  AEA_AGENT: "{{.AEA_AGENT_ORACLE}}"
+.release_docker_args: &release_docker_args
+  noCache: true
+
+apiVersion: skaffold/v2beta29
+kind: Config
+metadata:
+  name: price-oracle
+build:
+  tagPolicy:
+    envTemplate:
+      template: "{{.VERSION}}"
+  artifacts:
+  - image: valory/oar-oracle
+    context: docker/agent
+    docker: 
+      dockerfile: Dockerfile
+      buildArgs: 
+        <<: *oar-oracle
+
+profiles:
+  - name: release
+    build:
+      tagPolicy:
+        envTemplate:
+          template: "{{.VERSION}}"
+      artifacts:
+
+      - image: valory/oar-oracle
+        docker:
+          <<: *release_docker_args
+
+  - name: release-latest
+    build:
+      tagPolicy:
+        envTemplate:
+          template: latest
+      artifacts:
+
+      - image: valory/oar-oracle
