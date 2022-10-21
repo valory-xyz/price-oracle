@@ -152,10 +152,14 @@ fix-abci-app-specs:
 	python -m autonomy.cli analyse abci generate-app-specs packages.valory.skills.price_estimation_abci.rounds.PriceAggregationAbciApp packages/valory/skills/price_estimation_abci/fsm_specification.yaml || (echo "Failed to check price_estimation_abci consistency" && exit 1)
 	echo "Successfully validated abcis!"
 
-AEA_AGENT_PRICE_ORACLE:=valory/oracle:latest:$(shell cat packages/packages.json | grep "agent/valory/oracle" | cut -d "\"" -f4 )
+PACKAGES_PATH := packages/packages.json
+RELEASE_VERSION := latest
+PRICE_ORACLE_AGENT_NAME := valory/oracle
 release-image:
+	$(eval PRICE_ORACLE_AGENT_HASH := $(shell cat ${PACKAGES_PATH} | grep "agent/${PRICE_ORACLE_AGENT_NAME}" | cut -d "\"" -f4 ))
+	$(eval PRICE_ORACLE_AGENT_PUBLIC_ID := ${PRICE_ORACLE_AGENT_NAME}:${RELEASE_VERSION}:${PRICE_ORACLE_AGENT_HASH})
 	# we first need to push all the packages in order to be able to build the image,
 	# because the command pulls the agent from the registry.
 	# Please make sure to run this command only from a release branch.
 	autonomy push-all
-	autonomy build-image ${AEA_AGENT_PRICE_ORACLE}
+	autonomy build-image ${PRICE_ORACLE_AGENT_PUBLIC_ID}
