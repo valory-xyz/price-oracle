@@ -151,3 +151,17 @@ fix-abci-app-specs:
 	python -m autonomy.cli analyse abci generate-app-specs packages.valory.skills.oracle_deployment_abci.rounds.OracleDeploymentAbciApp packages/valory/skills/oracle_deployment_abci/fsm_specification.yaml || (echo "Failed to check oracle_deployment_abci consistency" && exit 1)
 	python -m autonomy.cli analyse abci generate-app-specs packages.valory.skills.price_estimation_abci.rounds.PriceAggregationAbciApp packages/valory/skills/price_estimation_abci/fsm_specification.yaml || (echo "Failed to check price_estimation_abci consistency" && exit 1)
 	echo "Successfully validated abcis!"
+
+PACKAGES_PATH := packages/packages.json
+RELEASE_VERSION := latest
+PRICE_ORACLE_AGENT_NAME := valory/oracle
+PRICE_ORACLE_IMAGE_NAME := valory/oar-oracle
+release-image:
+	$(eval PRICE_ORACLE_AGENT_HASH := $(shell cat ${PACKAGES_PATH} | grep "agent/${PRICE_ORACLE_AGENT_NAME}" | cut -d "\"" -f4 ))
+	$(eval PRICE_ORACLE_AGENT_PUBLIC_ID := ${PRICE_ORACLE_AGENT_NAME}:${RELEASE_VERSION}:${PRICE_ORACLE_AGENT_HASH})
+	# we first need to push all the packages in order to be able to build the image,
+	# because the command pulls the agent from the registry.
+	# Please make sure to run this command only from a release branch.
+	autonomy push-all
+	autonomy build-image ${PRICE_ORACLE_AGENT_PUBLIC_ID}
+	docker push ${PRICE_ORACLE_IMAGE_NAME}:${PRICE_ORACLE_AGENT_HASH}
