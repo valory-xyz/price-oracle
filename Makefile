@@ -155,6 +155,7 @@ fix-abci-app-specs:
 PACKAGES_PATH := packages/packages.json
 RELEASE_VERSION := latest
 PRICE_ORACLE_AGENT_NAME := valory/oracle
+PRICE_ORACLE_IMAGE_NAME := valory/oar-oracle
 release-image:
 	$(eval PRICE_ORACLE_AGENT_HASH := $(shell cat ${PACKAGES_PATH} | grep "agent/${PRICE_ORACLE_AGENT_NAME}" | cut -d "\"" -f4 ))
 	$(eval PRICE_ORACLE_AGENT_PUBLIC_ID := ${PRICE_ORACLE_AGENT_NAME}:${RELEASE_VERSION}:${PRICE_ORACLE_AGENT_HASH})
@@ -163,3 +164,4 @@ release-image:
 	# Please make sure to run this command only from a release branch.
 	autonomy push-all
 	autonomy build-image ${PRICE_ORACLE_AGENT_PUBLIC_ID}
+	docker push ${PRICE_ORACLE_IMAGE_NAME}:${PRICE_ORACLE_AGENT_HASH}
