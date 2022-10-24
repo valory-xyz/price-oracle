@@ -10,7 +10,7 @@ fingerprint_ignore_patterns: []
 agent: valory/oracle:0.1.0:bafybeifperyoibdy3fitngdpr4ou6ig5t5xflje7g4dgcajuzwbymzxb64
 number_of_agents: 4
 ---
-setup_args:
+params_args:
   args: &id001
     setup:
       safe_contract_address:
@@ -18,6 +18,7 @@ setup_args:
       oracle_contract_address:
       - '0x3d9e92B0FE7673ddA3d7C33B9ff302768A03de19'
     max_healthcheck: 43200
+    observation_interval: 3000
     broadcast_to_server: true
     validate_timeout: 100
 valory_monitoring_backend:
