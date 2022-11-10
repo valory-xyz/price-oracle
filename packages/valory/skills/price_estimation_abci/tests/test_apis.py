@@ -19,9 +19,7 @@
 
 """Test various price apis."""
 
-# pylint: skip-file
 
-import logging  # noqa: F401
 from typing import Dict, List, Tuple, Union
 
 import pytest
@@ -87,7 +85,7 @@ randomness_apis = pytest.mark.parametrize(
 )
 
 
-class DummyMessage:
+class DummyMessage:  # pylint: disable=too-few-public-methods
     """Dummy api specs class."""
 
     body: bytes

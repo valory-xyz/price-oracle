@@ -31,9 +31,9 @@ protocols:
 skills:
 - valory/abstract_abci:0.1.0:bafybeidsvczp2wdu63eic7ytv2tdioscr2flaqfys755j5775xqotxqd54
 - valory/abstract_round_abci:0.1.0:bafybeihx3owgbdtbu4zr6v5gaqk6ur6er4wynameikbq6ndi2kfk5vovnu
-- valory/oracle_abci:0.1.0:bafybeigkznmidwzqmoepw4ghfp5hhlcfq44kmqad73b7u7i433msnpoa5u
+- valory/oracle_abci:0.1.0:bafybeihkvoeiqz5npkoxqpandgh4nsqhzkznxphk4gd7zchbc5oovdoxqa
 - valory/oracle_deployment_abci:0.1.0:bafybeidgajm6yvlo5c3iryja5uy2cwkxfebbr4c4g22qrbjwh6jrmmh75e
-- valory/price_estimation_abci:0.1.0:bafybeihc32wgo5nayr7k22nnwm6gcwhrki4x4woucr24wcniw7brssycam
+- valory/price_estimation_abci:0.1.0:bafybeic75eb7exzbzxl233fy5kntv3h5t5bjxvadqnxt4m75jnyweahyk4
 - valory/registration_abci:0.1.0:bafybeiee4hlizshxa55a2fego65glek6dkkafamuo4wxwnpp2prqlhximi
 - valory/reset_pause_abci:0.1.0:bafybeibqoz7wpk2sarakxnxm2j427x4r6jz5g2ewvg5ipvakbqvhjge2ta
 - valory/safe_deployment_abci:0.1.0:bafybeihzoavtj7oiuifizksjsshcudcmfsasgogy2ddfbzhm7kfz4wgwca
