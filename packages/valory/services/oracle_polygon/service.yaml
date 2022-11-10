@@ -38,7 +38,6 @@ models:
         - - vs_currencies
           - usd
         response_key: bitcoin:usd
-        headers: null
   - randomness_api:
       args:
         url: https://drand.cloudflare.com/public/latest
@@ -71,8 +70,6 @@ models:
         url: https://api.coinbase.com/v2/prices/BTC-USD/buy
         api_id: coinbase
         response_key: data:amount
-        headers: null
-        parameters: null
   - randomness_api:
       args:
         url: https://api2.drand.sh/public/latest
@@ -90,7 +87,6 @@ models:
         - - symbol
           - BTCUSDT
         response_key: price
-        headers: null
   - randomness_api:
       args:
         url: https://api3.drand.sh/public/latest
