@@ -129,6 +129,7 @@ def test_price_api(api_specs: List[Tuple[str, Union[str, List]]]) -> None:
     response = make_request(api.get_spec())
     observation = api.process_response(DummyMessage(response.content))  # type: ignore
     assert isinstance(observation, float)
+    assert observation > 0
 
 
 @randomness_apis
