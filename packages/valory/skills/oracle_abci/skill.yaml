@@ -141,6 +141,7 @@ models:
       headers: []
       method: GET
       parameters: []
+      response_index: null
       response_key: data:amount
       response_type: float
       retries: 5

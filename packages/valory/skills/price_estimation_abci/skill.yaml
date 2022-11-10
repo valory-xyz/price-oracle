@@ -34,6 +34,7 @@ contracts:
 protocols:
 - open_aea/signing:1.0.0:bafybeiambqptflge33eemdhis2whik67hjplfnqwieoa6wblzlaf7vuo44
 - valory/contract_api:1.0.0:bafybeiaxbrvgtbdrh4lslskuxyp4awyr4whcx3nqq5yrr6vimzsxg5dy64
+- valory/http:1.0.0:bafybeigzqo2zaakcjtzzsm6dh4x73v72xg6ctk6muyp5uq5ueb7y34fbxy
 skills:
 - valory/abstract_round_abci:0.1.0:bafybeihx3owgbdtbu4zr6v5gaqk6ur6er4wynameikbq6ndi2kfk5vovnu
 - valory/oracle_deployment_abci:0.1.0:bafybeidgajm6yvlo5c3iryja5uy2cwkxfebbr4c4g22qrbjwh6jrmmh75e
@@ -140,6 +141,7 @@ models:
       headers: []
       method: GET
       parameters: []
+      response_index: null
       response_key: data:amount
       response_type: float
       retries: 5

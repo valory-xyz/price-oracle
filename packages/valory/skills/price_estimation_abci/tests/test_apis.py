@@ -43,10 +43,12 @@ price_apis = pytest.mark.parametrize(
         [
             (
                 "url",
-                "https://ftx.com/api/markets/BTC/USD",
+                "https://api.kraken.com/0/public/Ticker",
             ),
-            ("api_id", "ftx"),
-            ("response_key", "result:last"),
+            ("api_id", "kraken"),
+            ("response_key", "result:XXBTZUSD:b"),
+            ("response_index", 0),
+            ("parameters", [["pair", "BTCUSD"]]),
         ],
         [
             ("url", "https://api.coinbase.com/v2/prices/BTC-USD/buy"),

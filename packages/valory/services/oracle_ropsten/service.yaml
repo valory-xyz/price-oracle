@@ -48,11 +48,13 @@ models:
   1:
   - price_api:
       args:
-        url: https://ftx.com/api/markets/BTC/USD
-        api_id: ftx
-        response_key: result:last
-        headers: null
-        parameters: null
+        url: https://api.kraken.com/0/public/Ticker?pair=BTCUSD
+        api_id: kraken
+        parameters:
+        - - pair
+          - BTCUSD
+        response_key: result:XXBTZUSD:b
+        response_index: 0
   - randomness_api:
       args:
         url: https://api.drand.sh/public/latest

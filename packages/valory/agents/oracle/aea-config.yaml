@@ -96,6 +96,7 @@ models:
       api_id: ${SKILL_ORACLE_ABCI_MODELS_PRICE_API_ARGS_API_ID:str:coinbase}
       parameters: ${SKILL_ORACLE_ABCI_MODELS_PRICE_API_ARGS_PARAMETERS:list:none}
       response_key: ${SKILL_ORACLE_ABCI_MODELS_PRICE_API_ARGS_RESPONSE_KEY:str:data:amount}
+      response_index: ${SKILL_ORACLE_ABCI_MODELS_PRICE_API_ARGS_RESPONSE_INDEX:int:null}
       headers: ${SKILL_ORACLE_ABCI_MODELS_PRICE_API_ARGS_HEADERS:list:none}
   randomness_api:
     args:
