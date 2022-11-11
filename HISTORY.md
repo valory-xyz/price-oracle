@@ -1,5 +1,12 @@
 # Release History - `price-oracle`
 
+
+## 0.3.5.post1 (2022-11-11)
+
+- Fixes services #15
+- Fixes spelling check #14
+
+
 ## 0.3.5 (2022-11-11)
 
 - Bumps `open-autonomy` and `open-aea` #12
