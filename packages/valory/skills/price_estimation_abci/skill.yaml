@@ -24,7 +24,7 @@ fingerprint:
   tests/test_handlers.py: bafybeiaq5bvl2ypvamd4aq6dtngg2yewh44thvlfqvf4dexwy4ecut5es4
   tests/test_models.py: bafybeifnkxddj754sn33pgtrtcfkt7nptspnssfvtfpxvoazujlhdms4qu
   tests/test_payloads.py: bafybeiexaygx5dpt2nv4v56rwmd73jrehdlrrkfrr7qawp4ghms6wf6zey
-  tests/test_rounds.py: bafybeiftjk7vmyllvm6fp2juqyyeatfrvplvuh5mecot246b2igbk2w6mm
+  tests/test_rounds.py: bafybeicmw2jf4tixpghskosdnwvzdbsywumkfp2feyhjx6rlgm63lextl4
   tests/test_tools.py: bafybeicvwyu4csbn3foyp5mvcdlnu3uiwwvmvnh5m74sspe77nws5ulm6i
 fingerprint_ignore_patterns: []
 connections: []
@@ -37,7 +37,7 @@ protocols:
 - valory/http:1.0.0:bafybeigzqo2zaakcjtzzsm6dh4x73v72xg6ctk6muyp5uq5ueb7y34fbxy
 skills:
 - valory/abstract_round_abci:0.1.0:bafybeigqcsyldiu4arougcfaz4kgqa37ko4gzkrrup22hwz344nuv3qx5q
-- valory/oracle_deployment_abci:0.1.0:bafybeibzvfkea4nzc4aqg2pe3itrlfgyelwrv6hl3pek5dt6rkzv2qvw3m
+- valory/oracle_deployment_abci:0.1.0:bafybeicc5pasbuyzz44fnfgw4itq4qle3d3ayct2ppdpes4iqfpmyucfxm
 - valory/transaction_settlement_abci:0.1.0:bafybeicgvudend6ame7taeqfqreferppqx4sgnteih4lnoq3drm2b7fqwq
 behaviours:
   main:
