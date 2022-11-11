@@ -20,7 +20,7 @@ params_args:
     max_healthcheck: 43200
     observation_interval: 3000
     broadcast_to_server: true
-    validate_timeout: 100
+    validate_timeout: 300
 valory_monitoring_backend:
   args: &id002
     url: https://oracle-server.autonolas.tech/deposit
