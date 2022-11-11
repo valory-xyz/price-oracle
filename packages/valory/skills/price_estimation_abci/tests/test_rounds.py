@@ -22,7 +22,6 @@
 # pylint: skip-file
 
 import logging  # noqa: F401
-from types import MappingProxyType
 from typing import Dict, FrozenSet, Optional
 
 from packages.valory.skills.abstract_round_abci.base import AbciAppDB
@@ -191,8 +190,8 @@ class TestRandomnessTransactionSubmissionRound(BaseCollectSameUntilThresholdRoun
                 test_round=test_round,
                 round_payloads=get_participant_to_randomness(self.participants, 1),
                 synchronized_data_update_fn=lambda _synchronized_data, _test_round: _synchronized_data.update(
-                    participant_to_randomness=MappingProxyType(
-                        dict(get_participant_to_randomness(self.participants, 1))
+                    participant_to_randomness=dict(
+                        get_participant_to_randomness(self.participants, 1)
                     )
                 ),
                 synchronized_data_attr_checks=[
