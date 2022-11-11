@@ -19,9 +19,7 @@
 
 """Test various price apis."""
 
-# pylint: skip-file
 
-import logging  # noqa: F401
 from typing import Dict, List, Tuple, Union
 
 import pytest
@@ -43,10 +41,12 @@ price_apis = pytest.mark.parametrize(
         [
             (
                 "url",
-                "https://ftx.com/api/markets/BTC/USD",
+                "https://api.kraken.com/0/public/Ticker",
             ),
-            ("api_id", "ftx"),
-            ("response_key", "result:last"),
+            ("api_id", "kraken"),
+            ("response_key", "result:XXBTZUSD:b"),
+            ("response_index", 0),
+            ("parameters", [["pair", "BTCUSD"]]),
         ],
         [
             ("url", "https://api.coinbase.com/v2/prices/BTC-USD/buy"),
@@ -85,7 +85,7 @@ randomness_apis = pytest.mark.parametrize(
 )
 
 
-class DummyMessage:
+class DummyMessage:  # pylint: disable=too-few-public-methods
     """Dummy api specs class."""
 
     body: bytes
@@ -127,6 +127,7 @@ def test_price_api(api_specs: List[Tuple[str, Union[str, List]]]) -> None:
     response = make_request(api.get_spec())
     observation = api.process_response(DummyMessage(response.content))  # type: ignore
     assert isinstance(observation, float)
+    assert observation > 0
 
 
 @randomness_apis

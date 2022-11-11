@@ -7,7 +7,7 @@ license: Apache-2.0
 fingerprint:
   README.md: bafybeifqnvekc6s44wsczofdhofiozxekstjau2bk5yqfqvjuv4wzoopku
 fingerprint_ignore_patterns: []
-agent: valory/oracle:0.1.0:bafybeibxmyyawkikngewptihqsyrgb3fgr3hj6l53mi5syxlpnyd5z3cwi
+agent: valory/oracle:0.1.0:bafybeiac3iocmjqaiosjnrd2wevzsbm6hycgpurojh6mquyqepybzat7ji
 number_of_agents: 4
 ---
 params_args:
@@ -38,7 +38,6 @@ models:
         - - vs_currencies
           - usd
         response_key: bitcoin:usd
-        headers: null
   - randomness_api:
       args:
         url: https://drand.cloudflare.com/public/latest
@@ -50,11 +49,13 @@ models:
   1:
   - price_api:
       args:
-        url: https://ftx.com/api/markets/BTC/USD
-        api_id: ftx
-        response_key: result:last
-        headers: null
-        parameters: null
+        url: https://api.kraken.com/0/public/Ticker?pair=BTCUSD
+        api_id: kraken
+        parameters:
+        - - pair
+          - BTCUSD
+        response_key: result:XXBTZUSD:b
+        response_index: 0
   - randomness_api:
       args:
         url: https://api.drand.sh/public/latest
@@ -69,8 +70,6 @@ models:
         url: https://api.coinbase.com/v2/prices/BTC-USD/buy
         api_id: coinbase
         response_key: data:amount
-        headers: null
-        parameters: null
   - randomness_api:
       args:
         url: https://api2.drand.sh/public/latest
@@ -88,7 +87,6 @@ models:
         - - symbol
           - BTCUSDT
         response_key: price
-        headers: null
   - randomness_api:
       args:
         url: https://api3.drand.sh/public/latest

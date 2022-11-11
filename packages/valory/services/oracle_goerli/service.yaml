@@ -7,7 +7,7 @@ license: Apache-2.0
 fingerprint:
   README.md: bafybeig4wu7inb6ibwfgged3djyc7emopcg5n7d7gwrlotne53pp3jfgq4
 fingerprint_ignore_patterns: []
-agent: valory/oracle:0.1.0:bafybeibxmyyawkikngewptihqsyrgb3fgr3hj6l53mi5syxlpnyd5z3cwi
+agent: valory/oracle:0.1.0:bafybeiac3iocmjqaiosjnrd2wevzsbm6hycgpurojh6mquyqepybzat7ji
 number_of_agents: 4
 ---
 params_args:
@@ -49,11 +49,13 @@ models:
   1:
   - price_api:
       args:
-        url: https://ftx.com/api/markets/BTC/USD
-        api_id: ftx
-        response_key: result:last
-        headers: null
-        parameters: null
+        url: https://api.kraken.com/0/public/Ticker?pair=BTCUSD
+        api_id: kraken
+        parameters:
+        - - pair
+          - BTCUSD
+        response_key: result:XXBTZUSD:b
+        response_index: 0
   - randomness_api:
       args:
         url: https://api.drand.sh/public/latest
