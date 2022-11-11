@@ -48,7 +48,7 @@ models:
   1:
   - price_api:
       args:
-        url: https://api.kraken.com/0/public/Ticker?pair=BTCUSD
+        url: https://api.kraken.com/0/public/Ticker
         api_id: kraken
         parameters:
         - - pair
