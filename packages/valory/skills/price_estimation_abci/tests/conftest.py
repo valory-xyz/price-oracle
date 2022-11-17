@@ -27,7 +27,7 @@ from packages.valory.contracts.offchain_aggregator.tests.test_contract import (
     PACKAGE_DIR as OFFCHAIN_AGGREGATOR_PACKAGE,
 )
 from packages.valory.skills.abstract_round_abci.test_tools.integration import (
-    _HarHatHelperIntegration,
+    HardHatHelperIntegration,
 )
 from packages.valory.skills.transaction_settlement_abci.test_tools.integration import (
     _TxHelperIntegration,
@@ -35,7 +35,7 @@ from packages.valory.skills.transaction_settlement_abci.test_tools.integration i
 
 
 class GnosisIntegrationBaseCase(  # pylint: disable=too-many-ancestors
-    _TxHelperIntegration, _HarHatHelperIntegration
+    _TxHelperIntegration, HardHatHelperIntegration
 ):
     """Base test class for integration tests in a Hardhat environment, with Gnosis deployed."""
 

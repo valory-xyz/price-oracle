@@ -233,10 +233,10 @@ class TestObserveBehaviour(PriceEstimationFSMBehaviourBaseCase):
             ).behaviour_id
             == ObserveBehaviour.behaviour_id
         )
-        self.behaviour.context.price_api._retries_attempted = 1
+        self.behaviour.context.price_api.retries_info.retries_attempted = 1
         assert self.behaviour.current_behaviour is not None
         self.behaviour.current_behaviour.clean_up()
-        assert self.behaviour.context.price_api._retries_attempted == 0
+        assert self.behaviour.context.price_api.retries_info.retries_attempted == 0
 
 
 class TestEstimateBehaviour(PriceEstimationFSMBehaviourBaseCase):

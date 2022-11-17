@@ -20,7 +20,7 @@ alphabet_in:
 - VALIDATE_TIMEOUT
 default_start_state: RegistrationStartupRound
 final_states: []
-label: packages.valory.skills.oracle_abci.composition.OracleAbciApp
+label: OracleAbciApp
 start_states:
 - RegistrationStartupRound
 states:
