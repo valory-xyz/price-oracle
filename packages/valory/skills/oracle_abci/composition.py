@@ -43,7 +43,7 @@ from packages.valory.skills.reset_pause_abci.rounds import (
     FinishedResetAndPauseErrorRound,
     FinishedResetAndPauseRound,
     ResetAndPauseRound,
-    ResetPauseABCIApp,
+    ResetPauseAbciApp,
 )
 from packages.valory.skills.safe_deployment_abci.rounds import (
     FinishedSafeRound,
@@ -77,7 +77,7 @@ OracleAbciApp = chain(
         OracleDeploymentAbciApp,
         PriceAggregationAbciApp,
         TransactionSubmissionAbciApp,
-        ResetPauseABCIApp,
+        ResetPauseAbciApp,
     ),
     abci_app_transition_mapping,
 )

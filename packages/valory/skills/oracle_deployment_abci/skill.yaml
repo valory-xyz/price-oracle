@@ -10,7 +10,7 @@ fingerprint:
   __init__.py: bafybeieijwltt7imihiqtk73oqlcrh4b4bx3g4sty5q326enfronlbkwye
   behaviours.py: bafybeignfpe2iafxqcniiz2fwrdrtlgpxigj2vjbsxn6iitcwcoupgrsji
   dialogues.py: bafybeib4jbdycm2vofni3vp6draqet3nejoviqjurcilrzindr4k5dg5fa
-  fsm_specification.yaml: bafybeifdcsw6pe3h4trvie2v7osyvugdxl3exu2kgtmnsgbf3kqo6ebilm
+  fsm_specification.yaml: bafybeiemhsiaocatkg6fncrrap5tt27jjkt3tftucfsvuxy6jkeg6nkrua
   handlers.py: bafybeigftrxptud4meihmxh26xe32hjtdiookz7r5lssih7tduq75mcqre
   models.py: bafybeib4a4lcnfqr6ori3xohff4h4yxm7c7vl6sgqk2oqrypqgf2iybinu
   payloads.py: bafybeigj4llomatxlisjynutrh6elg2j7tc6z5q5ia35cuk2ccrzlz4pgy
@@ -23,13 +23,13 @@ fingerprint:
 fingerprint_ignore_patterns: []
 connections: []
 contracts:
-- valory/offchain_aggregator:0.1.0:bafybeic3uhr4bngcfrzfk4dg4tckpopkup2q7yepvaz73ge6rnzgaxgwui
+- valory/offchain_aggregator:0.1.0:bafybeidb46spwpdcrxskvqbhmyehpcvbvle3ssoxjska4zrr44r6tw5s5e
 protocols:
 - open_aea/signing:1.0.0:bafybeiambqptflge33eemdhis2whik67hjplfnqwieoa6wblzlaf7vuo44
 - valory/contract_api:1.0.0:bafybeiaxbrvgtbdrh4lslskuxyp4awyr4whcx3nqq5yrr6vimzsxg5dy64
 - valory/ledger_api:1.0.0:bafybeih7rhi5zvfvwakx5ifgxsz2cfipeecsh7bm3gnudjxtvhrygpcftq
 skills:
-- valory/abstract_round_abci:0.1.0:bafybeigqcsyldiu4arougcfaz4kgqa37ko4gzkrrup22hwz344nuv3qx5q
+- valory/abstract_round_abci:0.1.0:bafybeid3sx66tzs6mmwu52tlaqdycfszzpetgybzu34gagfocg5bmivh7e
 behaviours:
   main:
     args: {}
@@ -142,5 +142,5 @@ models:
     class_name: TendermintDialogues
 dependencies:
   open-aea-ledger-ethereum:
-    version: ==1.23.0
+    version: ==1.24.0
 is_abstract: true

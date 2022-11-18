@@ -10,7 +10,7 @@ alphabet_in:
 default_start_state: RandomnessOracleRound
 final_states:
 - FinishedOracleRound
-label: packages.valory.skills.oracle_deployment_abci.rounds.OracleDeploymentAbciApp
+label: OracleDeploymentAbciApp
 start_states:
 - RandomnessOracleRound
 states:

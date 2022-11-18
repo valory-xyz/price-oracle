@@ -6,7 +6,7 @@ alphabet_in:
 default_start_state: CollectObservationRound
 final_states:
 - FinishedPriceAggregationRound
-label: packages.valory.skills.price_estimation_abci.rounds.PriceAggregationAbciApp
+label: PriceAggregationAbciApp
 start_states:
 - CollectObservationRound
 states:
