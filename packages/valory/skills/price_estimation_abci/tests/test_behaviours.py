@@ -522,6 +522,8 @@ class TestPackForServer(PriceEstimationFSMBehaviourBaseCase):
 def test_fuzz_pack_for_server() -> None:
     """Test fuzz pack_for_server."""
 
+    import atheris  # type: ignore
+
     @atheris.instrument_func
     def fuzz_pack_for_server(input_bytes: bytes) -> None:
         """Fuzz pack_for_server."""
