@@ -33,12 +33,6 @@ import pytest
 from aea.exceptions import AEAEnforceError
 from aea.helpers.transaction.base import RawTransaction, SignedMessage
 
-
-try:
-    import atheris  # type: ignore
-except (ImportError, ModuleNotFoundError):
-    pytestmark = pytest.mark.skip
-
 from packages.open_aea.protocols.signing import SigningMessage
 from packages.valory.contracts.gnosis_safe.contract import (
     PUBLIC_ID as GNOSIS_SAFE_CONTRACT_ID,
@@ -527,6 +521,8 @@ class TestPackForServer(PriceEstimationFSMBehaviourBaseCase):
 @pytest.mark.skip
 def test_fuzz_pack_for_server() -> None:
     """Test fuzz pack_for_server."""
+
+    import atheris  # type: ignore
 
     @atheris.instrument_func
     def fuzz_pack_for_server(input_bytes: bytes) -> None:

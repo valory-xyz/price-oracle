@@ -126,7 +126,9 @@ class ObserveBehaviour(PriceEstimationBaseBehaviour):
             self.context.logger.info(
                 f"Could not get price from {self.context.price_api.api_id}"
             )
-            yield from self.sleep(self.params.sleep_time)
+            yield from self.sleep(
+                self.context.price_api.retries_info.suggested_sleep_time
+            )
             self.context.price_api.increment_retries()
 
     def clean_up(self) -> None:

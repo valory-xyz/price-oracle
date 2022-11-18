@@ -31,9 +31,9 @@ protocols:
 skills:
 - valory/abstract_abci:0.1.0:bafybeicog4eierjad4f542ubhe3ez7sxgrsna7t2e5pci2hncpq5vckw4e
 - valory/abstract_round_abci:0.1.0:bafybeid3sx66tzs6mmwu52tlaqdycfszzpetgybzu34gagfocg5bmivh7e
-- valory/oracle_abci:0.1.0:bafybeialphzcqog6mwixus6esxu4fd3hqpuku3les3oa7y24wccwqxapx4
-- valory/oracle_deployment_abci:0.1.0:bafybeiewyhc4qsj5t2e42brur3evdq6zgjacyg34ux3iacz57yjl75kufq
-- valory/price_estimation_abci:0.1.0:bafybeigirk2e2nnlczwwcvzesxyetxoxsl5pxssju77cev72kztqrk6dga
+- valory/oracle_abci:0.1.0:bafybeiavn6vonjmnd7khreql2lcrhnw6k336cvjiju5ylqpasrotnukpei
+- valory/oracle_deployment_abci:0.1.0:bafybeidqkzcwgnblq4n57hclykubswoopf76sa5erwqhin476qhxie23hu
+- valory/price_estimation_abci:0.1.0:bafybeih7qai4w3uva6ipwusxcuyuu6n3frmrwqkce3xrkyr3fl3l5qolfq
 - valory/registration_abci:0.1.0:bafybeifxquhkccygjawoqyj26b3k6rxizaa7geoef7oyet2baojjk4gy2q
 - valory/reset_pause_abci:0.1.0:bafybeibnziujsv7toespbguradspw52rfrhhgdojcbznckqia2jwm2jvwm
 - valory/safe_deployment_abci:0.1.0:bafybeig4bni62vg6bschvvtnpsg5p6p7owqispx64zomk4pqcugmqv4wpe
@@ -109,7 +109,7 @@ models:
       setup:
         safe_contract_address: ${SKILL_ORACLE_ABCI_MODELS_PARAMS_ARGS_SETUP_SAFE_CONTRACT_ADDRESS:list:[]}
         oracle_contract_address: ${SKILL_ORACLE_ABCI_MODELS_PARAMS_ARGS_SETUP_ORACLE_CONTRACT_ADDRESS:list:[]}
-      round_timeout_seconds: ${ORACLE_PARAMS_ROUND_TIMEOUT_SECONDS:float:7.0}
+      round_timeout_seconds: ${ORACLE_PARAMS_ROUND_TIMEOUT_SECONDS:float:35.0}
       tendermint_url: ${TENDERMINT_URL:str:http://localhost:26657}
       tendermint_com_url: ${TENDERMINT_COM_URL:str:http://localhost:8080}
       reset_tendermint_after: ${SKILL_ORACLE_ABCI_MODELS_PARAMS_ARGS_RESET_TENDERMINT_AFTER:int:10}
