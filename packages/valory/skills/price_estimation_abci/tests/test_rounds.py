@@ -146,11 +146,6 @@ def get_participant_to_estimate(
     }
 
 
-def get_estimate() -> float:
-    """Estimate"""
-    return 1.0
-
-
 def get_most_voted_estimate() -> float:
     """most_voted_estimate"""
     return 1.0
@@ -361,7 +356,6 @@ def test_synchronized_datas() -> None:
     participant_to_votes = get_participant_to_votes(participants)
     most_voted_tx_hash = get_most_voted_tx_hash()
     participant_to_observations = get_participant_to_observations(participants)
-    estimate = get_estimate()
     most_voted_estimate = get_most_voted_estimate()
 
     synchronized_data = SynchronizedData(
@@ -439,4 +433,6 @@ def test_synchronized_datas() -> None:
         synchronized_data______.participant_to_observations
         == participant_to_observations
     )
-    assert synchronized_data______.estimate == estimate
+    assert synchronized_data______.observations == [
+        value.observation for value in participant_to_observations.values()
+    ]
