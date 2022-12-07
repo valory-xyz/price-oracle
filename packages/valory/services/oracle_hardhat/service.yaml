@@ -10,25 +10,26 @@ fingerprint_ignore_patterns: []
 agent: valory/oracle:0.1.0:bafybeicnnrnh546qkamfn4aaxgwiw4j7jgtb7wgyryn6yrp6hwbqvqxb34
 number_of_agents: 4
 ---
-setup_args:
-  args: &id001
-    setup:
-      safe_contract_address: []
-    observation_interval: 30
-    broadcast_to_server: false
-    service_registry_address: '0x0DCd1Bf9A1b36cE34237eEaFef220932846BCD82'
-    on_chain_service_id: 1
-benchmark_persistence_params:
-  args: &id003
-    log_dir: /benchmarks
-valory_monitoring_backend:
-  args: &id002
-    url: https://oracle-server.staging.autonolas.tech/deposit
+extra:
+  setup_args:
+    args: &id001
+      setup:
+        safe_contract_address: []
+      observation_interval: 30
+      broadcast_to_server: false
+      service_registry_address: '0x0DCd1Bf9A1b36cE34237eEaFef220932846BCD82'
+      on_chain_service_id: 1
+  benchmark_persistence_params:
+    args: &id003
+      log_dir: /benchmarks
+  valory_monitoring_backend:
+    args: &id002
+      url: https://oracle-server.staging.autonolas.tech/deposit
 public_id: valory/oracle_abci:0.1.0
 type: skill
-models:
-  0:
-  - price_api:
+0:
+  models:
+    price_api:
       args:
         url: https://api.coingecko.com/api/v3/simple/price
         api_id: coingecko
@@ -39,18 +40,19 @@ models:
           - usd
         response_key: bitcoin:usd
         headers: null
-  - randomness_api:
+    randomness_api:
       args:
         url: https://drand.cloudflare.com/public/latest
         api_id: cloudflare
-  - params:
+    params:
       args: *id001
-  - server_api:
+    server_api:
       args: *id002
-  - benchmark_tool:
+    benchmark_tool:
       args: *id003
-  1:
-  - price_api:
+1:
+  models:
+    price_api:
       args:
         url: https://api.kraken.com/0/public/Ticker
         api_id: kraken
@@ -59,36 +61,38 @@ models:
           - BTCUSD
         response_key: result:XXBTZUSD:b
         response_index: 0
-  - randomness_api:
+    randomness_api:
       args:
         url: https://api.drand.sh/public/latest
         api_id: protocollabs1
-  - params:
+    params:
       args: *id001
-  - server_api:
+    server_api:
       args: *id002
-  - benchmark_tool:
+    benchmark_tool:
       args: *id003
-  2:
-  - price_api:
+2:
+  models:
+    price_api:
       args:
         url: https://api.coinbase.com/v2/prices/BTC-USD/buy
         api_id: coinbase
         response_key: data:amount
         headers: null
         parameters: null
-  - randomness_api:
+    randomness_api:
       args:
         url: https://api2.drand.sh/public/latest
         api_id: protocollabs2
-  - params:
+    params:
       args: *id001
-  - server_api:
+    server_api:
       args: *id002
-  - benchmark_tool:
+    benchmark_tool:
       args: *id003
-  3:
-  - price_api:
+3:
+  models:
+    price_api:
       args:
         url: https://api.binance.com/api/v3/ticker/price
         api_id: binance
@@ -97,15 +101,15 @@ models:
           - BTCUSDT
         response_key: price
         headers: null
-  - randomness_api:
+    randomness_api:
       args:
         url: https://api3.drand.sh/public/latest
         api_id: protocollabs3
-  - params:
+    params:
       args: *id001
-  - server_api:
+    server_api:
       args: *id002
-  - benchmark_tool:
+    benchmark_tool:
       args: *id003
 ---
 public_id: valory/ledger:0.19.0

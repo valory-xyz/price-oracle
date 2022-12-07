@@ -10,25 +10,26 @@ fingerprint_ignore_patterns: []
 agent: valory/oracle:0.1.0:bafybeicnnrnh546qkamfn4aaxgwiw4j7jgtb7wgyryn6yrp6hwbqvqxb34
 number_of_agents: 4
 ---
-params_args:
-  args: &id001
-    setup:
-      safe_contract_address:
-      - '0x37ba5291A5bE8cbE44717a0673fe2c5a45B4B6A8'
-      oracle_contract_address:
-      - '0x3d9e92B0FE7673ddA3d7C33B9ff302768A03de19'
-    max_healthcheck: 43200
-    observation_interval: 3000
-    broadcast_to_server: true
-    validate_timeout: 300
-valory_monitoring_backend:
-  args: &id002
-    url: https://oracle-server.autonolas.tech/deposit
+extra:
+  params_args:
+    args: &id001
+      setup:
+        safe_contract_address:
+        - '0x37ba5291A5bE8cbE44717a0673fe2c5a45B4B6A8'
+        oracle_contract_address:
+        - '0x3d9e92B0FE7673ddA3d7C33B9ff302768A03de19'
+      max_healthcheck: 43200
+      observation_interval: 3000
+      broadcast_to_server: true
+      validate_timeout: 300
+  valory_monitoring_backend:
+    args: &id002
+      url: https://oracle-server.autonolas.tech/deposit
 public_id: valory/oracle_abci:0.1.0
 type: skill
-models:
-  0:
-  - price_api:
+0:
+  models:
+    price_api:
       args:
         url: https://api.coingecko.com/api/v3/simple/price
         api_id: coingecko
@@ -38,16 +39,17 @@ models:
         - - vs_currencies
           - usd
         response_key: bitcoin:usd
-  - randomness_api:
+    randomness_api:
       args:
         url: https://drand.cloudflare.com/public/latest
         api_id: cloudflare
-  - params:
+    params:
       args: *id001
-  - server_api:
+    server_api:
       args: *id002
-  1:
-  - price_api:
+1:
+  models:
+    price_api:
       args:
         url: https://api.kraken.com/0/public/Ticker
         api_id: kraken
@@ -56,30 +58,32 @@ models:
           - BTCUSD
         response_key: result:XXBTZUSD:b
         response_index: 0
-  - randomness_api:
+    randomness_api:
       args:
         url: https://api.drand.sh/public/latest
         api_id: protocollabs1
-  - params:
+    params:
       args: *id001
-  - server_api:
+    server_api:
       args: *id002
-  2:
-  - price_api:
+2:
+  models:
+    price_api:
       args:
         url: https://api.coinbase.com/v2/prices/BTC-USD/buy
         api_id: coinbase
         response_key: data:amount
-  - randomness_api:
+    randomness_api:
       args:
         url: https://api2.drand.sh/public/latest
         api_id: protocollabs2
-  - params:
+    params:
       args: *id001
-  - server_api:
+    server_api:
       args: *id002
-  3:
-  - price_api:
+3:
+  models:
+    price_api:
       args:
         url: https://api.binance.com/api/v3/ticker/price
         api_id: binance
@@ -87,41 +91,44 @@ models:
         - - symbol
           - BTCUSDT
         response_key: price
-  - randomness_api:
+    randomness_api:
       args:
         url: https://api3.drand.sh/public/latest
         api_id: protocollabs2
-  - params:
+    params:
       args: *id001
-  - server_api:
+    server_api:
       args: *id002
 ---
 public_id: valory/ledger:0.19.0
 type: connection
-config:
-  0:
-  - ledger_apis:
+0:
+  config:
+    ledger_apis:
       ethereum:
         address: ${SERVICE_ORACLE_POLYGON_RPC_0:str:http://127.0.0.1:8545}
         chain_id: 137
         poa_chain: true
         default_gas_price_strategy: eip1559_polygon
-  1:
-  - ledger_apis:
+1:
+  config:
+    ledger_apis:
       ethereum:
         address: ${SERVICE_ORACLE_POLYGON_RPC_1:str:http://127.0.0.1:8545}
         chain_id: 137
         poa_chain: true
         default_gas_price_strategy: eip1559_polygon
-  2:
-  - ledger_apis:
+2:
+  config:
+    ledger_apis:
       ethereum:
         address: ${SERVICE_ORACLE_POLYGON_RPC_2:str:http://127.0.0.1:8545}
         chain_id: 137
         poa_chain: true
         default_gas_price_strategy: eip1559_polygon
-  3:
-  - ledger_apis:
+3:
+  config:
+    ledger_apis:
       ethereum:
         address: ${SERVICE_ORACLE_POLYGON_RPC_3:str:http://127.0.0.1:8545}
         chain_id: 137
