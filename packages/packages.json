@@ -2,14 +2,14 @@
     "dev": {
         "contract/valory/offchain_aggregator/0.1.0": "bafybeiaqmjndblqjopfam3pex6rnowgzecq4a2xh7gishtll4dhxryqrry",
         "skill/valory/oracle_deployment_abci/0.1.0": "bafybeiaq2lgcr2j7zsetfmcz75kftqoaydewadjciwbm5qmkdni3p2zgxm",
-        "skill/valory/price_estimation_abci/0.1.0": "bafybeigk7bwdusowjd6bh64bz7u7w3tx4fkjbz2j3ya2mbkcrkxgmev234",
-        "skill/valory/oracle_abci/0.1.0": "bafybeig5ndqoi7jvy7cbdpm3zqvr3ykkmcomjoc6wpa7rejgj6plwcpdsy",
-        "agent/valory/oracle/0.1.0": "bafybeidqydzd6yj7h5adc7zbjzm3g4icx4cyaeedmoenqrno5i2rgwlyfy",
-        "service/valory/oracle_goerli/0.1.0": "bafybeiewvusldl43uxc42anqikbrqrzf7miowtwl2zmwowfn4zblzdr4va",
-        "service/valory/oracle_hardhat/0.1.0": "bafybeihkncv7zif7hgtl3jzgn3oy4oce6zfparjfno7zc6ua2ntieu2c2y",
-        "service/valory/oracle_polygon/0.1.0": "bafybeierxw52dlqh375uk2qbcij7nlvca4ape6mtuokmp5sdzbbrlklt3e",
-        "service/valory/oracle_ropsten/0.1.0": "bafybeigwc2v5eo23fguswhinbennm63elci2zydtdjioqscy5ioafkob44",
-        "service/valory/oracle_ropsten_cluster/0.1.0": "bafybeif4wyct745mckibxf4moyw4ambnqxylb3d2u5hnax6muhm36dcbvy"
+        "skill/valory/price_estimation_abci/0.1.0": "bafybeiho6tqtwatrzp5yg5nyafg7rlg2kcy2on2sbkydava6hlvfpi6dz4",
+        "skill/valory/oracle_abci/0.1.0": "bafybeie3suypdz7gyeayiezsal4ie76bls2rdzv6eomsxbst74yud275eq",
+        "agent/valory/oracle/0.1.0": "bafybeigq34mvqkbnse5zhsbz6ywnww67co44jkq5arcvi33o76kskiqgxy",
+        "service/valory/oracle_goerli/0.1.0": "bafybeicfpua5uk33oeqdfl5zmbiht3htjkcphnibziar67hpetpbkjunoa",
+        "service/valory/oracle_hardhat/0.1.0": "bafybeibifvi5u7hcm6ajh5weftxdlwyrysko7jodvc7lf5xgpk5jzhuvle",
+        "service/valory/oracle_polygon/0.1.0": "bafybeigurh74copg7gn6upujof7fogvl5gjdmq5x7wrbjrizqgqw2ejumm",
+        "service/valory/oracle_ropsten/0.1.0": "bafybeihapc6c3k2qtfpcxmngaggfxbikzt55wqy7cdg226ipvt6flbcscq",
+        "service/valory/oracle_ropsten_cluster/0.1.0": "bafybeib5sxxrxivvhbv2we2ceq7gub7k4cvpenky5ifjxlef2r7jnnpl7y"
     },
     "third_party": {
         "protocol/valory/abci/0.1.0": "bafybeiaw3tzlg3rkvnn5fcufblktmfwngmxugn4yo7pyjp76zz6aqtqcay",
