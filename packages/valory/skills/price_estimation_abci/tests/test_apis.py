@@ -25,6 +25,7 @@ from typing import Dict, List, Tuple, Union
 import pytest
 import requests
 from aea.skills.base import SkillContext
+from aea_test_autonomy.docker.base import skip_docker_tests
 
 from packages.valory.skills.price_estimation_abci.models import PriceApi, RandomnessApi
 from packages.valory.skills.price_estimation_abci.tests.helpers.docker import (
@@ -114,6 +115,7 @@ def make_request(api_specs: Dict) -> requests.Response:
 
 
 @pytest.mark.usefixtures("start_mock_apis")
+@skip_docker_tests
 class TestApis:
     """Tests for the APIs."""
 
