@@ -1,0 +1,61 @@
+{
+  "/coingecko": {
+    "get": {
+      "bitcoin": {
+        "usd": 8000
+      },
+      "unrelated": {}
+    }
+  },
+  "/kraken": {
+    "get": {
+      "result": {
+        "XXBTZUSD": {
+          "b": [
+            8000,
+            0
+          ]
+        },
+        "unrelated": {}
+      }
+    }
+  },
+  "/coinbase": {
+    "get": {
+      "data": {
+        "amount": 8000,
+        "unrelated": 0
+      }
+    }
+  },
+  "/binance": {
+    "get": {
+      "price": 8000,
+      "unrelated": 0
+    }
+  },
+  "/cloudflare": {
+    "get": {
+      "randomness": "test_randomness",
+      "round": 0
+    }
+  },
+  "/protocollabs1": {
+    "get": {
+      "randomness": "test_randomness",
+      "round": 0
+    }
+  },
+  "/protocollabs2": {
+    "get": {
+      "randomness": "test_randomness",
+      "round": 0
+    }
+  },
+  "/protocollabs3": {
+    "get": {
+      "randomness": "test_randomness",
+      "round": 0
+    }
+  }
+}
