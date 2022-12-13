@@ -19,8 +19,9 @@
 
 """This module contains the behaviours for the 'abci' skill."""
 
+import statistics
 from abc import ABC
-from typing import Dict, Generator, Optional, Sequence, Set, Type, cast
+from typing import Dict, Generator, List, Optional, Sequence, Set, Type, cast
 
 from aea.exceptions import enforce
 
@@ -146,6 +147,11 @@ class EstimateBehaviour(PriceEstimationBaseBehaviour):
     behaviour_id = "estimate"
     matching_round = EstimateConsensusRound
 
+    def aggregate(self, observations: List[float]) -> float:
+        """Aggregates a list of observations."""
+        aggregator = getattr(statistics, self.params.observation_aggregator_function)
+        return aggregator(observations)
+
     def async_act(self) -> Generator:
         """
         Do the action.
@@ -158,20 +164,15 @@ class EstimateBehaviour(PriceEstimationBaseBehaviour):
         """
 
         with self.context.benchmark_tool.measure(self.behaviour_id).local():
-
-            self.synchronized_data.set_aggregator_method(
-                self.params.observation_aggregator_function
-            )
+            estimate = self.aggregate(self.synchronized_data.observations)
             self.context.logger.info(
                 "Got estimate of %s price in %s: %s, Using aggregator method: %s",
                 self.context.price_api.currency_id,
                 self.context.price_api.convert_id,
-                self.synchronized_data.estimate,
+                estimate,
                 self.params.observation_aggregator_function,
             )
-            payload = EstimatePayload(
-                self.context.agent_address, self.synchronized_data.estimate
-            )
+            payload = EstimatePayload(self.context.agent_address, estimate)
 
         with self.context.benchmark_tool.measure(self.behaviour_id).consensus():
             yield from self.send_a2a_transaction(payload)

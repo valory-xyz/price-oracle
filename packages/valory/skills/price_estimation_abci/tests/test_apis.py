@@ -25,36 +25,41 @@ from typing import Dict, List, Tuple, Union
 import pytest
 import requests
 from aea.skills.base import SkillContext
+from aea_test_autonomy.docker.base import skip_docker_tests
 
 from packages.valory.skills.price_estimation_abci.models import PriceApi, RandomnessApi
+from packages.valory.skills.price_estimation_abci.tests.helpers.docker import (
+    DEFAULT_JSON_SERVER_ADDR,
+    DEFAULT_JSON_SERVER_PORT,
+)
+
+
+MOCKED_APIS_URL = f"{DEFAULT_JSON_SERVER_ADDR}:{DEFAULT_JSON_SERVER_PORT}"
 
 
 price_apis = pytest.mark.parametrize(
     "api_specs",
     [
         [
-            ("url", "https://api.coingecko.com/api/v3/simple/price"),
+            ("url", f"{MOCKED_APIS_URL}/coingecko"),
             ("api_id", "coingecko"),
             ("parameters", [["ids", "bitcoin"], ["vs_currencies", "usd"]]),
             ("response_key", "bitcoin:usd"),
         ],
         [
-            (
-                "url",
-                "https://api.kraken.com/0/public/Ticker",
-            ),
+            ("url", f"{MOCKED_APIS_URL}/kraken"),
             ("api_id", "kraken"),
             ("response_key", "result:XXBTZUSD:b"),
             ("response_index", 0),
             ("parameters", [["pair", "BTCUSD"]]),
         ],
         [
-            ("url", "https://api.coinbase.com/v2/prices/BTC-USD/buy"),
+            ("url", f"{MOCKED_APIS_URL}/coinbase"),
             ("api_id", "coinbase"),
             ("response_key", "data:amount"),
         ],
         [
-            ("url", "https://api.binance.com/api/v3/ticker/price"),
+            ("url", f"{MOCKED_APIS_URL}/binance"),
             ("api_id", "binance"),
             ("parameters", [["symbol", "BTCUSDT"]]),
             ("response_key", "price"),
@@ -66,19 +71,19 @@ randomness_apis = pytest.mark.parametrize(
     "api_specs",
     [
         [
-            ("url", "https://drand.cloudflare.com/public/latest"),
+            ("url", f"{MOCKED_APIS_URL}/cloudflare"),
             ("api_id", "cloudflare"),
         ],
         [
-            ("url", "https://api.drand.sh/public/latest"),
+            ("url", f"{MOCKED_APIS_URL}/protocollabs1"),
             ("api_id", "protocollabs1"),
         ],
         [
-            ("url", "https://api2.drand.sh/public/latest"),
+            ("url", f"{MOCKED_APIS_URL}/protocollabs2"),
             ("api_id", "protocollabs2"),
         ],
         [
-            ("url", "https://api3.drand.sh/public/latest"),
+            ("url", f"{MOCKED_APIS_URL}/protocollabs3"),
             ("api_id", "protocollabs3"),
         ],
     ],
@@ -109,41 +114,47 @@ def make_request(api_specs: Dict) -> requests.Response:
     raise ValueError(f"Unknown method {api_specs['method']}")
 
 
-@price_apis
-def test_price_api(api_specs: List[Tuple[str, Union[str, List]]]) -> None:
-    """Test various price api specs."""
+@pytest.mark.usefixtures("start_mock_apis")
+@skip_docker_tests
+class TestApis:
+    """Tests for the APIs."""
 
-    api = PriceApi(
-        name="price_api",
-        skill_context=SkillContext(),
-        currency_id="BTC",
-        convert_id="USD",
-        method="GET",
-        response_type="float",
-        retries=5,
-        **dict(api_specs),
-    )
+    @staticmethod
+    @price_apis
+    def test_price_api(api_specs: List[Tuple[str, Union[str, List]]]) -> None:
+        """Test various price api specs."""
 
-    response = make_request(api.get_spec())
-    observation = api.process_response(DummyMessage(response.content))  # type: ignore
-    assert isinstance(observation, float)
-    assert observation > 0
+        api = PriceApi(
+            name="price_api",
+            skill_context=SkillContext(),
+            currency_id="BTC",
+            convert_id="USD",
+            method="GET",
+            response_type="float",
+            retries=5,
+            **dict(api_specs),
+        )
 
+        response = make_request(api.get_spec())
+        observation = api.process_response(DummyMessage(response.content))  # type: ignore
+        assert isinstance(observation, float)
+        assert observation > 0
 
-@randomness_apis
-def test_randomness_api(api_specs: List[Tuple[str, Union[str, List]]]) -> None:
-    """Test various price api specs."""
+    @staticmethod
+    @randomness_apis
+    def test_randomness_api(api_specs: List[Tuple[str, Union[str, List]]]) -> None:
+        """Test various price api specs."""
 
-    api = RandomnessApi(
-        name="randomness_api",
-        skill_context=SkillContext(),
-        method="GET",
-        response_type="dict",
-        retries=5,
-        **dict(api_specs),
-    )
+        api = RandomnessApi(
+            name="randomness_api",
+            skill_context=SkillContext(),
+            method="GET",
+            response_type="dict",
+            retries=5,
+            **dict(api_specs),
+        )
 
-    response = make_request(api.get_spec())
-    value = api.process_response(DummyMessage(response.content))  # type: ignore
-    assert isinstance(value, dict)
-    assert all([key in value for key in ["randomness", "round"]])
+        response = make_request(api.get_spec())
+        value = api.process_response(DummyMessage(response.content))  # type: ignore
+        assert isinstance(value, dict)
+        assert all([key in value for key in ["randomness", "round"]])
