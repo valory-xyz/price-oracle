@@ -17,8 +17,11 @@ fingerprint:
   payloads.py: bafybeibjub6tjzflmuba34cnukxriipey3cpkcdejtkc3jqrvinxqs3us4
   rounds.py: bafybeicbr4crxmfbpyz5iacglg36cfbd6mclfvhoe5nqwzvywnjjqfzyte
   tests/__init__.py: bafybeic73ajpjybqzpvmyjnl5ejsq6ytibs3r7czvz7re3gmtdkpunqap4
-  tests/conftest.py: bafybeigavaqt5x5q52z6e5ftmkvubr2obcmhqv6t5le54aq2tpxe7276wq
-  tests/test_apis.py: bafybeigo77rhu5fagi42t3jzyuqeuglh4ipwpxe42yfwzq2d6wrzwzyogm
+  tests/conftest.py: bafybeicjhriscswlaiocnebr2ye77v5ibbhhwur3ca2hchyrsldgxsagge
+  tests/helpers/__init__.py: bafybeid7fapk3tht6iztu4udogr5uvmc36mqivnyuk73qqp6t4cmaxac24
+  tests/helpers/data/mock_apis_json_server/mock_data.json: bafybeiebnsrujxhdqq5flsqawtcr4ey3ngdminoxalcnlokpyaql2tjecq
+  tests/helpers/docker.py: bafybeiep32dj3ikedeflxo6gqjxl5fguvyxpbzqww3vishweex5nflqklq
+  tests/test_apis.py: bafybeibgsy7yz6cbxkvo3n57kfnzf7idj3t5zighierxxuqosfudrxdoma
   tests/test_behaviours.py: bafybeienkah7eyaugnvdhkoridblskntwaehalzkvrlmrwt7556uz3xysq
   tests/test_dialogues.py: bafybeigmz5coi27zy7sgwnlhsvk7hg5auxexzbtdsw6uie375x3zjhzd4e
   tests/test_handlers.py: bafybeiaq5bvl2ypvamd4aq6dtngg2yewh44thvlfqvf4dexwy4ecut5es4
