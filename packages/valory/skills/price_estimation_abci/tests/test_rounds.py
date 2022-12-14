@@ -146,11 +146,6 @@ def get_participant_to_estimate(
     }
 
 
-def get_estimate() -> float:
-    """Estimate"""
-    return 1.0
-
-
 def get_most_voted_estimate() -> float:
     """most_voted_estimate"""
     return 1.0
@@ -348,7 +343,7 @@ class TestTxHashRound(BaseCollectSameUntilThresholdRoundTest):
         )
 
 
-def test_synchronized_datas() -> None:
+def test_synchronized_data() -> None:
     """Test SynchronizedData."""
 
     participants = get_participants()
@@ -361,7 +356,6 @@ def test_synchronized_datas() -> None:
     participant_to_votes = get_participant_to_votes(participants)
     most_voted_tx_hash = get_most_voted_tx_hash()
     participant_to_observations = get_participant_to_observations(participants)
-    estimate = get_estimate()
     most_voted_estimate = get_most_voted_estimate()
 
     synchronized_data = SynchronizedData(
@@ -385,7 +379,7 @@ def test_synchronized_datas() -> None:
     assert synchronized_data.most_voted_keeper_address == most_voted_keeper_address
     assert synchronized_data.participant_to_votes == participant_to_votes
 
-    synchronized_data____ = RegistrationSynchronizedSata(
+    registration_synchronized_data = RegistrationSynchronizedSata(
         AbciAppDB(
             setup_data=AbciAppDB.data_to_lists(
                 dict(
@@ -400,12 +394,16 @@ def test_synchronized_datas() -> None:
     )
 
     assert (
-        abs(synchronized_data____.keeper_randomness - actual_keeper_randomness) < 1e-10
+        abs(registration_synchronized_data.keeper_randomness - actual_keeper_randomness)
+        < 1e-10
     )  # avoid equality comparisons between floats
-    assert synchronized_data____.most_voted_randomness == most_voted_randomness
-    assert synchronized_data____.most_voted_keeper_address == most_voted_keeper_address
+    assert registration_synchronized_data.most_voted_randomness == most_voted_randomness
+    assert (
+        registration_synchronized_data.most_voted_keeper_address
+        == most_voted_keeper_address
+    )
 
-    synchronized_data______ = PriceEstimationSynchronizedSata(
+    price_synchronized_data = PriceEstimationSynchronizedSata(
         AbciAppDB(
             setup_data=AbciAppDB.data_to_lists(
                 dict(
@@ -424,19 +422,19 @@ def test_synchronized_datas() -> None:
         )
     )
 
-    synchronized_data______.set_aggregator_method("median")
-
-    assert synchronized_data______.keeper_randomness == actual_keeper_randomness
-    assert synchronized_data______.most_voted_randomness == most_voted_randomness
+    assert price_synchronized_data.keeper_randomness == actual_keeper_randomness
+    assert price_synchronized_data.most_voted_randomness == most_voted_randomness
     assert (
-        synchronized_data______.most_voted_keeper_address == most_voted_keeper_address
+        price_synchronized_data.most_voted_keeper_address == most_voted_keeper_address
     )
-    assert synchronized_data______.safe_contract_address == safe_contract_address
-    assert synchronized_data______.oracle_contract_address == oracle_contract_address
-    assert synchronized_data______.most_voted_tx_hash == most_voted_tx_hash
-    assert synchronized_data______.most_voted_estimate == most_voted_estimate
+    assert price_synchronized_data.safe_contract_address == safe_contract_address
+    assert price_synchronized_data.oracle_contract_address == oracle_contract_address
+    assert price_synchronized_data.most_voted_tx_hash == most_voted_tx_hash
+    assert price_synchronized_data.most_voted_estimate == most_voted_estimate
     assert (
-        synchronized_data______.participant_to_observations
+        price_synchronized_data.participant_to_observations
         == participant_to_observations
     )
-    assert synchronized_data______.estimate == estimate
+    assert price_synchronized_data.observations == [
+        value.observation for value in participant_to_observations.values()
+    ]

@@ -18,9 +18,12 @@
 # ------------------------------------------------------------------------------
 
 """Tests for valory/price_estimation_abci skill."""
+import logging
+from typing import Any, Generator
 
-from typing import Any
-
+import docker
+import pytest
+from aea_test_autonomy.docker.base import launch_image
 from aea_test_autonomy.helpers.contracts import get_register_contract
 
 from packages.valory.contracts.offchain_aggregator.tests.test_contract import (
@@ -28,6 +31,11 @@ from packages.valory.contracts.offchain_aggregator.tests.test_contract import (
 )
 from packages.valory.skills.abstract_round_abci.test_tools.integration import (
     HardHatHelperIntegration,
+)
+from packages.valory.skills.price_estimation_abci.tests.helpers.docker import (
+    DEFAULT_JSON_SERVER_ADDR,
+    DEFAULT_JSON_SERVER_PORT,
+    MockApis,
 )
 from packages.valory.skills.transaction_settlement_abci.test_tools.integration import (
     _TxHelperIntegration,
@@ -48,3 +56,19 @@ class GnosisIntegrationBaseCase(  # pylint: disable=too-many-ancestors
 
         # register offchain aggregator contract
         _ = get_register_contract(OFFCHAIN_AGGREGATOR_PACKAGE)
+
+
+@pytest.fixture(scope="module")
+def start_mock_apis(
+    timeout: int = 3,
+    max_attempts: int = 200,
+) -> Generator:
+    """Start a mocked APIs instance."""
+    client = docker.from_env()
+    logging.info(f"Launching the mocked APIs on port {DEFAULT_JSON_SERVER_PORT}")
+    image = MockApis(
+        client,
+        addr=DEFAULT_JSON_SERVER_ADDR,
+        port=DEFAULT_JSON_SERVER_PORT,
+    )
+    yield from launch_image(image, timeout=timeout, max_attempts=max_attempts)

@@ -9,35 +9,38 @@ aea_version: '>=1.0.0, <2.0.0'
 fingerprint:
   README.md: bafybeicbdi5spc3w3xlg7x5b4oxvq6jxqq6ihzl7gvvv6uoj6tp3xe6ryy
   __init__.py: bafybeihw3etjrdz7ah6yie3b2z5g4xpfk5wlnbtr2emxyug3hfu6fmmmim
-  behaviours.py: bafybeigds6xnjf5fc44e5tcjqveufhckcsdq6pgbr6ynzczeqcdetxxoge
+  behaviours.py: bafybeifxpeyvb5gvyqxsj6vwkvncnxsq22mba7vof36jnbxbebzuzkpo7m
   dialogues.py: bafybeig4tc4thbpsixmbn35kj7jim2gzd7cvxxu4u3xoeyxqzpumuhrdzm
   fsm_specification.yaml: bafybeihumi2e44hgpqktsprko7x2e6qslusjqkzjml7hdyc7t3nsnjbu2i
   handlers.py: bafybeiaktxa76cpjytsjtbkftrhp7cppmweoxvglqmxc2cdcymdnzdsyua
   models.py: bafybeiezevn6fbuvt7sxhsbozzbm2wnj5fiu47plhamdytenugjquy5jyq
   payloads.py: bafybeibjub6tjzflmuba34cnukxriipey3cpkcdejtkc3jqrvinxqs3us4
-  rounds.py: bafybeihvqee2jhwfcl7bas7h6gw5pywsfya4lcuoe4kvf3zgszn4r3hrry
+  rounds.py: bafybeicbr4crxmfbpyz5iacglg36cfbd6mclfvhoe5nqwzvywnjjqfzyte
   tests/__init__.py: bafybeic73ajpjybqzpvmyjnl5ejsq6ytibs3r7czvz7re3gmtdkpunqap4
-  tests/conftest.py: bafybeigavaqt5x5q52z6e5ftmkvubr2obcmhqv6t5le54aq2tpxe7276wq
-  tests/test_apis.py: bafybeigo77rhu5fagi42t3jzyuqeuglh4ipwpxe42yfwzq2d6wrzwzyogm
+  tests/conftest.py: bafybeicjhriscswlaiocnebr2ye77v5ibbhhwur3ca2hchyrsldgxsagge
+  tests/helpers/__init__.py: bafybeid7fapk3tht6iztu4udogr5uvmc36mqivnyuk73qqp6t4cmaxac24
+  tests/helpers/data/mock_apis_json_server/mock_data.json: bafybeiebnsrujxhdqq5flsqawtcr4ey3ngdminoxalcnlokpyaql2tjecq
+  tests/helpers/docker.py: bafybeiep32dj3ikedeflxo6gqjxl5fguvyxpbzqww3vishweex5nflqklq
+  tests/test_apis.py: bafybeibgsy7yz6cbxkvo3n57kfnzf7idj3t5zighierxxuqosfudrxdoma
   tests/test_behaviours.py: bafybeienkah7eyaugnvdhkoridblskntwaehalzkvrlmrwt7556uz3xysq
   tests/test_dialogues.py: bafybeigmz5coi27zy7sgwnlhsvk7hg5auxexzbtdsw6uie375x3zjhzd4e
   tests/test_handlers.py: bafybeiaq5bvl2ypvamd4aq6dtngg2yewh44thvlfqvf4dexwy4ecut5es4
   tests/test_models.py: bafybeifnkxddj754sn33pgtrtcfkt7nptspnssfvtfpxvoazujlhdms4qu
   tests/test_payloads.py: bafybeiexaygx5dpt2nv4v56rwmd73jrehdlrrkfrr7qawp4ghms6wf6zey
-  tests/test_rounds.py: bafybeicmw2jf4tixpghskosdnwvzdbsywumkfp2feyhjx6rlgm63lextl4
+  tests/test_rounds.py: bafybeiaev5cwiatvlrbwbrgtmavuh3ndkbg7za5ixcwq74hpgatht5auxy
   tests/test_tools.py: bafybeicvwyu4csbn3foyp5mvcdlnu3uiwwvmvnh5m74sspe77nws5ulm6i
 fingerprint_ignore_patterns: []
 connections: []
 contracts:
-- valory/gnosis_safe:0.1.0:bafybeidoa7hkpzpnjswns2jq6tlisbzinzpkdqtqd6gbpyxiytt3mnszpm
-- valory/offchain_aggregator:0.1.0:bafybeidb46spwpdcrxskvqbhmyehpcvbvle3ssoxjska4zrr44r6tw5s5e
+- valory/gnosis_safe:0.1.0:bafybeia7taspp5boe5235fdv5ejdix7fdhyy4kwp26qx2ng2oo3k7kk7iy
+- valory/offchain_aggregator:0.1.0:bafybeihp5di7sj5o6mehcgucin2k5nrnijujafngvjo7tgsgvrhjoqqcca
 protocols:
 - open_aea/signing:1.0.0:bafybeiambqptflge33eemdhis2whik67hjplfnqwieoa6wblzlaf7vuo44
 - valory/contract_api:1.0.0:bafybeiaxbrvgtbdrh4lslskuxyp4awyr4whcx3nqq5yrr6vimzsxg5dy64
 skills:
-- valory/abstract_round_abci:0.1.0:bafybeid3sx66tzs6mmwu52tlaqdycfszzpetgybzu34gagfocg5bmivh7e
-- valory/oracle_deployment_abci:0.1.0:bafybeidqkzcwgnblq4n57hclykubswoopf76sa5erwqhin476qhxie23hu
-- valory/transaction_settlement_abci:0.1.0:bafybeiaaugllwdbh5pmnus2gbnsr72cvdysoobb7gf2ccmtctvxzdqcpii
+- valory/abstract_round_abci:0.1.0:bafybeifh4qtjurq5637ykxexzexca5l4n6t4ujw26tpnern2swajanvhny
+- valory/oracle_deployment_abci:0.1.0:bafybeibmirq5qjof4wpselmlvwsurusrgbqnojxb4legnjvsprtrkw3obm
+- valory/transaction_settlement_abci:0.1.0:bafybeicvdtbelmvhabmrsyej4zh7gbl25vusxrpgapvdrtadwnerknlt6e
 behaviours:
   main:
     args: {}
@@ -180,5 +183,5 @@ models:
     class_name: SharedState
 dependencies:
   open-aea-test-autonomy:
-    version: ==0.4.0
+    version: ==0.5.0.post2
 is_abstract: true

@@ -19,9 +19,8 @@
 
 """This module contains the data classes for the price estimation ABCI application."""
 
-import statistics
 from enum import Enum
-from typing import Callable, Dict, Set, Type, cast
+from typing import Dict, List, Set, Type, cast
 
 from packages.valory.skills.abstract_round_abci.base import (
     AbciApp,
@@ -56,19 +55,6 @@ class SynchronizedData(BaseSynchronizedData):
     This data is replicated by the tendermint application.
     """
 
-    _aggregator_method: Callable
-    _aggregator_methods: Dict[str, Callable] = {
-        "mean": statistics.mean,
-        "median": statistics.median,
-        "mode": statistics.mode,
-    }
-
-    def set_aggregator_method(self, aggregator_method: str) -> None:
-        """Set aggregator method."""
-        self._aggregator_method = self._aggregator_methods.get(  # type: ignore
-            aggregator_method, statistics.median
-        )
-
     @property
     def safe_contract_address(self) -> str:
         """Get the safe contract address."""
@@ -80,12 +66,11 @@ class SynchronizedData(BaseSynchronizedData):
         return cast(str, self.db.get_strict("oracle_contract_address"))
 
     @property
-    def estimate(self) -> float:
-        """Get the estimate."""
-        observations = [
+    def observations(self) -> List[float]:
+        """Get the observations."""
+        return [
             value.observation for value in self.participant_to_observations.values()
         ]
-        return self._aggregator_method(observations)
 
     @property
     def most_voted_estimate(self) -> float:

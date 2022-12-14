@@ -46,7 +46,11 @@ from packages.valory.protocols.ledger_api.custom_types import (
     TransactionDigest,
     TransactionReceipt,
 )
-from packages.valory.skills.abstract_round_abci.base import AbciAppDB
+from packages.valory.skills.abstract_round_abci.base import (
+    AbciAppDB,
+    BaseSynchronizedData,
+)
+from packages.valory.skills.abstract_round_abci.behaviours import AbstractRoundBehaviour
 from packages.valory.skills.abstract_round_abci.test_tools.base import (
     FSMBehaviourBaseCase,
 )
@@ -102,6 +106,28 @@ class OracleBehaviourBaseCase(FSMBehaviourBaseCase):
 
     path_to_skill = PACKAGE_DIR
     behaviour: OracleAbciAppConsensusBehaviour
+
+    def fast_forward_to_behaviour(
+        self,
+        behaviour: AbstractRoundBehaviour,
+        behaviour_id: str,
+        synchronized_data: BaseSynchronizedData,
+    ) -> None:
+        """
+        Override method that fast-forwards the FSM to a behaviour to also set the `_current_round_cls`.
+
+        TODO remove this when the next open-autonomy release includes the fix on:
+        https://github.com/valory-xyz/open-autonomy/pull/1648.
+
+        :param behaviour: the round behaviour to fast-forward for.
+        :param behaviour_id: the id of the behaviour to fast-forward to.
+        :param synchronized_data: the synchronized data for the new `current_behaviour` of the given `behaviour`.
+        """
+        super().fast_forward_to_behaviour(behaviour, behaviour_id, synchronized_data)
+        next_behaviour = {s.behaviour_id: s for s in behaviour.behaviours}[behaviour_id]
+        self.skill.skill_context.state.round_sequence.abci_app._current_round_cls = (
+            next_behaviour.matching_round
+        )
 
 
 @pytest.mark.usefixtures("ammnet_scope_class")

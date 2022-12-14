@@ -7,27 +7,28 @@ license: Apache-2.0
 fingerprint:
   README.md: bafybeidtphhzkcp32sikeqoo4ct57z6kw3yhxkebby3unuwepqdvwgfkga
 fingerprint_ignore_patterns: []
-agent: valory/oracle:0.1.0:bafybeicnnrnh546qkamfn4aaxgwiw4j7jgtb7wgyryn6yrp6hwbqvqxb34
+agent: valory/oracle:0.1.0:bafybeihjp4vqio7gelnim4ffyrxl4n4xsavn3rkrjcpbfunbvxgmn7hhjq
 number_of_agents: 4
 ---
-setup_args:
-  args: &id001
-    setup:
-      safe_contract_address:
-      - '0x4826E4ddEeE65bc27034602a6050486fBE920707'
-      oracle_contract_address:
-      - '0x3f9F36ECb03ded97328FC7747292D6D03dFE3D46'
-    max_healthcheck: 43200
-    broadcast_to_server: false
-    reset_tendermint_after: 50
-valory_monitoring_backend:
-  args: &id002
-    url: https://oracle-server.autonolas.tech/deposit
+extra:
+  setup_args:
+    args: &id001
+      setup:
+        safe_contract_address:
+        - '0x4826E4ddEeE65bc27034602a6050486fBE920707'
+        oracle_contract_address:
+        - '0x3f9F36ECb03ded97328FC7747292D6D03dFE3D46'
+      max_healthcheck: 43200
+      broadcast_to_server: false
+      reset_tendermint_after: 50
+  valory_monitoring_backend:
+    args: &id002
+      url: https://oracle-server.autonolas.tech/deposit
 public_id: valory/oracle_abci:0.1.0
 type: skill
-models:
-  0:
-  - price_api:
+0:
+  models:
+    price_api:
       args:
         url: https://api.coingecko.com/api/v3/simple/price
         api_id: coingecko
@@ -38,16 +39,17 @@ models:
           - usd
         response_key: bitcoin:usd
         headers: null
-  - randomness_api:
+    randomness_api:
       args:
         url: https://drand.cloudflare.com/public/latest
         api_id: cloudflare
-  - params:
+    params:
       args: *id001
-  - server_api:
+    server_api:
       args: *id002
-  1:
-  - price_api:
+1:
+  models:
+    price_api:
       args:
         url: https://api.kraken.com/0/public/Ticker
         api_id: kraken
@@ -56,32 +58,34 @@ models:
           - BTCUSD
         response_key: result:XXBTZUSD:b
         response_index: 0
-  - randomness_api:
+    randomness_api:
       args:
         url: https://api.drand.sh/public/latest
         api_id: protocollabs1
-  - params:
+    params:
       args: *id001
-  - server_api:
+    server_api:
       args: *id002
-  2:
-  - price_api:
+2:
+  models:
+    price_api:
       args:
         url: https://api.coinbase.com/v2/prices/BTC-USD/buy
         api_id: coinbase
         response_key: data:amount
         headers: null
         parameters: null
-  - randomness_api:
+    randomness_api:
       args:
         url: https://api2.drand.sh/public/latest
         api_id: protocollabs2
-  - params:
+    params:
       args: *id001
-  - server_api:
+    server_api:
       args: *id002
-  3:
-  - price_api:
+3:
+  models:
+    price_api:
       args:
         url: https://api.binance.com/api/v3/ticker/price
         api_id: binance
@@ -90,41 +94,44 @@ models:
           - BTCUSDT
         response_key: price
         headers: null
-  - randomness_api:
+    randomness_api:
       args:
         url: https://api3.drand.sh/public/latest
         api_id: protocollabs2
-  - params:
+    params:
       args: *id001
-  - server_api:
+    server_api:
       args: *id002
 ---
 public_id: valory/ledger:0.19.0
 type: connection
-config:
-  0:
-  - ledger_apis:
+0:
+  config:
+    ledger_apis:
       ethereum:
         address: ${SERVICE_ORACLE_ROPSTEN_RPC_0:str:http://127.0.0.1:8545}
         chain_id: 137
         poa_chain: false
         default_gas_price_strategy: eip1559
-  1:
-  - ledger_apis:
+1:
+  config:
+    ledger_apis:
       ethereum:
         address: ${SERVICE_ORACLE_ROPSTEN_RPC_1:str:http://127.0.0.1:8545}
         chain_id: 137
         poa_chain: false
         default_gas_price_strategy: eip1559
-  2:
-  - ledger_apis:
+2:
+  config:
+    ledger_apis:
       ethereum:
         address: ${SERVICE_ORACLE_ROPSTEN_RPC_2:str:http://127.0.0.1:8545}
         chain_id: 137
         poa_chain: false
         default_gas_price_strategy: eip1559
-  3:
-  - ledger_apis:
+3:
+  config:
+    ledger_apis:
       ethereum:
         address: ${SERVICE_ORACLE_ROPSTEN_RPC_3:str:http://127.0.0.1:8545}
         chain_id: 137
