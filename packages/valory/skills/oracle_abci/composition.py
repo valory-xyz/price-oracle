@@ -45,11 +45,6 @@ from packages.valory.skills.reset_pause_abci.rounds import (
     ResetAndPauseRound,
     ResetPauseAbciApp,
 )
-from packages.valory.skills.safe_deployment_abci.rounds import (
-    FinishedSafeRound,
-    RandomnessSafeRound,
-    SafeDeploymentAbciApp,
-)
 from packages.valory.skills.transaction_settlement_abci.rounds import (
     FailedRound,
     FinishedTransactionSubmissionRound,
@@ -72,7 +67,6 @@ abci_app_transition_mapping: AbciAppTransitionMapping = {
 OracleAbciApp = chain(
     (
         AgentRegistrationAbciApp,
-        SafeDeploymentAbciApp,
         OracleDeploymentAbciApp,
         PriceAggregationAbciApp,
         TransactionSubmissionAbciApp,
