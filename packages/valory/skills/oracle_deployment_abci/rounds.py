@@ -20,7 +20,7 @@
 """This module contains the data classes for the oracle deployment ABCI application."""
 
 from enum import Enum
-from typing import Dict, Set, Type, cast
+from typing import Dict, Optional, Set, Type, cast
 
 from packages.valory.skills.abstract_round_abci.base import (
     AbciApp,
@@ -67,9 +67,23 @@ class SynchronizedData(BaseSynchronizedData):
         return cast(str, self.db.get_strict("safe_contract_address"))
 
     @property
-    def oracle_contract_address(self) -> str:
+    def oracle_contract_address(self) -> Optional[str]:
         """Get the oracle contract address."""
-        return cast(str, self.db.get("oracle_contract_address"))
+        return cast(Optional[str], self.db.get("oracle_contract_address", None))
+
+
+class SetupCheckRound(VotingRound):
+    """A round which checks if the oracle address is already provided via the agents' `setup` or not"""
+
+    round_id = "ffw"
+    allowed_tx_type = VotingOraclePayload.transaction_type
+    payload_attribute = "vote"
+    synchronized_data_class = SynchronizedData
+    done_event = Event.DONE
+    negative_event = Event.NEGATIVE
+    none_event = Event.NONE
+    no_majority_event = Event.NO_MAJORITY
+    collection_key = "participant_to_ffw"
 
 
 class RandomnessOracleRound(CollectSameUntilThresholdRound):
@@ -133,30 +147,36 @@ class FinishedOracleRound(DegenerateRound):
 class OracleDeploymentAbciApp(AbciApp[Event]):
     """OracleDeploymentAbciApp
 
-    Initial round: RandomnessOracleRound
+    Initial round: SetupCheckRound
 
-    Initial states: {RandomnessOracleRound}
+    Initial states: {SetupCheckRound}
 
     Transition states:
-        0. RandomnessOracleRound
-            - done: 1.
+        0. SetupCheckRound
+            - done: 5.
+            - negative: 1.
+            - none: 1.
             - round timeout: 0.
-            - no majority: 0.
-        1. SelectKeeperOracleRound
+            - no majority: 1.
+        1. RandomnessOracleRound
             - done: 2.
-            - round timeout: 0.
-            - no majority: 0.
-        2. DeployOracleRound
+            - round timeout: 1.
+            - no majority: 1.
+        2. SelectKeeperOracleRound
             - done: 3.
-            - deploy timeout: 1.
-            - failed: 1.
-        3. ValidateOracleRound
+            - round timeout: 1.
+            - no majority: 1.
+        3. DeployOracleRound
             - done: 4.
-            - negative: 0.
-            - none: 0.
-            - validate timeout: 0.
-            - no majority: 0.
-        4. FinishedOracleRound
+            - deploy timeout: 2.
+            - failed: 2.
+        4. ValidateOracleRound
+            - done: 5.
+            - negative: 1.
+            - none: 1.
+            - validate timeout: 1.
+            - no majority: 1.
+        5. FinishedOracleRound
 
     Final states: {FinishedOracleRound}
 
@@ -166,8 +186,15 @@ class OracleDeploymentAbciApp(AbciApp[Event]):
         deploy timeout: 30.0
     """
 
-    initial_round_cls: Type[AbstractRound] = RandomnessOracleRound
+    initial_round_cls: Type[AbstractRound] = SetupCheckRound
     transition_function: AbciAppTransitionFunction = {
+        SetupCheckRound: {
+            Event.DONE: FinishedOracleRound,  # we trust the given input and do not transition to `ValidateOracleRound`
+            Event.NEGATIVE: RandomnessOracleRound,
+            Event.NONE: RandomnessOracleRound,  # NOTE: unreachable
+            Event.ROUND_TIMEOUT: SetupCheckRound,
+            Event.NO_MAJORITY: RandomnessOracleRound,
+        },
         RandomnessOracleRound: {
             Event.DONE: SelectKeeperOracleRound,
             Event.ROUND_TIMEOUT: RandomnessOracleRound,
