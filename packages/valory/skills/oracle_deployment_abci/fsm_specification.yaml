@@ -7,17 +7,18 @@ alphabet_in:
 - NO_MAJORITY
 - ROUND_TIMEOUT
 - VALIDATE_TIMEOUT
-default_start_state: RandomnessOracleRound
+default_start_state: SetupCheckRound
 final_states:
 - FinishedOracleRound
 label: OracleDeploymentAbciApp
 start_states:
-- RandomnessOracleRound
+- SetupCheckRound
 states:
 - DeployOracleRound
 - FinishedOracleRound
 - RandomnessOracleRound
 - SelectKeeperOracleRound
+- SetupCheckRound
 - ValidateOracleRound
 transition_func:
     (DeployOracleRound, DEPLOY_TIMEOUT): SelectKeeperOracleRound
@@ -29,6 +30,11 @@ transition_func:
     (SelectKeeperOracleRound, DONE): DeployOracleRound
     (SelectKeeperOracleRound, NO_MAJORITY): RandomnessOracleRound
     (SelectKeeperOracleRound, ROUND_TIMEOUT): RandomnessOracleRound
+    (SetupCheckRound, DONE): FinishedOracleRound
+    (SetupCheckRound, NEGATIVE): RandomnessOracleRound
+    (SetupCheckRound, NONE): RandomnessOracleRound
+    (SetupCheckRound, NO_MAJORITY): RandomnessOracleRound
+    (SetupCheckRound, ROUND_TIMEOUT): SetupCheckRound
     (ValidateOracleRound, DONE): FinishedOracleRound
     (ValidateOracleRound, NEGATIVE): RandomnessOracleRound
     (ValidateOracleRound, NONE): RandomnessOracleRound

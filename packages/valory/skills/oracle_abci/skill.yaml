@@ -9,12 +9,12 @@ aea_version: '>=1.0.0, <2.0.0'
 fingerprint:
   README.md: bafybeicg5eg7f4fhaxflzaz6h73xklax6cfggg6d4sjl27tcs3rjqgflza
   __init__.py: bafybeihlgffzmngu3ydky57kchhrdsfakmvpbq5mcmyrsdnolfnimftktm
-  behaviours.py: bafybeibfdbbjib3droushgrbkr5jmiexrzzgjipwaei6jqg3cbotrby4c4
-  composition.py: bafybeifx67y7tuvatng2xx3ursn3fc6lfaabhefhon64tgeol5ixr4wviu
+  behaviours.py: bafybeiaq7nfh2spc4nyovsxqiecm3eqhc72quk6q22crsujsxgvllbnmqa
+  composition.py: bafybeigeugou23y2bu7ulaxxswhqceqi6qzvslkfeljv7goyb7trnn4awy
   dialogues.py: bafybeib4jbdycm2vofni3vp6draqet3nejoviqjurcilrzindr4k5dg5fa
-  fsm_specification.yaml: bafybeibkrl3gagrp3dgejlmvgksppjqu724f6dr4sskeq3xqrru7w4vuai
+  fsm_specification.yaml: bafybeie54errbiwur4fhifertzentlk4eznqnl6dghiyloj36dwhsaiem4
   handlers.py: bafybeiaktxa76cpjytsjtbkftrhp7cppmweoxvglqmxc2cdcymdnzdsyua
-  models.py: bafybeicemrwjh2kvdzqah2j34yj4mf777orbx4gn3kmbpwmi2uxerjy5bu
+  models.py: bafybeiaih6zuqhpr6en23awffznl7iboroqoes4nlsezr3unuio3qfqtiq
   tests/__init__.py: bafybeihlgffzmngu3ydky57kchhrdsfakmvpbq5mcmyrsdnolfnimftktm
   tests/test_behaviours.py: bafybeibvh43inrplfd62hbhmryxy6zjdptz2ekfdkgoo37neahbldoekju
   tests/test_dialogues.py: bafybeiecwwsjclbhje3bg5bbrias453yuztlg23fbj3a3y4sjyuh2sg62i
@@ -31,8 +31,8 @@ protocols:
 - valory/ledger_api:1.0.0:bafybeih7rhi5zvfvwakx5ifgxsz2cfipeecsh7bm3gnudjxtvhrygpcftq
 skills:
 - valory/abstract_round_abci:0.1.0:bafybeifh4qtjurq5637ykxexzexca5l4n6t4ujw26tpnern2swajanvhny
-- valory/oracle_deployment_abci:0.1.0:bafybeibmirq5qjof4wpselmlvwsurusrgbqnojxb4legnjvsprtrkw3obm
-- valory/price_estimation_abci:0.1.0:bafybeihbevr7ji7wcu5fapxli2t4v5j2wg5npdc4h3jmz42hcaxbc3tlma
+- valory/oracle_deployment_abci:0.1.0:bafybeigyj6ivts3yd73jimjkydnaw36tg4cryri6i52j4mopengddtbbt4
+- valory/price_estimation_abci:0.1.0:bafybeigtlyqiytr74omm652vfkcepxemrn4ifgk7daiw4svsuywx6x6xti
 - valory/registration_abci:0.1.0:bafybeicuz3f4tvowd2xwcl5w4ck56rm5abfoyng3cmbprovpch4u6eexge
 - valory/reset_pause_abci:0.1.0:bafybeihlsjhy4dpiulgdof3noh6dlzvr6wkywcwbsrti45labn7htrfg3y
 - valory/transaction_settlement_abci:0.1.0:bafybeicvdtbelmvhabmrsyej4zh7gbl25vusxrpgapvdrtadwnerknlt6e
