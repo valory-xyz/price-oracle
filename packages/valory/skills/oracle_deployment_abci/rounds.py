@@ -37,7 +37,7 @@ from packages.valory.skills.oracle_deployment_abci.payloads import (
     DeployOraclePayload,
     RandomnessPayload,
     SelectKeeperPayload,
-    ValidateOraclePayload,
+    VotingOraclePayload,
 )
 
 
@@ -114,7 +114,7 @@ class ValidateOracleRound(VotingRound):
     """A round in a which the oracle address is validated"""
 
     round_id = "validate_oracle"
-    allowed_tx_type = ValidateOraclePayload.transaction_type
+    allowed_tx_type = VotingOraclePayload.transaction_type
     payload_attribute = "vote"
     synchronized_data_class = SynchronizedData
     done_event = Event.DONE

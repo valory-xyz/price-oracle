@@ -38,7 +38,7 @@ from packages.valory.skills.oracle_deployment_abci.payloads import (
     DeployOraclePayload,
     RandomnessPayload,
     SelectKeeperPayload,
-    ValidateOraclePayload,
+    VotingOraclePayload,
 )
 from packages.valory.skills.oracle_deployment_abci.rounds import (
     DeployOracleRound,
@@ -192,7 +192,7 @@ class ValidateOracleBehaviour(OracleDeploymentBaseBehaviour):
 
         with self.context.benchmark_tool.measure(self.behaviour_id).local():
             is_correct = yield from self.has_correct_contract_been_deployed()
-            payload = ValidateOraclePayload(self.context.agent_address, is_correct)
+            payload = VotingOraclePayload(self.context.agent_address, is_correct)
 
         with self.context.benchmark_tool.measure(self.behaviour_id).consensus():
             yield from self.send_a2a_transaction(payload)
