@@ -45,6 +45,7 @@ from packages.valory.skills.oracle_deployment_abci.rounds import (
     OracleDeploymentAbciApp,
     RandomnessOracleRound,
     SelectKeeperOracleRound,
+    SetupCheckRound,
     SynchronizedData,
     ValidateOracleRound,
 )
@@ -62,6 +63,36 @@ class OracleDeploymentBaseBehaviour(BaseBehaviour):
     def params(self) -> Params:
         """Return the synchronized data."""
         return cast(Params, super().params)
+
+
+class SetupCheckBehaviour(OracleDeploymentBaseBehaviour):
+    """Checks if the oracle address is already provided via the agents' `setup` or not."""
+
+    behaviour_id = "setup_check"
+    matching_round = SetupCheckRound
+
+    def async_act(self) -> Generator:
+        """
+        Do the action.
+
+        Steps:
+        - Check if the contract address is provided
+        - Send the transaction with the validation result and wait for it to be mined
+        - Wait until ABCI application transitions to the next round
+        - Go to the next behaviour (set done event)
+        """
+
+        with self.context.benchmark_tool.measure(self.behaviour_id).local():
+            address_provided = (
+                self.synchronized_data.oracle_contract_address is not None
+            )
+            payload = VotingOraclePayload(self.context.agent_address, address_provided)
+
+        with self.context.benchmark_tool.measure(self.behaviour_id).consensus():
+            yield from self.send_a2a_transaction(payload)
+            yield from self.wait_until_round_end()
+
+        self.set_done()
 
 
 class RandomnessOracleBehaviour(RandomnessBehaviour):
@@ -223,6 +254,7 @@ class OracleDeploymentRoundBehaviour(AbstractRoundBehaviour):
     initial_behaviour_cls = RandomnessOracleBehaviour
     abci_app_cls = OracleDeploymentAbciApp
     behaviours: Set[Type[BaseBehaviour]] = {  # type: ignore
+        SetupCheckBehaviour,  # type: ignore
         RandomnessOracleBehaviour,  # type: ignore
         SelectKeeperOracleBehaviour,  # type: ignore
         DeployOracleBehaviour,  # type: ignore
