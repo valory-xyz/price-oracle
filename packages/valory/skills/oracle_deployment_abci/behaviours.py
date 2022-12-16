@@ -19,6 +19,7 @@
 
 """This module contains the data classes for the oracle deployment ABCI application."""
 
+from abc import ABC
 from typing import Generator, Optional, Set, Type, cast
 
 from aea_ledger_ethereum import EthereumApi
@@ -51,7 +52,7 @@ from packages.valory.skills.oracle_deployment_abci.rounds import (
 )
 
 
-class OracleDeploymentBaseBehaviour(BaseBehaviour):
+class OracleDeploymentBaseBehaviour(BaseBehaviour, ABC):
     """Base behaviour for the common apps' skill."""
 
     @property
