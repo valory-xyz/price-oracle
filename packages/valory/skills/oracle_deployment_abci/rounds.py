@@ -228,4 +228,4 @@ class OracleDeploymentAbciApp(AbciApp[Event]):
         Event.VALIDATE_TIMEOUT: 30.0,
         Event.DEPLOY_TIMEOUT: 30.0,
     }
-    cross_period_persisted_keys = ["oracle_contract_address"]
+    cross_period_persisted_keys = ["safe_contract_address", "oracle_contract_address"]
