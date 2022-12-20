@@ -44,7 +44,6 @@ from packages.valory.skills.price_estimation_abci.models import (
 )
 from packages.valory.skills.price_estimation_abci.rounds import Event
 from packages.valory.skills.reset_pause_abci.rounds import Event as ResetPauseEvent
-from packages.valory.skills.safe_deployment_abci.rounds import Event as SafeEvent
 from packages.valory.skills.transaction_settlement_abci.rounds import Event as TSEvent
 
 
@@ -73,9 +72,6 @@ class SharedState(BaseSharedState):
             Event.ROUND_TIMEOUT
         ] = self.context.params.round_timeout_seconds
         OracleAbciApp.event_to_timeout[
-            SafeEvent.ROUND_TIMEOUT
-        ] = self.context.params.round_timeout_seconds
-        OracleAbciApp.event_to_timeout[
             OracleEvent.ROUND_TIMEOUT
         ] = self.context.params.round_timeout_seconds
         OracleAbciApp.event_to_timeout[
@@ -87,9 +83,6 @@ class SharedState(BaseSharedState):
         OracleAbciApp.event_to_timeout[TSEvent.RESET_TIMEOUT] = (
             self.context.params.round_timeout_seconds * MULTIPLIER
         )
-        OracleAbciApp.event_to_timeout[
-            SafeEvent.VALIDATE_TIMEOUT
-        ] = self.context.params.validate_timeout
         OracleAbciApp.event_to_timeout[
             OracleEvent.VALIDATE_TIMEOUT
         ] = self.context.params.validate_timeout
@@ -103,9 +96,6 @@ class SharedState(BaseSharedState):
             TSEvent.CHECK_TIMEOUT
         ] = self.context.params.history_check_timeout
         OracleAbciApp.event_to_timeout[OracleEvent.DEPLOY_TIMEOUT] = (
-            self.context.params.keeper_timeout + MARGIN
-        )
-        OracleAbciApp.event_to_timeout[SafeEvent.DEPLOY_TIMEOUT] = (
             self.context.params.keeper_timeout + MARGIN
         )
         OracleAbciApp.event_to_timeout[ResetPauseEvent.RESET_AND_PAUSE_TIMEOUT] = (

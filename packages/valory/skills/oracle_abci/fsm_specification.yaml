@@ -29,25 +29,22 @@ states:
 - CollectObservationRound
 - CollectSignatureRound
 - DeployOracleRound
-- DeploySafeRound
 - EstimateConsensusRound
 - FinalizationRound
 - RandomnessOracleRound
-- RandomnessSafeRound
 - RandomnessTransactionSubmissionRound
 - RegistrationRound
 - RegistrationStartupRound
 - ResetAndPauseRound
 - ResetRound
 - SelectKeeperOracleRound
-- SelectKeeperSafeRound
 - SelectKeeperTransactionSubmissionRoundA
 - SelectKeeperTransactionSubmissionRoundB
 - SelectKeeperTransactionSubmissionRoundBAfterTimeout
+- SetupCheckRound
 - SynchronizeLateMessagesRound
 - TxHashRound
 - ValidateOracleRound
-- ValidateSafeRound
 - ValidateTransactionRound
 transition_func:
     (CheckLateTxHashesRound, CHECK_LATE_ARRIVING_MESSAGE): SynchronizeLateMessagesRound
@@ -71,9 +68,6 @@ transition_func:
     (DeployOracleRound, DEPLOY_TIMEOUT): SelectKeeperOracleRound
     (DeployOracleRound, DONE): ValidateOracleRound
     (DeployOracleRound, FAILED): SelectKeeperOracleRound
-    (DeploySafeRound, DEPLOY_TIMEOUT): SelectKeeperSafeRound
-    (DeploySafeRound, DONE): ValidateSafeRound
-    (DeploySafeRound, FAILED): SelectKeeperSafeRound
     (EstimateConsensusRound, DONE): TxHashRound
     (EstimateConsensusRound, NONE): CollectObservationRound
     (EstimateConsensusRound, NO_MAJORITY): CollectObservationRound
@@ -87,16 +81,13 @@ transition_func:
     (RandomnessOracleRound, DONE): SelectKeeperOracleRound
     (RandomnessOracleRound, NO_MAJORITY): RandomnessOracleRound
     (RandomnessOracleRound, ROUND_TIMEOUT): RandomnessOracleRound
-    (RandomnessSafeRound, DONE): SelectKeeperSafeRound
-    (RandomnessSafeRound, NO_MAJORITY): RandomnessSafeRound
-    (RandomnessSafeRound, ROUND_TIMEOUT): RandomnessSafeRound
     (RandomnessTransactionSubmissionRound, DONE): SelectKeeperTransactionSubmissionRoundA
     (RandomnessTransactionSubmissionRound, NO_MAJORITY): RandomnessTransactionSubmissionRound
     (RandomnessTransactionSubmissionRound, ROUND_TIMEOUT): RandomnessTransactionSubmissionRound
-    (RegistrationRound, DONE): CollectObservationRound
+    (RegistrationRound, DONE): SetupCheckRound
     (RegistrationRound, NO_MAJORITY): RegistrationRound
-    (RegistrationStartupRound, DONE): RandomnessSafeRound
-    (RegistrationStartupRound, FAST_FORWARD): CollectObservationRound
+    (RegistrationStartupRound, DONE): SetupCheckRound
+    (RegistrationStartupRound, FAST_FORWARD): SetupCheckRound
     (ResetAndPauseRound, DONE): CollectObservationRound
     (ResetAndPauseRound, NO_MAJORITY): RegistrationRound
     (ResetAndPauseRound, RESET_AND_PAUSE_TIMEOUT): RegistrationRound
@@ -106,9 +97,6 @@ transition_func:
     (SelectKeeperOracleRound, DONE): DeployOracleRound
     (SelectKeeperOracleRound, NO_MAJORITY): RandomnessOracleRound
     (SelectKeeperOracleRound, ROUND_TIMEOUT): RandomnessOracleRound
-    (SelectKeeperSafeRound, DONE): DeploySafeRound
-    (SelectKeeperSafeRound, NO_MAJORITY): RandomnessSafeRound
-    (SelectKeeperSafeRound, ROUND_TIMEOUT): RandomnessSafeRound
     (SelectKeeperTransactionSubmissionRoundA, DONE): CollectSignatureRound
     (SelectKeeperTransactionSubmissionRoundA, INCORRECT_SERIALIZATION): ResetAndPauseRound
     (SelectKeeperTransactionSubmissionRoundA, NO_MAJORITY): ResetRound
@@ -123,6 +111,11 @@ transition_func:
     (SelectKeeperTransactionSubmissionRoundBAfterTimeout, INCORRECT_SERIALIZATION): ResetAndPauseRound
     (SelectKeeperTransactionSubmissionRoundBAfterTimeout, NO_MAJORITY): ResetRound
     (SelectKeeperTransactionSubmissionRoundBAfterTimeout, ROUND_TIMEOUT): SelectKeeperTransactionSubmissionRoundBAfterTimeout
+    (SetupCheckRound, DONE): CollectObservationRound
+    (SetupCheckRound, NEGATIVE): RandomnessOracleRound
+    (SetupCheckRound, NONE): RandomnessOracleRound
+    (SetupCheckRound, NO_MAJORITY): RandomnessOracleRound
+    (SetupCheckRound, ROUND_TIMEOUT): SetupCheckRound
     (SynchronizeLateMessagesRound, DONE): CheckLateTxHashesRound
     (SynchronizeLateMessagesRound, MISSED_AND_LATE_MESSAGES_MISMATCH): ResetAndPauseRound
     (SynchronizeLateMessagesRound, NONE): SelectKeeperTransactionSubmissionRoundB
@@ -137,11 +130,6 @@ transition_func:
     (ValidateOracleRound, NONE): RandomnessOracleRound
     (ValidateOracleRound, NO_MAJORITY): RandomnessOracleRound
     (ValidateOracleRound, VALIDATE_TIMEOUT): RandomnessOracleRound
-    (ValidateSafeRound, DONE): RandomnessOracleRound
-    (ValidateSafeRound, NEGATIVE): RandomnessSafeRound
-    (ValidateSafeRound, NONE): RandomnessSafeRound
-    (ValidateSafeRound, NO_MAJORITY): RandomnessSafeRound
-    (ValidateSafeRound, VALIDATE_TIMEOUT): RandomnessSafeRound
     (ValidateTransactionRound, DONE): ResetAndPauseRound
     (ValidateTransactionRound, NEGATIVE): CheckTransactionHistoryRound
     (ValidateTransactionRound, NONE): SelectKeeperTransactionSubmissionRoundB

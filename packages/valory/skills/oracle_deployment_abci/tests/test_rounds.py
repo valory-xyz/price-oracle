@@ -43,7 +43,7 @@ from packages.valory.skills.oracle_deployment_abci.payloads import (
     DeployOraclePayload,
     RandomnessPayload,
     SelectKeeperPayload,
-    ValidateOraclePayload,
+    VotingOraclePayload,
 )
 from packages.valory.skills.oracle_deployment_abci.rounds import DeployOracleRound
 from packages.valory.skills.oracle_deployment_abci.rounds import (
@@ -107,10 +107,10 @@ def get_safe_contract_address() -> str:
 
 def get_participant_to_votes(
     participants: FrozenSet[str], vote: Optional[bool] = True
-) -> Dict[str, ValidateOraclePayload]:
+) -> Dict[str, VotingOraclePayload]:
     """participant_to_votes"""
     return {
-        participant: ValidateOraclePayload(sender=participant, vote=vote)
+        participant: VotingOraclePayload(sender=participant, vote=vote)
         for participant in participants
     }
 
@@ -169,7 +169,7 @@ class BaseValidateRoundTest(BaseVotingRoundTest):
     """Test BaseValidateRound."""
 
     test_class: Type[VotingRound]
-    test_payload: Type[ValidateOraclePayload]
+    test_payload: Type[VotingOraclePayload]
 
     def test_positive_votes(
         self,
@@ -252,7 +252,7 @@ class TestValidateOracleRound(BaseValidateRoundTest):
     """Test ValidateSafeRound."""
 
     test_class = ValidateOracleRound
-    test_payload = ValidateOraclePayload
+    test_payload = VotingOraclePayload
     _event_class = OracleDeploymentEvent
     _synchronized_data_class = OracleDeploymentSynchronizedSata
 

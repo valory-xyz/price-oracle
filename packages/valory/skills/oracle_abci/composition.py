@@ -26,7 +26,7 @@ from packages.valory.skills.abstract_round_abci.abci_app_chain import (
 from packages.valory.skills.oracle_deployment_abci.rounds import (
     FinishedOracleRound,
     OracleDeploymentAbciApp,
-    RandomnessOracleRound,
+    SetupCheckRound,
 )
 from packages.valory.skills.price_estimation_abci.rounds import (
     CollectObservationRound,
@@ -45,11 +45,6 @@ from packages.valory.skills.reset_pause_abci.rounds import (
     ResetAndPauseRound,
     ResetPauseAbciApp,
 )
-from packages.valory.skills.safe_deployment_abci.rounds import (
-    FinishedSafeRound,
-    RandomnessSafeRound,
-    SafeDeploymentAbciApp,
-)
 from packages.valory.skills.transaction_settlement_abci.rounds import (
     FailedRound,
     FinishedTransactionSubmissionRound,
@@ -59,10 +54,9 @@ from packages.valory.skills.transaction_settlement_abci.rounds import (
 
 
 abci_app_transition_mapping: AbciAppTransitionMapping = {
-    FinishedRegistrationRound: RandomnessSafeRound,
-    FinishedSafeRound: RandomnessOracleRound,
+    FinishedRegistrationRound: SetupCheckRound,
+    FinishedRegistrationFFWRound: SetupCheckRound,
     FinishedOracleRound: CollectObservationRound,
-    FinishedRegistrationFFWRound: CollectObservationRound,
     FinishedPriceAggregationRound: RandomnessTransactionSubmissionRound,
     FailedRound: ResetAndPauseRound,
     FinishedTransactionSubmissionRound: ResetAndPauseRound,
@@ -73,7 +67,6 @@ abci_app_transition_mapping: AbciAppTransitionMapping = {
 OracleAbciApp = chain(
     (
         AgentRegistrationAbciApp,
-        SafeDeploymentAbciApp,
         OracleDeploymentAbciApp,
         PriceAggregationAbciApp,
         TransactionSubmissionAbciApp,
