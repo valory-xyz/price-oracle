@@ -124,7 +124,9 @@ class OracleBehaviourBaseCase(FSMBehaviourBaseCase):
         :param synchronized_data: the synchronized data for the new `current_behaviour` of the given `behaviour`.
         """
         super().fast_forward_to_behaviour(behaviour, behaviour_id, synchronized_data)
-        next_behaviour = {s.behaviour_id: s for s in behaviour.behaviours}[behaviour_id]
+        next_behaviour = {s.auto_behaviour_id(): s for s in behaviour.behaviours}[
+            behaviour_id
+        ]
         self.skill.skill_context.state.round_sequence.abci_app._current_round_cls = (
             next_behaviour.matching_round
         )
@@ -211,7 +213,7 @@ class TransactionSettlementIntegrationBaseCase(
         _, _, _, msg4 = self.process_n_messages(
             cycles_enter,
             self.price_estimation_synchronized_data,
-            DeployOracleBehaviour.behaviour_id,
+            DeployOracleBehaviour.auto_behaviour_id(),
             handlers_enter,
             expected_content_enter,
             expected_types_enter,
@@ -242,7 +244,7 @@ class TransactionSettlementIntegrationBaseCase(
         _, msg_a, msg_b = self.process_n_messages(
             cycles_enter,
             self.price_estimation_synchronized_data,
-            TransactionHashBehaviour.behaviour_id,
+            TransactionHashBehaviour.auto_behaviour_id(),
             handlers_enter,
             expected_content_enter,
             expected_types_enter,
@@ -419,9 +421,13 @@ class TestKeepers(OracleBehaviourBaseCase, IntegrationBaseCase):
         """Select a keeper."""
 
         if first_time:
-            behaviour_id = SelectKeeperTransactionSubmissionBehaviourA.behaviour_id
+            behaviour_id = (
+                SelectKeeperTransactionSubmissionBehaviourA.auto_behaviour_id()
+            )
         else:
-            behaviour_id = SelectKeeperTransactionSubmissionBehaviourB.behaviour_id
+            behaviour_id = (
+                SelectKeeperTransactionSubmissionBehaviourB.auto_behaviour_id()
+            )
 
         # select keeper
         self.fast_forward_to_behaviour(
@@ -430,7 +436,7 @@ class TestKeepers(OracleBehaviourBaseCase, IntegrationBaseCase):
             self.tx_settlement_synchronized_data,
         )
         assert self.behaviour.current_behaviour is not None
-        assert self.behaviour.current_behaviour.behaviour_id == behaviour_id
+        assert self.behaviour.current_behaviour.auto_behaviour_id() == behaviour_id
 
         self.behaviour.act_wrapper()
         serialized_keepers_mock.assert_called_with(expected_keepers, expected_retries)
@@ -551,7 +557,7 @@ class TestSyncing(TransactionSettlementIntegrationBaseCase):
         msgs = self.process_n_messages(
             len(handlers),
             self.tx_settlement_synchronized_data,
-            SynchronizeLateMessagesBehaviour.behaviour_id,
+            SynchronizeLateMessagesBehaviour.auto_behaviour_id(),
             handlers,
             expected_content,
             expected_types,
@@ -561,8 +567,8 @@ class TestSyncing(TransactionSettlementIntegrationBaseCase):
             self.behaviour.current_behaviour, SynchronizeLateMessagesBehaviour
         )
         assert (
-            self.behaviour.current_behaviour.behaviour_id
-            == SynchronizeLateMessagesBehaviour.behaviour_id
+            self.behaviour.current_behaviour.auto_behaviour_id()
+            == SynchronizeLateMessagesBehaviour.auto_behaviour_id()
         )
         assert self.behaviour.current_behaviour.params.tx_hash == ""
         assert self.behaviour.current_behaviour.params.late_messages == []
@@ -607,15 +613,15 @@ class TestSyncing(TransactionSettlementIntegrationBaseCase):
         msgs = self.process_n_messages(
             len(self.tx_settlement_synchronized_data.late_arriving_tx_hashes),
             self.tx_settlement_synchronized_data,
-            CheckLateTxHashesBehaviour.behaviour_id,
+            CheckLateTxHashesBehaviour.auto_behaviour_id(),
             handlers,
             expected_content,
             expected_types,
         )
         assert isinstance(self.behaviour.current_behaviour, CheckLateTxHashesBehaviour)
         assert (
-            self.behaviour.current_behaviour.behaviour_id
-            == CheckLateTxHashesBehaviour.behaviour_id
+            self.behaviour.current_behaviour.auto_behaviour_id()
+            == CheckLateTxHashesBehaviour.auto_behaviour_id()
         )
 
         verified_idx = -1

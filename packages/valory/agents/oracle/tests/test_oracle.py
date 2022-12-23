@@ -50,26 +50,53 @@ from aea_test_autonomy.fixture_helpers import (  # noqa: F401
     gnosis_safe_hardhat_scope_function,
 )
 
+from packages.valory.skills.oracle_deployment_abci.rounds import (
+    DeployOracleRound,
+    RandomnessOracleRound,
+    SelectKeeperOracleRound,
+    ValidateOracleRound,
+)
+from packages.valory.skills.price_estimation_abci.rounds import (
+    CollectObservationRound,
+    EstimateConsensusRound,
+    TxHashRound,
+)
+from packages.valory.skills.registration_abci.rounds import RegistrationStartupRound
+from packages.valory.skills.reset_pause_abci.rounds import ResetAndPauseRound
+from packages.valory.skills.safe_deployment_abci.rounds import (
+    DeploySafeRound,
+    RandomnessSafeRound,
+    SelectKeeperSafeRound,
+    ValidateSafeRound,
+)
+from packages.valory.skills.transaction_settlement_abci.rounds import (
+    CollectSignatureRound,
+    FinalizationRound,
+    RandomnessTransactionSubmissionRound,
+    SelectKeeperTransactionSubmissionRoundA,
+    ValidateTransactionRound,
+)
+
 
 HAPPY_PATH: Tuple[RoundChecks, ...] = (
-    RoundChecks("registration_startup"),
-    RoundChecks("randomness_safe"),
-    RoundChecks("select_keeper_safe"),
-    RoundChecks("deploy_safe"),
-    RoundChecks("validate_safe"),
-    RoundChecks("randomness_oracle"),
-    RoundChecks("select_keeper_oracle"),
-    RoundChecks("deploy_oracle"),
-    RoundChecks("validate_oracle"),
-    RoundChecks("estimate_consensus", n_periods=2),
-    RoundChecks("tx_hash", n_periods=2),
-    RoundChecks("randomness_transaction_submission", n_periods=2),
-    RoundChecks("select_keeper_transaction_submission_a", n_periods=2),
-    RoundChecks("collect_signature", n_periods=2),
-    RoundChecks("finalization", n_periods=2),
-    RoundChecks("validate_transaction", n_periods=2),
-    RoundChecks("reset_and_pause", n_periods=2),
-    RoundChecks("collect_observation", n_periods=3),
+    RoundChecks(RegistrationStartupRound.auto_round_id()),
+    RoundChecks(RandomnessSafeRound.auto_round_id()),
+    RoundChecks(SelectKeeperSafeRound.auto_round_id()),
+    RoundChecks(DeploySafeRound.auto_round_id()),
+    RoundChecks(ValidateSafeRound.auto_round_id()),
+    RoundChecks(RandomnessOracleRound.auto_round_id()),
+    RoundChecks(SelectKeeperOracleRound.auto_round_id()),
+    RoundChecks(DeployOracleRound.auto_round_id()),
+    RoundChecks(ValidateOracleRound.auto_round_id()),
+    RoundChecks(EstimateConsensusRound.auto_round_id(), n_periods=2),
+    RoundChecks(TxHashRound.auto_round_id(), n_periods=2),
+    RoundChecks(RandomnessTransactionSubmissionRound.auto_round_id(), n_periods=2),
+    RoundChecks(SelectKeeperTransactionSubmissionRoundA.auto_round_id(), n_periods=2),
+    RoundChecks(CollectSignatureRound.auto_round_id(), n_periods=2),
+    RoundChecks(FinalizationRound.auto_round_id(), n_periods=2),
+    RoundChecks(ValidateTransactionRound.auto_round_id(), n_periods=2),
+    RoundChecks(ResetAndPauseRound.auto_round_id(), n_periods=2),
+    RoundChecks(CollectObservationRound.auto_round_id(), n_periods=3),
 )
 
 

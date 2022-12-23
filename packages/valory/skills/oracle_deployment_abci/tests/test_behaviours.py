@@ -113,7 +113,7 @@ class BaseDeployBehaviourTest(FSMBehaviourBaseCase):
         most_voted_keeper_address = self.skill.skill_context.agent_address
         self.fast_forward_to_behaviour(
             self.behaviour,
-            self.behaviour_class.behaviour_id,
+            self.behaviour_class.auto_behaviour_id(),
             OracleDeploymentSynchronizedSata(
                 AbciAppDB(
                     setup_data=AbciAppDB.data_to_lists(
@@ -130,8 +130,8 @@ class BaseDeployBehaviourTest(FSMBehaviourBaseCase):
             cast(
                 BaseBehaviour,
                 cast(BaseBehaviour, self.behaviour.current_behaviour),
-            ).behaviour_id
-            == self.behaviour_class.behaviour_id
+            ).auto_behaviour_id()
+            == self.behaviour_class.auto_behaviour_id()
         )
         self.behaviour.act_wrapper()
 
@@ -195,7 +195,10 @@ class BaseDeployBehaviourTest(FSMBehaviourBaseCase):
         self._test_done_flag_set()
         self.end_round(self.done_event)
         behaviour = cast(BaseBehaviour, self.behaviour.current_behaviour)
-        assert behaviour.behaviour_id == self.next_behaviour_class.behaviour_id
+        assert (
+            behaviour.auto_behaviour_id()
+            == self.next_behaviour_class.auto_behaviour_id()
+        )
 
     def test_not_deployer_act(
         self,
@@ -205,7 +208,7 @@ class BaseDeployBehaviourTest(FSMBehaviourBaseCase):
         most_voted_keeper_address = "a_1"
         self.fast_forward_to_behaviour(
             self.behaviour,
-            self.behaviour_class.behaviour_id,
+            self.behaviour_class.auto_behaviour_id(),
             OracleDeploymentSynchronizedSata(
                 AbciAppDB(
                     setup_data=AbciAppDB.data_to_lists(
@@ -222,8 +225,8 @@ class BaseDeployBehaviourTest(FSMBehaviourBaseCase):
             cast(
                 BaseBehaviour,
                 cast(BaseBehaviour, self.behaviour.current_behaviour),
-            ).behaviour_id
-            == self.behaviour_class.behaviour_id
+            ).auto_behaviour_id()
+            == self.behaviour_class.auto_behaviour_id()
         )
         self.behaviour.act_wrapper()
         self._test_done_flag_set()
@@ -231,7 +234,10 @@ class BaseDeployBehaviourTest(FSMBehaviourBaseCase):
         time.sleep(1)
         self.behaviour.act_wrapper()
         behaviour = cast(BaseBehaviour, self.behaviour.current_behaviour)
-        assert behaviour.behaviour_id == self.next_behaviour_class.behaviour_id
+        assert (
+            behaviour.auto_behaviour_id()
+            == self.next_behaviour_class.auto_behaviour_id()
+        )
 
 
 class TestDeployOracleBehaviour(BaseDeployBehaviourTest, OracleDeploymentAbciBaseCase):
@@ -260,7 +266,7 @@ class BaseValidateBehaviourTest(FSMBehaviourBaseCase):
         """Run test."""
         self.fast_forward_to_behaviour(
             self.behaviour,
-            self.behaviour_class.behaviour_id,
+            self.behaviour_class.auto_behaviour_id(),
             OracleDeploymentSynchronizedSata(
                 AbciAppDB(
                     setup_data=AbciAppDB.data_to_lists(self.synchronized_data_kwargs)
@@ -271,8 +277,8 @@ class BaseValidateBehaviourTest(FSMBehaviourBaseCase):
             cast(
                 BaseBehaviour,
                 cast(BaseBehaviour, self.behaviour.current_behaviour),
-            ).behaviour_id
-            == self.behaviour_class.behaviour_id
+            ).auto_behaviour_id()
+            == self.behaviour_class.auto_behaviour_id()
         )
         self.behaviour.act_wrapper()
         self.mock_contract_api_request(
@@ -293,7 +299,10 @@ class BaseValidateBehaviourTest(FSMBehaviourBaseCase):
         self._test_done_flag_set()
         self.end_round(self.done_event)
         behaviour = cast(BaseBehaviour, self.behaviour.current_behaviour)
-        assert behaviour.behaviour_id == self.next_behaviour_class.behaviour_id
+        assert (
+            behaviour.auto_behaviour_id()
+            == self.next_behaviour_class.auto_behaviour_id()
+        )
 
 
 class TestValidateOracleBehaviour(
@@ -302,7 +311,9 @@ class TestValidateOracleBehaviour(
     """Test ValidateOracleBehaviour."""
 
     behaviour_class = ValidateOracleBehaviour
-    next_behaviour_class = make_degenerate_behaviour(FinishedOracleRound.round_id)
+    next_behaviour_class = make_degenerate_behaviour(
+        FinishedOracleRound.auto_round_id()
+    )
     synchronized_data_kwargs = dict(
         safe_contract_address="safe_contract_address",
         oracle_contract_address="oracle_contract_address",

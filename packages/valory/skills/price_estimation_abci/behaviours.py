@@ -80,7 +80,6 @@ class PriceEstimationBaseBehaviour(BaseBehaviour, ABC):
 class ObserveBehaviour(PriceEstimationBaseBehaviour):
     """Observe price estimate."""
 
-    behaviour_id = "collect_observation"
     matching_round = CollectObservationRound
 
     def async_act(self) -> Generator:
@@ -97,12 +96,14 @@ class ObserveBehaviour(PriceEstimationBaseBehaviour):
 
         if self.context.price_api.is_retries_exceeded():
             # now we need to wait and see if the other agents progress the round, otherwise we should restart?
-            with self.context.benchmark_tool.measure(self.behaviour_id).consensus():
+            with self.context.benchmark_tool.measure(
+                self.auto_behaviour_id()
+            ).consensus():
                 yield from self.wait_until_round_end()
             self.set_done()
             return
 
-        with self.context.benchmark_tool.measure(self.behaviour_id).local():
+        with self.context.benchmark_tool.measure(self.auto_behaviour_id()).local():
             api_specs = self.context.price_api.get_spec()
             response = yield from self.get_http_response(
                 method=api_specs["method"],
@@ -119,7 +120,9 @@ class ObserveBehaviour(PriceEstimationBaseBehaviour):
                 + f"{observation}"
             )
             payload = ObservationPayload(self.context.agent_address, observation)
-            with self.context.benchmark_tool.measure(self.behaviour_id).consensus():
+            with self.context.benchmark_tool.measure(
+                self.auto_behaviour_id()
+            ).consensus():
                 yield from self.send_a2a_transaction(payload)
                 yield from self.wait_until_round_end()
             self.set_done()
@@ -144,7 +147,6 @@ class ObserveBehaviour(PriceEstimationBaseBehaviour):
 class EstimateBehaviour(PriceEstimationBaseBehaviour):
     """Estimate price."""
 
-    behaviour_id = "estimate"
     matching_round = EstimateConsensusRound
 
     def aggregate(self, observations: List[float]) -> float:
@@ -163,7 +165,7 @@ class EstimateBehaviour(PriceEstimationBaseBehaviour):
         - Go to the next behaviour (set done event).
         """
 
-        with self.context.benchmark_tool.measure(self.behaviour_id).local():
+        with self.context.benchmark_tool.measure(self.auto_behaviour_id()).local():
             estimate = self.aggregate(self.synchronized_data.observations)
             self.context.logger.info(
                 "Got estimate of %s price in %s: %s, Using aggregator method: %s",
@@ -174,7 +176,7 @@ class EstimateBehaviour(PriceEstimationBaseBehaviour):
             )
             payload = EstimatePayload(self.context.agent_address, estimate)
 
-        with self.context.benchmark_tool.measure(self.behaviour_id).consensus():
+        with self.context.benchmark_tool.measure(self.auto_behaviour_id()).consensus():
             yield from self.send_a2a_transaction(payload)
             yield from self.wait_until_round_end()
 
@@ -216,7 +218,6 @@ def pack_for_server(  # pylint: disable-msg=too-many-arguments
 class TransactionHashBehaviour(PriceEstimationBaseBehaviour):
     """Share the transaction hash for the signature round."""
 
-    behaviour_id = "tx_hash"
     matching_round = TxHashRound
 
     def async_act(self) -> Generator:
@@ -231,11 +232,11 @@ class TransactionHashBehaviour(PriceEstimationBaseBehaviour):
         - Go to the next behaviour (set done event).
         """
 
-        with self.context.benchmark_tool.measure(self.behaviour_id).local():
+        with self.context.benchmark_tool.measure(self.auto_behaviour_id()).local():
             payload_string = yield from self._get_safe_tx_hash()
             payload = TransactionHashPayload(self.context.agent_address, payload_string)
 
-        with self.context.benchmark_tool.measure(self.behaviour_id).consensus():
+        with self.context.benchmark_tool.measure(self.auto_behaviour_id()).consensus():
             if self.params.is_broadcasting_to_server:
                 yield from self.send_to_server()
             yield from self.send_a2a_transaction(payload)
