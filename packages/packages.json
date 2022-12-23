@@ -1,15 +1,15 @@
 {
     "dev": {
         "contract/valory/offchain_aggregator/0.1.0": "bafybeigldbpaoimgcs5r3fstgroz42zsx7tck3sz2rwp4zaxrtdzqwkomy",
-        "skill/valory/oracle_deployment_abci/0.1.0": "bafybeid67jeppdck77kzdnpb5hfew3gwl7qlb4yntgdrplkhfozji2rw4y",
-        "skill/valory/price_estimation_abci/0.1.0": "bafybeid32xranhjn44g4lxt5dlaal2ffrq2bl7ai6cqgj6ob2a3wk5wgde",
-        "skill/valory/oracle_abci/0.1.0": "bafybeid4ovgawtfrb2xnurcrb3tkax6tdy4o4gea3d3zeydg76q4jh6bdm",
-        "agent/valory/oracle/0.1.0": "bafybeiexqkbmkdgfaeqmtzncpwuvopvxosy5wuztuwk3oxilepn3f3hreq",
-        "service/valory/oracle_goerli/0.1.0": "bafybeicx4kegbcqjik7hzr5zrs5lwbqyqgjgm6aqp3beg5eh3umr33kxpy",
-        "service/valory/oracle_hardhat/0.1.0": "bafybeihh47eusdkva2ay4by22jwcjidp3xyp4zaonvqtxsmdlh7wvpopam",
-        "service/valory/oracle_polygon/0.1.0": "bafybeidjc4sewq73mhjc6jf45mw6edxwvdfn3elj7j33wx2fmnk2gb2mii",
-        "service/valory/oracle_ropsten/0.1.0": "bafybeibibb2ougiamzlsgycqbmkzgrrlxzpvlvfyjryullltghk4scdypq",
-        "service/valory/oracle_ropsten_cluster/0.1.0": "bafybeibytqgmfmczurbxhcronlb2wgdnhjxvw3faqve3izlcktkjllgixm"
+        "skill/valory/oracle_deployment_abci/0.1.0": "bafybeihlmlzstzpqewhmzbo4wcdmta2r7c6z4nchf2qvzkorthrjllpoki",
+        "skill/valory/price_estimation_abci/0.1.0": "bafybeigjmnpoyqwxm57vr4bpfuecljykojmfmapkzo3i6apmjoygmviw6i",
+        "skill/valory/oracle_abci/0.1.0": "bafybeiehafk6y7ijl262hjsy5aiekyqfp4jfe36ugujwf523owhg3m7ivi",
+        "agent/valory/oracle/0.1.0": "bafybeiclq6lovrukxlplkdbtkspzfi4enkooajahb3f4n4abds2s5lh2au",
+        "service/valory/oracle_goerli/0.1.0": "bafybeiax75krfbussibrjm2udozjhrygonqgkhtmbtzf2up3yu7e6jwqfe",
+        "service/valory/oracle_hardhat/0.1.0": "bafybeieyov7pekkh3vo6jnesc253jle34bfuu6jecxoi5aicqecfry2dza",
+        "service/valory/oracle_polygon/0.1.0": "bafybeifiw374qolvpkv6nqywhao5ue7imos3cdylzgpjjxhnymvkwdz7k4",
+        "service/valory/oracle_ropsten/0.1.0": "bafybeigqvc7ptdedwch676r7gmf3nwixmjmvl537i7r3cba42dekotb6ki",
+        "service/valory/oracle_ropsten_cluster/0.1.0": "bafybeigkdkpexfhfvsygtzi7uyq2arcipi3h7itypceilhof7joxnlaxam"
     },
     "third_party": {
         "protocol/valory/abci/0.1.0": "bafybeiaw3tzlg3rkvnn5fcufblktmfwngmxugn4yo7pyjp76zz6aqtqcay",

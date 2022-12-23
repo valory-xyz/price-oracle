@@ -10,7 +10,7 @@ fingerprint:
   README.md: bafybeicg5eg7f4fhaxflzaz6h73xklax6cfggg6d4sjl27tcs3rjqgflza
   __init__.py: bafybeihlgffzmngu3ydky57kchhrdsfakmvpbq5mcmyrsdnolfnimftktm
   behaviours.py: bafybeibfdbbjib3droushgrbkr5jmiexrzzgjipwaei6jqg3cbotrby4c4
-  composition.py: bafybeifx67y7tuvatng2xx3ursn3fc6lfaabhefhon64tgeol5ixr4wviu
+  composition.py: bafybeigiyscl3z36ab56qf2z7z6rhwh25xibug3ls744gew25tsttqlykq
   dialogues.py: bafybeib4jbdycm2vofni3vp6draqet3nejoviqjurcilrzindr4k5dg5fa
   fsm_specification.yaml: bafybeibkrl3gagrp3dgejlmvgksppjqu724f6dr4sskeq3xqrru7w4vuai
   handlers.py: bafybeiaktxa76cpjytsjtbkftrhp7cppmweoxvglqmxc2cdcymdnzdsyua
@@ -31,8 +31,8 @@ protocols:
 - valory/ledger_api:1.0.0:bafybeih7rhi5zvfvwakx5ifgxsz2cfipeecsh7bm3gnudjxtvhrygpcftq
 skills:
 - valory/abstract_round_abci:0.1.0:bafybeih7sibc3evofk3fnmfijavyp6hhkku7fg4l336qysqwlnhvjhsvlm
-- valory/oracle_deployment_abci:0.1.0:bafybeid67jeppdck77kzdnpb5hfew3gwl7qlb4yntgdrplkhfozji2rw4y
-- valory/price_estimation_abci:0.1.0:bafybeid32xranhjn44g4lxt5dlaal2ffrq2bl7ai6cqgj6ob2a3wk5wgde
+- valory/oracle_deployment_abci:0.1.0:bafybeihlmlzstzpqewhmzbo4wcdmta2r7c6z4nchf2qvzkorthrjllpoki
+- valory/price_estimation_abci:0.1.0:bafybeigjmnpoyqwxm57vr4bpfuecljykojmfmapkzo3i6apmjoygmviw6i
 - valory/registration_abci:0.1.0:bafybeibvuyylbaxqits6eskh5i3wrtyglr4l7gmahvcaqevphv7haj5mbi
 - valory/reset_pause_abci:0.1.0:bafybeibq5tl6xf4g22ojzzeglylbanu5nxfsf6s6g7uf3yubogpv3acc4q
 - valory/safe_deployment_abci:0.1.0:bafybeihm66nrj5fqg4r3cjyfitdbzs2r4yms5t66ior3nmqdtyd44iiana
