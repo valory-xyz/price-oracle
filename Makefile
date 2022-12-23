@@ -147,9 +147,9 @@ install-hooks:
 
 .PHONY: fix-abci-app-specs
 fix-abci-app-specs:
-	python -m autonomy.cli analyse abci generate-app-specs packages.valory.skills.oracle_abci.composition.OracleAbciApp packages/valory/skills/oracle_abci/fsm_specification.yaml || (echo "Failed to check oracle_abci consistency" && exit 1)
-	python -m autonomy.cli analyse abci generate-app-specs packages.valory.skills.oracle_deployment_abci.rounds.OracleDeploymentAbciApp packages/valory/skills/oracle_deployment_abci/fsm_specification.yaml || (echo "Failed to check oracle_deployment_abci consistency" && exit 1)
-	python -m autonomy.cli analyse abci generate-app-specs packages.valory.skills.price_estimation_abci.rounds.PriceAggregationAbciApp packages/valory/skills/price_estimation_abci/fsm_specification.yaml || (echo "Failed to check price_estimation_abci consistency" && exit 1)
+	autonomy analyse fsm-specs --update --app-class OracleAbciApp --package packages/valory/skills/oracle_abci || (echo "Failed to check oracle_abci consistency" && exit 1)
+	autonomy analyse fsm-specs --update --app-class OracleDeploymentAbciApp --package packages/valory/skills/oracle_deployment_abci || (echo "Failed to check oracle_deployment_abci consistency" && exit 1)
+	autonomy analyse fsm-specs --update --app-class PriceAggregationAbciApp --package packages/valory/skills/price_estimation_abci || (echo "Failed to check price_estimation_abci consistency" && exit 1)
 	echo "Successfully validated abcis!"
 
 PACKAGES_PATH := packages/packages.json

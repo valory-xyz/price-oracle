@@ -3,13 +3,13 @@
         "contract/valory/offchain_aggregator/0.1.0": "bafybeigldbpaoimgcs5r3fstgroz42zsx7tck3sz2rwp4zaxrtdzqwkomy",
         "skill/valory/oracle_deployment_abci/0.1.0": "bafybeihlmlzstzpqewhmzbo4wcdmta2r7c6z4nchf2qvzkorthrjllpoki",
         "skill/valory/price_estimation_abci/0.1.0": "bafybeihsvbiulwfqrptxkm4brm2wfr5vllwizqfnfsubogzg73uj3d7a7u",
-        "skill/valory/oracle_abci/0.1.0": "bafybeidc6iipqst5nhat5hz534dk7jostok6x3bm33pypx2y3nyt4l7gym",
-        "agent/valory/oracle/0.1.0": "bafybeidahcqe63xdzho4sngqfiojluakgqminapxvvr4cdvzzcqnzzxbdu",
-        "service/valory/oracle_goerli/0.1.0": "bafybeiec7zxmhkjaweb5jdhl3kxzf7gqkegp2delrbhavbsdpip7cuojci",
-        "service/valory/oracle_hardhat/0.1.0": "bafybeidsmc333luebabqwbrc5jsdvgoo7mv2reu6epucch4zhct364hkxa",
-        "service/valory/oracle_polygon/0.1.0": "bafybeiazrsmafyxrpqx3mavhzwaqj5n35mpdvl7wcur3esmnyrd4wthkke",
-        "service/valory/oracle_ropsten/0.1.0": "bafybeihl5qvearwwotj3abzj46k2nhcjwr23c6sc5kkitrmztislwwvt3m",
-        "service/valory/oracle_ropsten_cluster/0.1.0": "bafybeihwve7zsipe5viu4n3ada6sr2qaeevf3yj6mp7f6z6tt26eylmsii"
+        "skill/valory/oracle_abci/0.1.0": "bafybeif5bnymvif4sjuwp5ungfskbbuwuk32hjjj6xrypqf7ydeva5wdi4",
+        "agent/valory/oracle/0.1.0": "bafybeicfiuycs4xmnp3lbm42lksxmeq5tobq2ajlgmqb4bg3azl6riga6e",
+        "service/valory/oracle_goerli/0.1.0": "bafybeibtooylhlj6qea5m5lga2bi3vzd745eh554pg2ed276nnsurljv3y",
+        "service/valory/oracle_hardhat/0.1.0": "bafybeifeg4ysa3lt7gch4pywvctbwxy4aicbhf3pyfslrjtbzgguj6blsi",
+        "service/valory/oracle_polygon/0.1.0": "bafybeih42d3cxvlgg2244sdzokwnqieounk5wjgpimcdlbq7hxnfm4z6p4",
+        "service/valory/oracle_ropsten/0.1.0": "bafybeifsop4m7by7t5lmlejmglxr5pto6w6yls6pwqdzqfnoof6rw6ds6m",
+        "service/valory/oracle_ropsten_cluster/0.1.0": "bafybeigj7poi7spfjuj66d5tunu46ewdecrbducc7js6esv4dob7tuan5m"
     },
     "third_party": {
         "protocol/valory/abci/0.1.0": "bafybeiaw3tzlg3rkvnn5fcufblktmfwngmxugn4yo7pyjp76zz6aqtqcay",
