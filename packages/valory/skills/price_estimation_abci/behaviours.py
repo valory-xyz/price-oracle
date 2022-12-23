@@ -96,9 +96,7 @@ class ObserveBehaviour(PriceEstimationBaseBehaviour):
 
         if self.context.price_api.is_retries_exceeded():
             # now we need to wait and see if the other agents progress the round, otherwise we should restart?
-            with self.context.benchmark_tool.measure(
-                self.auto_behaviour_id()
-            ).consensus():
+            with self.context.benchmark_tool.measure(self.behaviour_id).consensus():
                 yield from self.wait_until_round_end()
             self.set_done()
             return
@@ -120,9 +118,7 @@ class ObserveBehaviour(PriceEstimationBaseBehaviour):
                 + f"{observation}"
             )
             payload = ObservationPayload(self.context.agent_address, observation)
-            with self.context.benchmark_tool.measure(
-                self.auto_behaviour_id()
-            ).consensus():
+            with self.context.benchmark_tool.measure(self.behaviour_id).consensus():
                 yield from self.send_a2a_transaction(payload)
                 yield from self.wait_until_round_end()
             self.set_done()
