@@ -80,7 +80,6 @@ class PriceEstimationBaseBehaviour(BaseBehaviour, ABC):
 class ObserveBehaviour(PriceEstimationBaseBehaviour):
     """Observe price estimate."""
 
-    behaviour_id = "collect_observation"
     matching_round = CollectObservationRound
 
     def async_act(self) -> Generator:
@@ -144,7 +143,6 @@ class ObserveBehaviour(PriceEstimationBaseBehaviour):
 class EstimateBehaviour(PriceEstimationBaseBehaviour):
     """Estimate price."""
 
-    behaviour_id = "estimate"
     matching_round = EstimateConsensusRound
 
     def aggregate(self, observations: List[float]) -> float:
@@ -216,7 +214,6 @@ def pack_for_server(  # pylint: disable-msg=too-many-arguments
 class TransactionHashBehaviour(PriceEstimationBaseBehaviour):
     """Share the transaction hash for the signature round."""
 
-    behaviour_id = "tx_hash"
     matching_round = TxHashRound
 
     def async_act(self) -> Generator:

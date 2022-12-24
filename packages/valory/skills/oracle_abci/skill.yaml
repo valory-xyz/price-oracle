@@ -10,16 +10,16 @@ fingerprint:
   README.md: bafybeicg5eg7f4fhaxflzaz6h73xklax6cfggg6d4sjl27tcs3rjqgflza
   __init__.py: bafybeihlgffzmngu3ydky57kchhrdsfakmvpbq5mcmyrsdnolfnimftktm
   behaviours.py: bafybeibfdbbjib3droushgrbkr5jmiexrzzgjipwaei6jqg3cbotrby4c4
-  composition.py: bafybeifx67y7tuvatng2xx3ursn3fc6lfaabhefhon64tgeol5ixr4wviu
+  composition.py: bafybeigiyscl3z36ab56qf2z7z6rhwh25xibug3ls744gew25tsttqlykq
   dialogues.py: bafybeib4jbdycm2vofni3vp6draqet3nejoviqjurcilrzindr4k5dg5fa
-  fsm_specification.yaml: bafybeibkrl3gagrp3dgejlmvgksppjqu724f6dr4sskeq3xqrru7w4vuai
+  fsm_specification.yaml: bafybeidg4joy7nuedpz3uxuj3sgb65n5jd3vo26sllhxovqnafttiy2e4u
   handlers.py: bafybeiaktxa76cpjytsjtbkftrhp7cppmweoxvglqmxc2cdcymdnzdsyua
   models.py: bafybeicemrwjh2kvdzqah2j34yj4mf777orbx4gn3kmbpwmi2uxerjy5bu
   tests/__init__.py: bafybeihlgffzmngu3ydky57kchhrdsfakmvpbq5mcmyrsdnolfnimftktm
   tests/test_behaviours.py: bafybeibvh43inrplfd62hbhmryxy6zjdptz2ekfdkgoo37neahbldoekju
   tests/test_dialogues.py: bafybeiecwwsjclbhje3bg5bbrias453yuztlg23fbj3a3y4sjyuh2sg62i
   tests/test_handlers.py: bafybeigffxznt27ujgxdko5bhco2z5bmipiauzkrtwwx6dpdj773rtj2om
-  tests/test_integration.py: bafybeian7j77365v55nk4rwnpybxeskfkg6qjerfvotmxlilvglygc2ctq
+  tests/test_integration.py: bafybeieq5h3nzw5qfxiyvo5wh3tdsnjp5b7fy2l5wl4oobeupshib3m3dq
   tests/test_models.py: bafybeib5qugc5wrsoc2huo6dpwfekungcqdcjytfoo6hyx434nqtuqeblq
 fingerprint_ignore_patterns: []
 connections:
@@ -30,13 +30,13 @@ protocols:
 - valory/contract_api:1.0.0:bafybeiaxbrvgtbdrh4lslskuxyp4awyr4whcx3nqq5yrr6vimzsxg5dy64
 - valory/ledger_api:1.0.0:bafybeih7rhi5zvfvwakx5ifgxsz2cfipeecsh7bm3gnudjxtvhrygpcftq
 skills:
-- valory/abstract_round_abci:0.1.0:bafybeifh4qtjurq5637ykxexzexca5l4n6t4ujw26tpnern2swajanvhny
-- valory/oracle_deployment_abci:0.1.0:bafybeibmirq5qjof4wpselmlvwsurusrgbqnojxb4legnjvsprtrkw3obm
-- valory/price_estimation_abci:0.1.0:bafybeihbevr7ji7wcu5fapxli2t4v5j2wg5npdc4h3jmz42hcaxbc3tlma
-- valory/registration_abci:0.1.0:bafybeicuz3f4tvowd2xwcl5w4ck56rm5abfoyng3cmbprovpch4u6eexge
-- valory/reset_pause_abci:0.1.0:bafybeihlsjhy4dpiulgdof3noh6dlzvr6wkywcwbsrti45labn7htrfg3y
-- valory/safe_deployment_abci:0.1.0:bafybeialtmsamypffjpriow4l6ddmsgzmui6tz4uuyo44c3sczffyhq2li
-- valory/transaction_settlement_abci:0.1.0:bafybeicvdtbelmvhabmrsyej4zh7gbl25vusxrpgapvdrtadwnerknlt6e
+- valory/abstract_round_abci:0.1.0:bafybeie4kfq3j3wlt4qoaodu3u6ggkxtcohx5uaxuvaefifncrewzebh7a
+- valory/oracle_deployment_abci:0.1.0:bafybeiftzcljvq4xjusiryim5muwl6jj6f3gnjpcu3352ngffzf2chk6mi
+- valory/price_estimation_abci:0.1.0:bafybeih5agtstm7hrroc5flz4wrxxuysjkl2bxzv37c47kx5fw5nrobxve
+- valory/registration_abci:0.1.0:bafybeidwxdstbi4anrsqvxbcb7vurs6d6cruvsxu24tfop3q4swzorhlzq
+- valory/reset_pause_abci:0.1.0:bafybeibr5upjmzetzg27wxugyl7mkiwyglqgvcfiupzrwd33lwvq6jthky
+- valory/safe_deployment_abci:0.1.0:bafybeiakfyeczaiokbyxgepum25uakngjorlflqmcqk3hh7nakkintkq3a
+- valory/transaction_settlement_abci:0.1.0:bafybeiekrsycsnvtuwhh4wkk7t46ioalgj3eps77yzvql7sy74izrpgegm
 behaviours:
   main:
     args: {}
@@ -184,5 +184,5 @@ models:
     class_name: TendermintDialogues
 dependencies:
   open-aea-test-autonomy:
-    version: ==0.5.0.post2
+    version: ==0.6.0
 is_abstract: false

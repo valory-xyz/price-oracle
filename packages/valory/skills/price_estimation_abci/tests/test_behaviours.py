@@ -83,16 +83,6 @@ DRAND_VALUE = {
 }
 
 
-class DummyRoundId:
-    """Dummy class for setting round_id for exit condition."""
-
-    round_id: str
-
-    def __init__(self, round_id: str) -> None:
-        """Dummy class for setting round_id for exit condition."""
-        self.round_id = round_id
-
-
 class PriceEstimationFSMBehaviourBaseCase(FSMBehaviourBaseCase):
     """Base case for testing PriceEstimation FSMBehaviour."""
 
@@ -108,7 +98,7 @@ class TestObserveBehaviour(PriceEstimationFSMBehaviourBaseCase):
         """Run tests."""
         self.fast_forward_to_behaviour(
             self.behaviour,
-            ObserveBehaviour.behaviour_id,
+            ObserveBehaviour.auto_behaviour_id(),
             PriceEstimationSynchronizedSata(
                 AbciAppDB(setup_data=dict(estimate=[1.0])),
             ),
@@ -117,8 +107,8 @@ class TestObserveBehaviour(PriceEstimationFSMBehaviourBaseCase):
             cast(
                 BaseBehaviour,
                 cast(BaseBehaviour, self.behaviour.current_behaviour),
-            ).behaviour_id
-            == ObserveBehaviour.behaviour_id
+            ).auto_behaviour_id()
+            == ObserveBehaviour.auto_behaviour_id()
         )
         self.behaviour.act_wrapper()
         self.mock_http_request(
@@ -141,7 +131,7 @@ class TestObserveBehaviour(PriceEstimationFSMBehaviourBaseCase):
         self._test_done_flag_set()
         self.end_round(Event.DONE)
         behaviour = cast(BaseBehaviour, self.behaviour.current_behaviour)
-        assert behaviour.behaviour_id == EstimateBehaviour.behaviour_id
+        assert behaviour.auto_behaviour_id() == EstimateBehaviour.auto_behaviour_id()
 
     def test_observer_behaviour_retries_exceeded(
         self,
@@ -149,7 +139,7 @@ class TestObserveBehaviour(PriceEstimationFSMBehaviourBaseCase):
         """Run tests."""
         self.fast_forward_to_behaviour(
             self.behaviour,
-            ObserveBehaviour.behaviour_id,
+            ObserveBehaviour.auto_behaviour_id(),
             PriceEstimationSynchronizedSata(
                 AbciAppDB(setup_data=dict(estimate=[1.0])),
             ),
@@ -158,8 +148,8 @@ class TestObserveBehaviour(PriceEstimationFSMBehaviourBaseCase):
             cast(
                 BaseBehaviour,
                 cast(BaseBehaviour, self.behaviour.current_behaviour),
-            ).behaviour_id
-            == ObserveBehaviour.behaviour_id
+            ).auto_behaviour_id()
+            == ObserveBehaviour.auto_behaviour_id()
         )
         with mock.patch.object(
             self.behaviour.context.price_api,
@@ -168,7 +158,7 @@ class TestObserveBehaviour(PriceEstimationFSMBehaviourBaseCase):
         ):
             self.behaviour.act_wrapper()
             behaviour = cast(BaseBehaviour, self.behaviour.current_behaviour)
-            assert behaviour.behaviour_id == ObserveBehaviour.behaviour_id
+            assert behaviour.auto_behaviour_id() == ObserveBehaviour.auto_behaviour_id()
             self._test_done_flag_set()
 
     def test_observed_value_none(
@@ -177,7 +167,7 @@ class TestObserveBehaviour(PriceEstimationFSMBehaviourBaseCase):
         """Test when `observed` value is none."""
         self.fast_forward_to_behaviour(
             self.behaviour,
-            ObserveBehaviour.behaviour_id,
+            ObserveBehaviour.auto_behaviour_id(),
             PriceEstimationSynchronizedSata(
                 AbciAppDB(setup_data=dict()),
             ),
@@ -186,8 +176,8 @@ class TestObserveBehaviour(PriceEstimationFSMBehaviourBaseCase):
             cast(
                 BaseBehaviour,
                 cast(BaseBehaviour, self.behaviour.current_behaviour),
-            ).behaviour_id
-            == ObserveBehaviour.behaviour_id
+            ).auto_behaviour_id()
+            == ObserveBehaviour.auto_behaviour_id()
         )
         self.behaviour.act_wrapper()
         self.mock_http_request(
@@ -215,7 +205,7 @@ class TestObserveBehaviour(PriceEstimationFSMBehaviourBaseCase):
         """Test when `observed` value is none."""
         self.fast_forward_to_behaviour(
             self.behaviour,
-            ObserveBehaviour.behaviour_id,
+            ObserveBehaviour.auto_behaviour_id(),
             PriceEstimationSynchronizedSata(
                 AbciAppDB(setup_data=dict()),
             ),
@@ -224,8 +214,8 @@ class TestObserveBehaviour(PriceEstimationFSMBehaviourBaseCase):
             cast(
                 BaseBehaviour,
                 cast(BaseBehaviour, self.behaviour.current_behaviour),
-            ).behaviour_id
-            == ObserveBehaviour.behaviour_id
+            ).auto_behaviour_id()
+            == ObserveBehaviour.auto_behaviour_id()
         )
         self.behaviour.context.price_api.retries_info.retries_attempted = 1
         assert self.behaviour.current_behaviour is not None
@@ -243,7 +233,7 @@ class TestEstimateBehaviour(PriceEstimationFSMBehaviourBaseCase):
 
         self.fast_forward_to_behaviour(
             behaviour=self.behaviour,
-            behaviour_id=EstimateBehaviour.behaviour_id,
+            behaviour_id=EstimateBehaviour.auto_behaviour_id(),
             synchronized_data=PriceEstimationSynchronizedSata(
                 AbciAppDB(
                     setup_data=dict(
@@ -258,15 +248,18 @@ class TestEstimateBehaviour(PriceEstimationFSMBehaviourBaseCase):
             cast(
                 BaseBehaviour,
                 cast(BaseBehaviour, self.behaviour.current_behaviour),
-            ).behaviour_id
-            == EstimateBehaviour.behaviour_id
+            ).auto_behaviour_id()
+            == EstimateBehaviour.auto_behaviour_id()
         )
         self.behaviour.act_wrapper()
         self.mock_a2a_transaction()
         self._test_done_flag_set()
         self.end_round(Event.DONE)
         behaviour = cast(BaseBehaviour, self.behaviour.current_behaviour)
-        assert behaviour.behaviour_id == TransactionHashBehaviour.behaviour_id
+        assert (
+            behaviour.auto_behaviour_id()
+            == TransactionHashBehaviour.auto_behaviour_id()
+        )
 
 
 def mock_to_server_message_flow(
@@ -374,7 +367,7 @@ class TestTransactionHashBehaviour(PriceEstimationFSMBehaviourBaseCase):
 
         self.fast_forward_to_behaviour(
             behaviour=self.behaviour,
-            behaviour_id=TransactionHashBehaviour.behaviour_id,
+            behaviour_id=TransactionHashBehaviour.auto_behaviour_id(),
             synchronized_data=PriceEstimationSynchronizedSata(
                 AbciAppDB(
                     setup_data=dict(
@@ -391,8 +384,8 @@ class TestTransactionHashBehaviour(PriceEstimationFSMBehaviourBaseCase):
             cast(
                 BaseBehaviour,
                 cast(BaseBehaviour, self.behaviour.current_behaviour),
-            ).behaviour_id
-            == TransactionHashBehaviour.behaviour_id
+            ).auto_behaviour_id()
+            == TransactionHashBehaviour.auto_behaviour_id()
         )
         self.behaviour.act_wrapper()
         self.mock_contract_api_request(
@@ -473,10 +466,10 @@ class TestTransactionHashBehaviour(PriceEstimationFSMBehaviourBaseCase):
         self.end_round(Event.DONE)
         behaviour = cast(BaseBehaviour, self.behaviour.current_behaviour)
         assert (
-            behaviour.behaviour_id
+            behaviour.auto_behaviour_id()
             == make_degenerate_behaviour(
-                FinishedPriceAggregationRound.round_id
-            ).behaviour_id
+                FinishedPriceAggregationRound.auto_round_id()
+            ).auto_behaviour_id()
         )
 
 

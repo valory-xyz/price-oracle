@@ -67,7 +67,6 @@ class OracleDeploymentBaseBehaviour(BaseBehaviour):
 class RandomnessOracleBehaviour(RandomnessBehaviour):
     """Retrieve randomness for oracle deployment."""
 
-    behaviour_id = "retrieve_randomness_oracle"
     matching_round = RandomnessOracleRound
     payload_class = RandomnessPayload
 
@@ -75,7 +74,6 @@ class RandomnessOracleBehaviour(RandomnessBehaviour):
 class SelectKeeperOracleBehaviour(SelectKeeperBehaviour):
     """Select the keeper agent."""
 
-    behaviour_id = "select_keeper_oracle"
     matching_round = SelectKeeperOracleRound
     payload_class = SelectKeeperPayload
 
@@ -83,7 +81,6 @@ class SelectKeeperOracleBehaviour(SelectKeeperBehaviour):
 class DeployOracleBehaviour(OracleDeploymentBaseBehaviour):
     """Deploy oracle."""
 
-    behaviour_id = "deploy_oracle"
     matching_round = DeployOracleRound
 
     def async_act(self) -> Generator:
@@ -174,7 +171,6 @@ class DeployOracleBehaviour(OracleDeploymentBaseBehaviour):
 class ValidateOracleBehaviour(OracleDeploymentBaseBehaviour):
     """Validate oracle."""
 
-    behaviour_id = "validate_oracle"
     matching_round = ValidateOracleRound
 
     def async_act(self) -> Generator:
