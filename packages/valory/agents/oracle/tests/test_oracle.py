@@ -107,15 +107,15 @@ def _generate_reset_happy_path(
     happy_path = deepcopy(HAPPY_PATH)
     for round_checks in happy_path:
         if round_checks.name in (
-            "estimate_consensus"
-            "tx_hash"
-            "randomness_transaction_submission"
-            "select_keeper_transaction_submission_a"
-            "collect_signature"
-            "finalization"
-            "validate_transaction"
-            "reset_and_pause"
-            "collect_observation"
+            EstimateConsensusRound.auto_round_id(),
+            TxHashRound.auto_round_id(),
+            RandomnessTransactionSubmissionRound.auto_round_id(),
+            SelectKeeperTransactionSubmissionRoundA.auto_round_id(),
+            CollectSignatureRound.auto_round_id(),
+            FinalizationRound.auto_round_id(),
+            ValidateTransactionRound.auto_round_id(),
+            ResetAndPauseRound.auto_round_id(),
+            CollectObservationRound.auto_round_id(),
         ):
             round_checks.n_periods = n_resets_to_perform * reset_tendermint_every
 
@@ -191,7 +191,7 @@ class TestAgentCatchup(BaseTestEnd2EndExecution, UseGnosisSafeHardHatNet):
     wait_to_finish = 200
     restart_after = 45
     happy_path = HAPPY_PATH
-    stop_string = "'registration_startup' round is done with event: Event.DONE"
+    stop_string = f"'{RegistrationStartupRound.auto_round_id()}' round is done with event: Event.DONE"
     package_registry_src_rel = PACKAGES_DIR
 
     n_terminal = 1
@@ -238,7 +238,7 @@ class TestTendermintResetInterrupt(TestAgentCatchup):
     __reset_tendermint_every = 2
 
     # stop for restart_after seconds when resetting Tendermint for the first time (using -1 because count starts from 0)
-    stop_string = f"Entered in the 'reset_and_pause' round for period {__reset_tendermint_every - 1}"
+    stop_string = f"Entered in the '{ResetAndPauseRound.auto_round_id()}' round for period {__reset_tendermint_every - 1}"
     happy_path = _generate_reset_happy_path(
         __n_resets_to_perform, __reset_tendermint_every
     )
