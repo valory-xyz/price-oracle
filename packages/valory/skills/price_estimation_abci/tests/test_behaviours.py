@@ -83,16 +83,6 @@ DRAND_VALUE = {
 }
 
 
-class DummyRoundId:
-    """Dummy class for setting round_id for exit condition."""
-
-    round_id: str
-
-    def __init__(self, round_id: str) -> None:
-        """Dummy class for setting round_id for exit condition."""
-        self.round_id = round_id
-
-
 class PriceEstimationFSMBehaviourBaseCase(FSMBehaviourBaseCase):
     """Base case for testing PriceEstimation FSMBehaviour."""
 

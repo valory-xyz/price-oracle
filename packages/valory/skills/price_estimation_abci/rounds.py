@@ -93,6 +93,11 @@ class SynchronizedData(BaseSynchronizedData):
         """Get the participant_to_estimate."""
         return cast(Dict, self.db.get_strict("participant_to_estimate"))
 
+    @property
+    def participant_to_tx_hash(self) -> Dict:
+        """Get the participant_to_tx_hash."""
+        return cast(Dict, self.db.get_strict("participant_to_tx_hash"))
+
 
 class CollectObservationRound(CollectDifferentUntilThresholdRound):
     """A round in which agents collect observations"""
@@ -127,7 +132,7 @@ class TxHashRound(CollectSameUntilThresholdRound):
     done_event = Event.DONE
     none_event = Event.NONE
     no_majority_event = Event.NO_MAJORITY
-    collection_key = get_name(SynchronizedData.participant_to_selection)
+    collection_key = get_name(SynchronizedData.participant_to_tx_hash)
     selection_key = get_name(SynchronizedData.most_voted_tx_hash)
 
 

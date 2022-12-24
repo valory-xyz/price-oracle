@@ -105,7 +105,7 @@ class DeployOracleRound(OnlyKeeperSendsRound):
     synchronized_data_class = SynchronizedData
     done_event = Event.DONE
     fail_event = Event.FAILED
-    payload_key = get_name(DeployOraclePayload.oracle_contract_address)
+    payload_key = get_name(SynchronizedData.oracle_contract_address)
 
 
 class ValidateOracleRound(VotingRound):
