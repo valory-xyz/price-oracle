@@ -7,7 +7,7 @@ license: Apache-2.0
 fingerprint:
   README.md: bafybeidtphhzkcp32sikeqoo4ct57z6kw3yhxkebby3unuwepqdvwgfkga
 fingerprint_ignore_patterns: []
-agent: valory/oracle:0.1.0:bafybeiakyka6glaggxrwufpodibycp4qhngphxpelrpbkzpklr6pw6ezxm
+agent: valory/oracle:0.1.0:bafybeigqn6rivjh3cljr6cwmp7w46wwh25n22bzoz3vplqketpjsce6yl4
 number_of_agents: 4
 ---
 extra:
@@ -137,3 +137,18 @@ type: connection
         chain_id: 137
         poa_chain: false
         default_gas_price_strategy: eip1559
+---
+public_id: valory/p2p_libp2p_client:0.1.0
+type: connection
+config:
+  nodes:
+  - uri: ${ACN_URI:str:acn.staging.autonolas.tech:9005}
+    public_key: ${ACN_NODE_PUBLIC_KEY:str:02d3a830c9d6ea1ae91936951430dee11f4662f33118b02190693be835359a9d77}
+cert_requests:
+- identifier: acn
+  ledger_id: ethereum
+  message_format: '{public_key}'
+  not_after: '2023-01-01'
+  not_before: '2022-01-01'
+  public_key: ${ACN_NODE_PUBLIC_KEY:str:02d3a830c9d6ea1ae91936951430dee11f4662f33118b02190693be835359a9d77}
+  save_path: .certs/acn_cosmos_11000.txt
