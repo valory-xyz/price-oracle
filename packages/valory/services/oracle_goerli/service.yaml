@@ -7,13 +7,13 @@ license: Apache-2.0
 fingerprint:
   README.md: bafybeig4wu7inb6ibwfgged3djyc7emopcg5n7d7gwrlotne53pp3jfgq4
 fingerprint_ignore_patterns: []
-agent: valory/oracle:0.1.0:bafybeig2arsxcbrl3citfwcylddnljlgdnt3f3jbq2fd2t53uismhqkcny
+agent: valory/oracle:0.1.0:bafybeidxxxa42njj43uibz5se3ixoes7m6mmxfof5ubqwtuf4m4k56uaoi
 number_of_agents: 4
 ---
 extra:
   params_args:
-    args: &id001
-      setup:
+    args:
+      setup: &id001
         safe_contract_address:
         - '0x623cE6087190B53520f00609d41d79e5B71B881F'
         oracle_contract_address:
@@ -44,7 +44,15 @@ type: skill
         url: https://drand.cloudflare.com/public/latest
         api_id: cloudflare
     params:
-      args: *id001
+      args:
+        setup: *id001
+        max_healthcheck: 43200
+        tendermint_p2p_url: ${TM_P2P_ENDPOINT_NODE_0:str:node0:26656}
+        observation_interval: 3000
+        broadcast_to_server: true
+        share_tm_config_on_startup: ${USE_ACN:bool:false}
+        on_chain_service_id: ${ON_CHAIN_SERVICE_ID:int:none}
+        service_registry_address: '0x1cEe30D08943EB58EFF84DD1AB44a6ee6FEff63a'
     server_api:
       args: *id002
 1:
@@ -63,7 +71,15 @@ type: skill
         url: https://api.drand.sh/public/latest
         api_id: protocollabs1
     params:
-      args: *id001
+      args:
+        setup: *id001
+        max_healthcheck: 43200
+        tendermint_p2p_url: ${TM_P2P_ENDPOINT_NODE_1:str:node1:26666}
+        observation_interval: 3000
+        broadcast_to_server: true
+        share_tm_config_on_startup: ${USE_ACN:bool:false}
+        on_chain_service_id: ${ON_CHAIN_SERVICE_ID:int:none}
+        service_registry_address: '0x1cEe30D08943EB58EFF84DD1AB44a6ee6FEff63a'
     server_api:
       args: *id002
 2:
@@ -80,7 +96,15 @@ type: skill
         url: https://api2.drand.sh/public/latest
         api_id: protocollabs2
     params:
-      args: *id001
+      args:
+        setup: *id001
+        max_healthcheck: 43200
+        tendermint_p2p_url: ${TM_P2P_ENDPOINT_NODE_2:str:node2:26676}
+        observation_interval: 3000
+        broadcast_to_server: true
+        share_tm_config_on_startup: ${USE_ACN:bool:false}
+        on_chain_service_id: ${ON_CHAIN_SERVICE_ID:int:none}
+        service_registry_address: '0x1cEe30D08943EB58EFF84DD1AB44a6ee6FEff63a'
     server_api:
       args: *id002
 3:
@@ -99,7 +123,15 @@ type: skill
         url: https://api3.drand.sh/public/latest
         api_id: protocollabs2
     params:
-      args: *id001
+      args:
+        setup: *id001
+        max_healthcheck: 43200
+        tendermint_p2p_url: ${TM_P2P_ENDPOINT_NODE_3:str:node3:26686}
+        observation_interval: 3000
+        broadcast_to_server: true
+        share_tm_config_on_startup: ${USE_ACN:bool:false}
+        on_chain_service_id: ${ON_CHAIN_SERVICE_ID:int:none}
+        service_registry_address: '0x1cEe30D08943EB58EFF84DD1AB44a6ee6FEff63a'
     server_api:
       args: *id002
 ---
