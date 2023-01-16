@@ -39,7 +39,7 @@ protocols:
 - valory/contract_api:1.0.0:bafybeiaxbrvgtbdrh4lslskuxyp4awyr4whcx3nqq5yrr6vimzsxg5dy64
 skills:
 - valory/abstract_round_abci:0.1.0:bafybeifd53qh42pvsmk6ifwgsssvl663sa2omtatpwsmnbnowqfsxalpsm
-- valory/oracle_deployment_abci:0.1.0:bafybeichqhgvewyfalmw5cxtdy2b7d5obn76bl5iokq5efn3yxeqil2alu
+- valory/oracle_deployment_abci:0.1.0:bafybeibvq2e6qje255pmpyocbxdgdpfza32grfhn4vp5fxzgbtsxbmwahq
 - valory/transaction_settlement_abci:0.1.0:bafybeid6kuytranmhqslt7vpy4bbtuadxiwnxpxvwhe6qjhlarjcyyzebu
 behaviours:
   main:
