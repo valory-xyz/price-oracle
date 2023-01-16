@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # ------------------------------------------------------------------------------
 #
-#   Copyright 2021-2022 Valory AG
+#   Copyright 2021-2023 Valory AG
 #
 #   Licensed under the Apache License, Version 2.0 (the "License");
 #   you may not use this file except in compliance with the License.
@@ -55,22 +55,43 @@ from aea_test_autonomy.fixture_helpers import (  # noqa: F401
     registries_scope_class,
 )
 
+from packages.valory.skills.oracle_deployment_abci.rounds import (
+    DeployOracleRound,
+    RandomnessOracleRound,
+    SelectKeeperOracleRound,
+    ValidateOracleRound,
+)
+from packages.valory.skills.price_estimation_abci.rounds import (
+    CollectObservationRound,
+    EstimateConsensusRound,
+    TxHashRound,
+)
+from packages.valory.skills.registration_abci.rounds import RegistrationStartupRound
+from packages.valory.skills.reset_pause_abci.rounds import ResetAndPauseRound
+from packages.valory.skills.transaction_settlement_abci.rounds import (
+    CollectSignatureRound,
+    FinalizationRound,
+    RandomnessTransactionSubmissionRound,
+    SelectKeeperTransactionSubmissionRoundA,
+    ValidateTransactionRound,
+)
+
 
 HAPPY_PATH: Tuple[RoundChecks, ...] = (
-    RoundChecks("registration_startup", success_event="FAST_FORWARD"),
-    RoundChecks("randomness_oracle"),
-    RoundChecks("select_keeper_oracle"),
-    RoundChecks("deploy_oracle"),
-    RoundChecks("validate_oracle"),
-    RoundChecks("estimate_consensus", n_periods=2),
-    RoundChecks("tx_hash", n_periods=2),
-    RoundChecks("randomness_transaction_submission", n_periods=2),
-    RoundChecks("select_keeper_transaction_submission_a", n_periods=2),
-    RoundChecks("collect_signature", n_periods=2),
-    RoundChecks("finalization", n_periods=2),
-    RoundChecks("validate_transaction", n_periods=2),
-    RoundChecks("reset_and_pause", n_periods=2),
-    RoundChecks("collect_observation", n_periods=3),
+    RoundChecks(RegistrationStartupRound.auto_round_id(), success_event="FAST_FORWARD"),
+    RoundChecks(RandomnessOracleRound.auto_round_id()),
+    RoundChecks(SelectKeeperOracleRound.auto_round_id()),
+    RoundChecks(DeployOracleRound.auto_round_id()),
+    RoundChecks(ValidateOracleRound.auto_round_id()),
+    RoundChecks(EstimateConsensusRound.auto_round_id(), n_periods=2),
+    RoundChecks(TxHashRound.auto_round_id(), n_periods=2),
+    RoundChecks(RandomnessTransactionSubmissionRound.auto_round_id(), n_periods=2),
+    RoundChecks(SelectKeeperTransactionSubmissionRoundA.auto_round_id(), n_periods=2),
+    RoundChecks(CollectSignatureRound.auto_round_id(), n_periods=2),
+    RoundChecks(FinalizationRound.auto_round_id(), n_periods=2),
+    RoundChecks(ValidateTransactionRound.auto_round_id(), n_periods=2),
+    RoundChecks(ResetAndPauseRound.auto_round_id(), n_periods=2),
+    RoundChecks(CollectObservationRound.auto_round_id(), n_periods=3),
 )
 
 
@@ -81,15 +102,15 @@ def _generate_reset_happy_path(
     happy_path = deepcopy(HAPPY_PATH)
     for round_checks in happy_path:
         if round_checks.name in (
-            "estimate_consensus"
-            "tx_hash"
-            "randomness_transaction_submission"
-            "select_keeper_transaction_submission_a"
-            "collect_signature"
-            "finalization"
-            "validate_transaction"
-            "reset_and_pause"
-            "collect_observation"
+            EstimateConsensusRound.auto_round_id(),
+            TxHashRound.auto_round_id(),
+            RandomnessTransactionSubmissionRound.auto_round_id(),
+            SelectKeeperTransactionSubmissionRoundA.auto_round_id(),
+            CollectSignatureRound.auto_round_id(),
+            FinalizationRound.auto_round_id(),
+            ValidateTransactionRound.auto_round_id(),
+            ResetAndPauseRound.auto_round_id(),
+            CollectObservationRound.auto_round_id(),
         ):
             round_checks.n_periods = n_resets_to_perform * reset_tendermint_every
 
@@ -178,7 +199,7 @@ class TestAgentCatchup(ABCIPriceEstimationTest):
     restart_after = 45
     strict_check_strings = ()
     happy_path = HAPPY_PATH
-    stop_string = "'registration_startup' round is done with event: Event.FAST_FORWARD"
+    stop_string = f"'{RegistrationStartupRound.auto_round_id()}' round is done with event: Event.FAST_FORWARD"
     n_terminal = 1
 
 
@@ -223,7 +244,7 @@ class TestTendermintResetInterrupt(TestAgentCatchup):
     __reset_tendermint_every = 2
 
     # stop for restart_after seconds when resetting Tendermint for the first time (using -1 because count starts from 0)
-    stop_string = f"Entered in the 'reset_and_pause' round for period {__reset_tendermint_every - 1}"
+    stop_string = f"Entered in the '{ResetAndPauseRound.auto_round_id()}' round for period {__reset_tendermint_every - 1}"
     happy_path = _generate_reset_happy_path(
         __n_resets_to_perform, __reset_tendermint_every
     )

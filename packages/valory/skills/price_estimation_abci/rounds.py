@@ -31,6 +31,7 @@ from packages.valory.skills.abstract_round_abci.base import (
     CollectDifferentUntilThresholdRound,
     CollectSameUntilThresholdRound,
     DegenerateRound,
+    get_name,
 )
 from packages.valory.skills.price_estimation_abci.payloads import (
     EstimatePayload,
@@ -92,52 +93,51 @@ class SynchronizedData(BaseSynchronizedData):
         """Get the participant_to_estimate."""
         return cast(Dict, self.db.get_strict("participant_to_estimate"))
 
+    @property
+    def participant_to_tx_hash(self) -> Dict:
+        """Get the participant_to_tx_hash."""
+        return cast(Dict, self.db.get_strict("participant_to_tx_hash"))
+
 
 class CollectObservationRound(CollectDifferentUntilThresholdRound):
     """A round in which agents collect observations"""
 
-    round_id = "collect_observation"
     allowed_tx_type = ObservationPayload.transaction_type
-    payload_attribute = "observation"
+    payload_attribute = get_name(ObservationPayload.observation)
     synchronized_data_class = SynchronizedData
     done_event = Event.DONE
     no_majority_event = Event.NO_MAJORITY
-    selection_key = "participant"
-    collection_key = "participant_to_observations"
+    collection_key = get_name(SynchronizedData.participant_to_observations)
 
 
 class EstimateConsensusRound(CollectSameUntilThresholdRound):
     """A round in which agents reach consensus on an estimate"""
 
-    round_id = "estimate_consensus"
     allowed_tx_type = EstimatePayload.transaction_type
-    payload_attribute = "estimate"
+    payload_attribute = get_name(EstimatePayload.estimate)
     synchronized_data_class = SynchronizedData
     done_event = Event.DONE
     none_event = Event.NONE
     no_majority_event = Event.NO_MAJORITY
-    collection_key = "participant_to_estimate"
-    selection_key = "most_voted_estimate"
+    collection_key = get_name(SynchronizedData.participant_to_estimate)
+    selection_key = get_name(SynchronizedData.most_voted_estimate)
 
 
 class TxHashRound(CollectSameUntilThresholdRound):
     """A round in which agents compute the transaction hash"""
 
-    round_id = "tx_hash"
     allowed_tx_type = TransactionHashPayload.transaction_type
-    payload_attribute = "tx_hash"
+    payload_attribute = get_name(TransactionHashPayload.tx_hash)
     synchronized_data_class = SynchronizedData
     done_event = Event.DONE
     none_event = Event.NONE
     no_majority_event = Event.NO_MAJORITY
-    collection_key = "participant_to_tx_hash"
-    selection_key = "most_voted_tx_hash"
+    collection_key = get_name(SynchronizedData.participant_to_tx_hash)
+    selection_key = get_name(SynchronizedData.most_voted_tx_hash)
 
 
 class FinishedPriceAggregationRound(DegenerateRound):
     """A round that represents price aggregation has finished"""
-
-    round_id = "finished_price_aggregation"
 
 
 class PriceAggregationAbciApp(AbciApp[Event]):
@@ -194,4 +194,13 @@ class PriceAggregationAbciApp(AbciApp[Event]):
     final_states: Set[AppState] = {FinishedPriceAggregationRound}
     event_to_timeout: Dict[Event, float] = {
         Event.ROUND_TIMEOUT: 30.0,
+    }
+    db_pre_conditions: Dict[AppState, List[str]] = {
+        CollectObservationRound: [
+            get_name(SynchronizedData.participants),
+            get_name(SynchronizedData.oracle_contract_address),
+        ]
+    }
+    db_post_conditions: Dict[AppState, List[str]] = {
+        FinishedPriceAggregationRound: [get_name(SynchronizedData.most_voted_tx_hash)]
     }

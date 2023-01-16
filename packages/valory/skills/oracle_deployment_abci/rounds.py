@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # ------------------------------------------------------------------------------
 #
-#   Copyright 2021-2022 Valory AG
+#   Copyright 2021-2023 Valory AG
 #
 #   Licensed under the Apache License, Version 2.0 (the "License");
 #   you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@
 """This module contains the data classes for the oracle deployment ABCI application."""
 
 from enum import Enum
-from typing import Dict, Optional, Set, Type, cast
+from typing import Dict, List, Optional, Set, Type, cast
 
 from packages.valory.skills.abstract_round_abci.base import (
     AbciApp,
@@ -32,6 +32,7 @@ from packages.valory.skills.abstract_round_abci.base import (
     DegenerateRound,
     OnlyKeeperSendsRound,
     VotingRound,
+    get_name,
 )
 from packages.valory.skills.oracle_deployment_abci.payloads import (
     DeployOraclePayload,
@@ -89,59 +90,53 @@ class SetupCheckRound(VotingRound):
 class RandomnessOracleRound(CollectSameUntilThresholdRound):
     """A round for generating randomness"""
 
-    round_id = "randomness_oracle"
     allowed_tx_type = RandomnessPayload.transaction_type
-    payload_attribute = "randomness"
+    payload_attribute = get_name(RandomnessPayload.randomness)
     synchronized_data_class = SynchronizedData
     done_event = Event.DONE
     no_majority_event = Event.NO_MAJORITY
-    collection_key = "participant_to_randomness"
-    selection_key = "most_voted_randomness"
+    collection_key = get_name(SynchronizedData.participant_to_randomness)
+    selection_key = get_name(SynchronizedData.most_voted_randomness)
 
 
 class SelectKeeperOracleRound(CollectSameUntilThresholdRound):
     """A round in a which keeper is selected"""
 
-    round_id = "select_keeper_oracle"
     allowed_tx_type = SelectKeeperPayload.transaction_type
-    payload_attribute = "keeper"
+    payload_attribute = get_name(SelectKeeperPayload.keeper)
     synchronized_data_class = SynchronizedData
     done_event = Event.DONE
     no_majority_event = Event.NO_MAJORITY
-    collection_key = "participant_to_selection"
-    selection_key = "most_voted_keeper_address"
+    collection_key = get_name(SynchronizedData.participant_to_selection)
+    selection_key = get_name(SynchronizedData.most_voted_keeper_address)
 
 
 class DeployOracleRound(OnlyKeeperSendsRound):
     """A round in a which the oracle is deployed"""
 
-    round_id = "deploy_oracle"
     allowed_tx_type = DeployOraclePayload.transaction_type
-    payload_attribute = "oracle_contract_address"
+    payload_attribute = get_name(DeployOraclePayload.oracle_contract_address)
     synchronized_data_class = SynchronizedData
     done_event = Event.DONE
     fail_event = Event.FAILED
-    payload_key = "oracle_contract_address"
+    payload_key = get_name(SynchronizedData.oracle_contract_address)
 
 
 class ValidateOracleRound(VotingRound):
     """A round in a which the oracle address is validated"""
 
-    round_id = "validate_oracle"
     allowed_tx_type = VotingOraclePayload.transaction_type
-    payload_attribute = "vote"
+    payload_attribute = get_name(VotingOraclePayload.vote)
     synchronized_data_class = SynchronizedData
     done_event = Event.DONE
     negative_event = Event.NEGATIVE
     none_event = Event.NONE
     no_majority_event = Event.NO_MAJORITY
-    collection_key = "participant_to_votes"
+    collection_key = get_name(SynchronizedData.participant_to_votes)
 
 
 class FinishedOracleRound(DegenerateRound):
     """A round that represents that the oracle has been deployed"""
-
-    round_id = "finished_oracle"
 
 
 class OracleDeploymentAbciApp(AbciApp[Event]):
@@ -229,3 +224,7 @@ class OracleDeploymentAbciApp(AbciApp[Event]):
         Event.DEPLOY_TIMEOUT: 30.0,
     }
     cross_period_persisted_keys = ["safe_contract_address", "oracle_contract_address"]
+    db_pre_conditions: Dict[AppState, List[str]] = {RandomnessOracleRound: []}
+    db_post_conditions: Dict[AppState, List[str]] = {
+        FinishedOracleRound: [get_name(SynchronizedData.oracle_contract_address)]
+    }

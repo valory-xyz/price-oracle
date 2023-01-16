@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # ------------------------------------------------------------------------------
 #
-#   Copyright 2021-2022 Valory AG
+#   Copyright 2021-2023 Valory AG
 #
 #   Licensed under the Apache License, Version 2.0 (the "License");
 #   you may not use this file except in compliance with the License.
@@ -99,7 +99,6 @@ class SetupCheckBehaviour(OracleDeploymentBaseBehaviour):
 class RandomnessOracleBehaviour(RandomnessBehaviour):
     """Retrieve randomness for oracle deployment."""
 
-    behaviour_id = "retrieve_randomness_oracle"
     matching_round = RandomnessOracleRound
     payload_class = RandomnessPayload
 
@@ -107,7 +106,6 @@ class RandomnessOracleBehaviour(RandomnessBehaviour):
 class SelectKeeperOracleBehaviour(SelectKeeperBehaviour):
     """Select the keeper agent."""
 
-    behaviour_id = "select_keeper_oracle"
     matching_round = SelectKeeperOracleRound
     payload_class = SelectKeeperPayload
 
@@ -115,7 +113,6 @@ class SelectKeeperOracleBehaviour(SelectKeeperBehaviour):
 class DeployOracleBehaviour(OracleDeploymentBaseBehaviour):
     """Deploy oracle."""
 
-    behaviour_id = "deploy_oracle"
     matching_round = DeployOracleRound
 
     def async_act(self) -> Generator:
@@ -206,7 +203,6 @@ class DeployOracleBehaviour(OracleDeploymentBaseBehaviour):
 class ValidateOracleBehaviour(OracleDeploymentBaseBehaviour):
     """Validate oracle."""
 
-    behaviour_id = "validate_oracle"
     matching_round = ValidateOracleRound
 
     def async_act(self) -> Generator:

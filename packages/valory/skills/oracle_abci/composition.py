@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # ------------------------------------------------------------------------------
 #
-#   Copyright 2021-2022 Valory AG
+#   Copyright 2021-2023 Valory AG
 #
 #   Licensed under the Apache License, Version 2.0 (the "License");
 #   you may not use this file except in compliance with the License.
@@ -23,10 +23,14 @@ from packages.valory.skills.abstract_round_abci.abci_app_chain import (
     AbciAppTransitionMapping,
     chain,
 )
+from packages.valory.skills.abstract_round_abci.base import get_name
 from packages.valory.skills.oracle_deployment_abci.rounds import (
     FinishedOracleRound,
     OracleDeploymentAbciApp,
     SetupCheckRound,
+)
+from packages.valory.skills.oracle_deployment_abci.rounds import (
+    SynchronizedData as ODSynchronizedData,
 )
 from packages.valory.skills.price_estimation_abci.rounds import (
     CollectObservationRound,
@@ -63,6 +67,12 @@ abci_app_transition_mapping: AbciAppTransitionMapping = {
     FinishedResetAndPauseRound: CollectObservationRound,
     FinishedResetAndPauseErrorRound: RegistrationRound,
 }
+
+AgentRegistrationAbciApp.db_post_conditions[FinishedRegistrationFFWRound].extend(
+    [
+        get_name(ODSynchronizedData.oracle_contract_address),
+    ]
+)
 
 OracleAbciApp = chain(
     (

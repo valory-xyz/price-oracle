@@ -10,16 +10,16 @@ fingerprint:
   README.md: bafybeicg5eg7f4fhaxflzaz6h73xklax6cfggg6d4sjl27tcs3rjqgflza
   __init__.py: bafybeihlgffzmngu3ydky57kchhrdsfakmvpbq5mcmyrsdnolfnimftktm
   behaviours.py: bafybeiaq7nfh2spc4nyovsxqiecm3eqhc72quk6q22crsujsxgvllbnmqa
-  composition.py: bafybeigeugou23y2bu7ulaxxswhqceqi6qzvslkfeljv7goyb7trnn4awy
+  composition.py: bafybeiek3ers2zjh7v6jhfox3rpe55u3tgnlqhfogx3in4qlgys7x3ypnu
   dialogues.py: bafybeib4jbdycm2vofni3vp6draqet3nejoviqjurcilrzindr4k5dg5fa
-  fsm_specification.yaml: bafybeie54errbiwur4fhifertzentlk4eznqnl6dghiyloj36dwhsaiem4
+  fsm_specification.yaml: bafybeictt7ca4ajfxlwyab7hbaazrmqgtej67vovx6qnlhqrxyykjzrwm4
   handlers.py: bafybeiaktxa76cpjytsjtbkftrhp7cppmweoxvglqmxc2cdcymdnzdsyua
   models.py: bafybeiaih6zuqhpr6en23awffznl7iboroqoes4nlsezr3unuio3qfqtiq
   tests/__init__.py: bafybeihlgffzmngu3ydky57kchhrdsfakmvpbq5mcmyrsdnolfnimftktm
   tests/test_behaviours.py: bafybeibvh43inrplfd62hbhmryxy6zjdptz2ekfdkgoo37neahbldoekju
   tests/test_dialogues.py: bafybeiecwwsjclbhje3bg5bbrias453yuztlg23fbj3a3y4sjyuh2sg62i
   tests/test_handlers.py: bafybeigffxznt27ujgxdko5bhco2z5bmipiauzkrtwwx6dpdj773rtj2om
-  tests/test_integration.py: bafybeian7j77365v55nk4rwnpybxeskfkg6qjerfvotmxlilvglygc2ctq
+  tests/test_integration.py: bafybeieq5h3nzw5qfxiyvo5wh3tdsnjp5b7fy2l5wl4oobeupshib3m3dq
   tests/test_models.py: bafybeib5qugc5wrsoc2huo6dpwfekungcqdcjytfoo6hyx434nqtuqeblq
 fingerprint_ignore_patterns: []
 connections:
@@ -30,12 +30,12 @@ protocols:
 - valory/contract_api:1.0.0:bafybeiaxbrvgtbdrh4lslskuxyp4awyr4whcx3nqq5yrr6vimzsxg5dy64
 - valory/ledger_api:1.0.0:bafybeih7rhi5zvfvwakx5ifgxsz2cfipeecsh7bm3gnudjxtvhrygpcftq
 skills:
-- valory/abstract_round_abci:0.1.0:bafybeifh4qtjurq5637ykxexzexca5l4n6t4ujw26tpnern2swajanvhny
-- valory/oracle_deployment_abci:0.1.0:bafybeigyj6ivts3yd73jimjkydnaw36tg4cryri6i52j4mopengddtbbt4
-- valory/price_estimation_abci:0.1.0:bafybeigtlyqiytr74omm652vfkcepxemrn4ifgk7daiw4svsuywx6x6xti
-- valory/registration_abci:0.1.0:bafybeicuz3f4tvowd2xwcl5w4ck56rm5abfoyng3cmbprovpch4u6eexge
-- valory/reset_pause_abci:0.1.0:bafybeihlsjhy4dpiulgdof3noh6dlzvr6wkywcwbsrti45labn7htrfg3y
-- valory/transaction_settlement_abci:0.1.0:bafybeicvdtbelmvhabmrsyej4zh7gbl25vusxrpgapvdrtadwnerknlt6e
+- valory/abstract_round_abci:0.1.0:bafybeifd53qh42pvsmk6ifwgsssvl663sa2omtatpwsmnbnowqfsxalpsm
+- valory/oracle_deployment_abci:0.1.0:bafybeichqhgvewyfalmw5cxtdy2b7d5obn76bl5iokq5efn3yxeqil2alu
+- valory/price_estimation_abci:0.1.0:bafybeiewptymx6v45jpkor4szy76p6b5x6g33qf4fyflqhbaab6lkw7nqy
+- valory/registration_abci:0.1.0:bafybeiadatmdxclzswp6iu6ijtdhcvxc5pufoiwag26fztgaywzbqrtwbm
+- valory/reset_pause_abci:0.1.0:bafybeidpvnko6v34ifsfvnuc3edilxhln7gtpl42nasdfdvca6hcp2uzdy
+- valory/transaction_settlement_abci:0.1.0:bafybeid6kuytranmhqslt7vpy4bbtuadxiwnxpxvwhe6qjhlarjcyyzebu
 behaviours:
   main:
     args: {}
@@ -129,6 +129,7 @@ models:
       tendermint_check_sleep_delay: 3
       tendermint_com_url: http://localhost:8080
       tendermint_max_retries: 5
+      tendermint_p2p_url: localhost:26656
       tendermint_url: http://localhost:26657
       validate_timeout: 1205
     class_name: Params
@@ -183,5 +184,5 @@ models:
     class_name: TendermintDialogues
 dependencies:
   open-aea-test-autonomy:
-    version: ==0.5.0.post2
+    version: ==0.6.0
 is_abstract: false
