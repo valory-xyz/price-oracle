@@ -39,7 +39,6 @@ from packages.valory.skills.price_estimation_abci.rounds import (
 )
 from packages.valory.skills.registration_abci.rounds import (
     AgentRegistrationAbciApp,
-    FinishedRegistrationFFWRound,
     FinishedRegistrationRound,
     RegistrationRound,
 )
@@ -59,7 +58,6 @@ from packages.valory.skills.transaction_settlement_abci.rounds import (
 
 abci_app_transition_mapping: AbciAppTransitionMapping = {
     FinishedRegistrationRound: SetupCheckRound,
-    FinishedRegistrationFFWRound: SetupCheckRound,
     FinishedOracleRound: CollectObservationRound,
     FinishedPriceAggregationRound: RandomnessTransactionSubmissionRound,
     FailedRound: ResetAndPauseRound,
@@ -68,17 +66,9 @@ abci_app_transition_mapping: AbciAppTransitionMapping = {
     FinishedResetAndPauseErrorRound: RegistrationRound,
 }
 
-AgentRegistrationAbciApp.db_post_conditions[FinishedRegistrationFFWRound].extend(
-    [
-        get_name(ODSynchronizedData.oracle_contract_address),
-        # this is a patch and needs to be addressed in the autonomy repo
-        # we need to add this in the post-conditions of the registration abci
-        "safe_contract_address",
-    ]
-)
-
 AgentRegistrationAbciApp.db_post_conditions[FinishedRegistrationRound].extend(
     [
+        get_name(ODSynchronizedData.oracle_contract_address),
         # this is a patch and needs to be addressed in the autonomy repo
         # we need to add this in the post-conditions of the registration abci
         "safe_contract_address",

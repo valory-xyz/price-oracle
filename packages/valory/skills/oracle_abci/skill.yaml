@@ -122,6 +122,8 @@ models:
       service_id: price_estimation
       service_registry_address: null
       setup:
+        all_participants:
+          - {}
         oracle_contract_address: []
         safe_contract_address: []
       share_tm_config_on_startup: false

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # ------------------------------------------------------------------------------
 #
-#   Copyright 2021-2022 Valory AG
+#   Copyright 2021-2023 Valory AG
 #
 #   Licensed under the Apache License, Version 2.0 (the "License");
 #   you may not use this file except in compliance with the License.
@@ -21,6 +21,7 @@
 
 # pylint: skip-file
 
+from abc import ABC
 from enum import Enum
 from typing import Optional, Tuple
 
@@ -32,7 +33,7 @@ from packages.valory.skills.abstract_round_abci.test_tools.base import DummyCont
 from packages.valory.skills.price_estimation_abci.models import SharedState
 
 
-class ConcreteRound(AbstractRound):
+class ConcreteRound(AbstractRound, ABC):
     """A ConcreteRoundA for testing purposes."""
 
     def end_block(self) -> Optional[Tuple[BaseSynchronizedData, Enum]]:

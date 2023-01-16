@@ -19,6 +19,7 @@
 
 """Tests for valory/price_estimation_abci skill."""
 import logging
+from pathlib import Path
 from typing import Any, Generator
 
 import docker
@@ -48,6 +49,8 @@ class GnosisIntegrationBaseCase(  # pylint: disable=too-many-ancestors
     """Base test class for integration tests in a Hardhat environment, with Gnosis deployed."""
 
     # TODO change this class to use the `HardHatGnosisBaseTest` instead of `HardHatAMMBaseTest`.
+
+    path_to_skill = PACKAGES_DIR = Path(__file__).parents[2]
 
     @classmethod
     def setup_class(cls, **kwargs: Any) -> None:

@@ -468,7 +468,7 @@ class TestTransactionHashBehaviour(PriceEstimationFSMBehaviourBaseCase):
         assert (
             behaviour.auto_behaviour_id()
             == make_degenerate_behaviour(
-                FinishedPriceAggregationRound.auto_round_id()
+                FinishedPriceAggregationRound
             ).auto_behaviour_id()
         )
 

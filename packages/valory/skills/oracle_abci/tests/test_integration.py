@@ -485,7 +485,7 @@ class TestKeepers(OracleBehaviourBaseCase, IntegrationBaseCase):
             # select keeper b
             self.select_keeper(expected_keepers=expected_keepers, expected_retries=1)
 
-    def teardown(self) -> None:
+    def teardown(self, **kwargs: Any) -> None:
         """Teardown."""
         # TODO - reintroduce (makes tests fail atm, indicating problematic implementation)
 
