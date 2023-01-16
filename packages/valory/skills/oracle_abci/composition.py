@@ -71,6 +71,17 @@ abci_app_transition_mapping: AbciAppTransitionMapping = {
 AgentRegistrationAbciApp.db_post_conditions[FinishedRegistrationFFWRound].extend(
     [
         get_name(ODSynchronizedData.oracle_contract_address),
+        # this is a patch and needs to be addressed in the autonomy repo
+        # we need to add this in the post-conditions of the registration abci
+        "safe_contract_address",
+    ]
+)
+
+AgentRegistrationAbciApp.db_post_conditions[FinishedRegistrationRound].extend(
+    [
+        # this is a patch and needs to be addressed in the autonomy repo
+        # we need to add this in the post-conditions of the registration abci
+        "safe_contract_address",
     ]
 )
 
