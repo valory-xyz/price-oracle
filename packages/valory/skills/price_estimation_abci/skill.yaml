@@ -183,5 +183,5 @@ models:
     class_name: SharedState
 dependencies:
   open-aea-test-autonomy:
-    version: ==0.6.0
+    version: ==0.7.0
 is_abstract: true
