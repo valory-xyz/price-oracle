@@ -227,7 +227,7 @@ class OracleDeploymentAbciApp(AbciApp[Event]):
         get_name(SynchronizedData.safe_contract_address),
         get_name(SynchronizedData.oracle_contract_address),
     ]
-    db_pre_conditions: Dict[AppState, List[str]] = {RandomnessOracleRound: []}
+    db_pre_conditions: Dict[AppState, List[str]] = {SetupCheckRound: []}
     db_post_conditions: Dict[AppState, List[str]] = {
         FinishedOracleRound: [get_name(SynchronizedData.oracle_contract_address)]
     }
