@@ -47,9 +47,12 @@ from aea_test_autonomy.fixture_helpers import key_pairs  # noqa: F401
 from aea_test_autonomy.fixture_helpers import tendermint  # noqa: F401
 from aea_test_autonomy.fixture_helpers import tendermint_port  # noqa: F401
 from aea_test_autonomy.fixture_helpers import (  # noqa: F401
+    UseACNNode,
     UseGnosisSafeHardHatNet,
     UseRegistries,
     abci_host,
+    acn_config,
+    acn_node,
     gnosis_safe_hardhat_scope_class,
     gnosis_safe_hardhat_scope_function,
     registries_scope_class,
@@ -131,6 +134,7 @@ PACKAGES_DIR = Path(__file__).parent.parent.parent.parent.parent
 class ABCIPriceEstimationTest(
     BaseTestEnd2EndExecution,
     UseRegistries,
+    UseACNNode,
 ):
     """Test the ABCI oracle skill with only one agent."""
 
@@ -199,7 +203,7 @@ class TestAgentCatchup(ABCIPriceEstimationTest):
     restart_after = 45
     strict_check_strings = ()
     happy_path = HAPPY_PATH
-    stop_string = f"'{RegistrationStartupRound.auto_round_id()}' round is done with event: Event.FAST_FORWARD"
+    stop_string = f"'{RegistrationStartupRound.auto_round_id()}' round is done with event: Event.DONE"
     n_terminal = 1
 
 
