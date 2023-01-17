@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # ------------------------------------------------------------------------------
 #
-#   Copyright 2021-2022 Valory AG
+#   Copyright 2021-2023 Valory AG
 #
 #   Licensed under the Apache License, Version 2.0 (the "License");
 #   you may not use this file except in compliance with the License.
@@ -23,14 +23,10 @@ from packages.valory.skills.abstract_round_abci.abci_app_chain import (
     AbciAppTransitionMapping,
     chain,
 )
-from packages.valory.skills.abstract_round_abci.base import get_name
 from packages.valory.skills.oracle_deployment_abci.rounds import (
     FinishedOracleRound,
     OracleDeploymentAbciApp,
-    RandomnessOracleRound,
-)
-from packages.valory.skills.oracle_deployment_abci.rounds import (
-    SynchronizedData as ODSynchronizedData,
+    SetupCheckRound,
 )
 from packages.valory.skills.price_estimation_abci.rounds import (
     CollectObservationRound,
@@ -39,7 +35,6 @@ from packages.valory.skills.price_estimation_abci.rounds import (
 )
 from packages.valory.skills.registration_abci.rounds import (
     AgentRegistrationAbciApp,
-    FinishedRegistrationFFWRound,
     FinishedRegistrationRound,
     RegistrationRound,
 )
@@ -48,14 +43,6 @@ from packages.valory.skills.reset_pause_abci.rounds import (
     FinishedResetAndPauseRound,
     ResetAndPauseRound,
     ResetPauseAbciApp,
-)
-from packages.valory.skills.safe_deployment_abci.rounds import (
-    FinishedSafeRound,
-    RandomnessSafeRound,
-    SafeDeploymentAbciApp,
-)
-from packages.valory.skills.safe_deployment_abci.rounds import (
-    SynchronizedData as SDSynchronizedData,
 )
 from packages.valory.skills.transaction_settlement_abci.rounds import (
     FailedRound,
@@ -66,10 +53,8 @@ from packages.valory.skills.transaction_settlement_abci.rounds import (
 
 
 abci_app_transition_mapping: AbciAppTransitionMapping = {
-    FinishedRegistrationRound: RandomnessSafeRound,
-    FinishedSafeRound: RandomnessOracleRound,
+    FinishedRegistrationRound: SetupCheckRound,
     FinishedOracleRound: CollectObservationRound,
-    FinishedRegistrationFFWRound: CollectObservationRound,
     FinishedPriceAggregationRound: RandomnessTransactionSubmissionRound,
     FailedRound: ResetAndPauseRound,
     FinishedTransactionSubmissionRound: ResetAndPauseRound,
@@ -77,17 +62,9 @@ abci_app_transition_mapping: AbciAppTransitionMapping = {
     FinishedResetAndPauseErrorRound: RegistrationRound,
 }
 
-AgentRegistrationAbciApp.db_post_conditions[FinishedRegistrationFFWRound].extend(
-    [
-        get_name(ODSynchronizedData.oracle_contract_address),
-        get_name(SDSynchronizedData.safe_contract_address),
-    ]
-)
-
 OracleAbciApp = chain(
     (
         AgentRegistrationAbciApp,
-        SafeDeploymentAbciApp,
         OracleDeploymentAbciApp,
         PriceAggregationAbciApp,
         TransactionSubmissionAbciApp,

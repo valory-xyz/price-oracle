@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # ------------------------------------------------------------------------------
 #
-#   Copyright 2021-2022 Valory AG
+#   Copyright 2021-2023 Valory AG
 #
 #   Licensed under the Apache License, Version 2.0 (the "License");
 #   you may not use this file except in compliance with the License.
@@ -19,6 +19,7 @@
 
 """This module contains the data classes for the oracle deployment ABCI application."""
 
+from abc import ABC
 from typing import Generator, Optional, Set, Type, cast
 
 from aea_ledger_ethereum import EthereumApi
@@ -38,19 +39,20 @@ from packages.valory.skills.oracle_deployment_abci.payloads import (
     DeployOraclePayload,
     RandomnessPayload,
     SelectKeeperPayload,
-    ValidateOraclePayload,
+    VotingOraclePayload,
 )
 from packages.valory.skills.oracle_deployment_abci.rounds import (
     DeployOracleRound,
     OracleDeploymentAbciApp,
     RandomnessOracleRound,
     SelectKeeperOracleRound,
+    SetupCheckRound,
     SynchronizedData,
     ValidateOracleRound,
 )
 
 
-class OracleDeploymentBaseBehaviour(BaseBehaviour):
+class OracleDeploymentBaseBehaviour(BaseBehaviour, ABC):
     """Base behaviour for the common apps' skill."""
 
     @property
@@ -62,6 +64,36 @@ class OracleDeploymentBaseBehaviour(BaseBehaviour):
     def params(self) -> Params:
         """Return the synchronized data."""
         return cast(Params, super().params)
+
+
+class SetupCheckBehaviour(OracleDeploymentBaseBehaviour):
+    """Checks if the oracle address is already provided via the agents' `setup` or not."""
+
+    behaviour_id = "setup_check"
+    matching_round = SetupCheckRound
+
+    def async_act(self) -> Generator:
+        """
+        Do the action.
+
+        Steps:
+        - Check if the contract address is provided
+        - Send the transaction with the validation result and wait for it to be mined
+        - Wait until ABCI application transitions to the next round
+        - Go to the next behaviour (set done event)
+        """
+
+        with self.context.benchmark_tool.measure(self.behaviour_id).local():
+            address_provided = (
+                self.synchronized_data.oracle_contract_address is not None
+            )
+            payload = VotingOraclePayload(self.context.agent_address, address_provided)
+
+        with self.context.benchmark_tool.measure(self.behaviour_id).consensus():
+            yield from self.send_a2a_transaction(payload)
+            yield from self.wait_until_round_end()
+
+        self.set_done()
 
 
 class RandomnessOracleBehaviour(RandomnessBehaviour):
@@ -188,7 +220,7 @@ class ValidateOracleBehaviour(OracleDeploymentBaseBehaviour):
 
         with self.context.benchmark_tool.measure(self.behaviour_id).local():
             is_correct = yield from self.has_correct_contract_been_deployed()
-            payload = ValidateOraclePayload(self.context.agent_address, is_correct)
+            payload = VotingOraclePayload(self.context.agent_address, is_correct)
 
         with self.context.benchmark_tool.measure(self.behaviour_id).consensus():
             yield from self.send_a2a_transaction(payload)
@@ -219,6 +251,7 @@ class OracleDeploymentRoundBehaviour(AbstractRoundBehaviour):
     initial_behaviour_cls = RandomnessOracleBehaviour
     abci_app_cls = OracleDeploymentAbciApp
     behaviours: Set[Type[BaseBehaviour]] = {  # type: ignore
+        SetupCheckBehaviour,  # type: ignore
         RandomnessOracleBehaviour,  # type: ignore
         SelectKeeperOracleBehaviour,  # type: ignore
         DeployOracleBehaviour,  # type: ignore

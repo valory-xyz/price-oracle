@@ -29,7 +29,7 @@ class TransactionType(Enum):
     """Enumeration of transaction types."""
 
     DEPLOY_ORACLE = "deploy_oracle"
-    VALIDATE = "validate_oracle"
+    VOTE = "vote_oracle"
     RANDOMNESS = "randomness_oracle"
     SELECT_KEEPER = "select_keeper_oracle"
 
@@ -99,13 +99,13 @@ class SelectKeeperPayload(BaseTxPayload):
         return dict(keeper=self.keeper)
 
 
-class ValidateOraclePayload(BaseTxPayload):
-    """Represent a transaction payload of type 'validate'."""
+class VotingOraclePayload(BaseTxPayload):
+    """Represent a transaction payload of type 'vote'."""
 
-    transaction_type = TransactionType.VALIDATE
+    transaction_type = TransactionType.VOTE
 
-    def __init__(self, sender: str, vote: Optional[bool] = None, **kwargs: Any) -> None:
-        """Initialize an 'validate' transaction payload.
+    def __init__(self, sender: str, vote: bool = None, **kwargs: Any) -> None:
+        """Initialize a 'vote' transaction payload.
 
         :param sender: the sender (Ethereum) address
         :param vote: the vote

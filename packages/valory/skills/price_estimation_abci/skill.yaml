@@ -17,30 +17,30 @@ fingerprint:
   payloads.py: bafybeibjub6tjzflmuba34cnukxriipey3cpkcdejtkc3jqrvinxqs3us4
   rounds.py: bafybeidfa23op7mtu3nmxiqcj7anf2vhjghxl2zsazhkmhai4udzjji7xa
   tests/__init__.py: bafybeic73ajpjybqzpvmyjnl5ejsq6ytibs3r7czvz7re3gmtdkpunqap4
-  tests/conftest.py: bafybeicjhriscswlaiocnebr2ye77v5ibbhhwur3ca2hchyrsldgxsagge
+  tests/conftest.py: bafybeibjtjpl7swwsqu6jpnuwehutqrdvjjs35r4mvm37j4dmo6llirxwq
   tests/helpers/__init__.py: bafybeid7fapk3tht6iztu4udogr5uvmc36mqivnyuk73qqp6t4cmaxac24
   tests/helpers/data/mock_apis_json_server/mock_data.json: bafybeiebnsrujxhdqq5flsqawtcr4ey3ngdminoxalcnlokpyaql2tjecq
   tests/helpers/docker.py: bafybeiep32dj3ikedeflxo6gqjxl5fguvyxpbzqww3vishweex5nflqklq
   tests/test_apis.py: bafybeibgsy7yz6cbxkvo3n57kfnzf7idj3t5zighierxxuqosfudrxdoma
-  tests/test_behaviours.py: bafybeie3rgxlfmn4m3zkuolyomac2sva3f6miybyhd2nts3eaiu7beldau
+  tests/test_behaviours.py: bafybeicbyqh4cw2tkd5ke546ivvn7jsfl6c2uekht4z7r53pgc3b4zadlm
   tests/test_dialogues.py: bafybeigmz5coi27zy7sgwnlhsvk7hg5auxexzbtdsw6uie375x3zjhzd4e
   tests/test_handlers.py: bafybeiaq5bvl2ypvamd4aq6dtngg2yewh44thvlfqvf4dexwy4ecut5es4
-  tests/test_models.py: bafybeifnkxddj754sn33pgtrtcfkt7nptspnssfvtfpxvoazujlhdms4qu
+  tests/test_models.py: bafybeifjn64lb2xo5blgpynfc5t6jrgwi6belth4gt3nel6lm4snv4ctoa
   tests/test_payloads.py: bafybeiexaygx5dpt2nv4v56rwmd73jrehdlrrkfrr7qawp4ghms6wf6zey
   tests/test_rounds.py: bafybeiaev5cwiatvlrbwbrgtmavuh3ndkbg7za5ixcwq74hpgatht5auxy
   tests/test_tools.py: bafybeicvwyu4csbn3foyp5mvcdlnu3uiwwvmvnh5m74sspe77nws5ulm6i
 fingerprint_ignore_patterns: []
 connections: []
 contracts:
-- valory/gnosis_safe:0.1.0:bafybeich2izgpdvzzoodlmomvmob6yxadji6h7sp65dl4hz6vus7ra7jjm
-- valory/offchain_aggregator:0.1.0:bafybeigldbpaoimgcs5r3fstgroz42zsx7tck3sz2rwp4zaxrtdzqwkomy
+- valory/gnosis_safe:0.1.0:bafybeiamw5sluyueflxsvzukmayctl3ijc76fx5twstwnc7ons6lw2goa4
+- valory/offchain_aggregator:0.1.0:bafybeidmgcqamdx6h76o7zrnteasq4yg5tzsnps6ev6xs45pgyqt4ttyuu
 protocols:
-- open_aea/signing:1.0.0:bafybeiambqptflge33eemdhis2whik67hjplfnqwieoa6wblzlaf7vuo44
-- valory/contract_api:1.0.0:bafybeiaxbrvgtbdrh4lslskuxyp4awyr4whcx3nqq5yrr6vimzsxg5dy64
+- open_aea/signing:1.0.0:bafybeihgwrowgtegpe4ixe3iy5jx65u7pxebl5btrkywzmx7g52gjtbnpi
+- valory/contract_api:1.0.0:bafybeif32nchkgn6yet7e5gt4auhf7lsahxnj4t36kxbw55p3gi7qpeuxq
 skills:
-- valory/abstract_round_abci:0.1.0:bafybeie4kfq3j3wlt4qoaodu3u6ggkxtcohx5uaxuvaefifncrewzebh7a
-- valory/oracle_deployment_abci:0.1.0:bafybeiftzcljvq4xjusiryim5muwl6jj6f3gnjpcu3352ngffzf2chk6mi
-- valory/transaction_settlement_abci:0.1.0:bafybeiekrsycsnvtuwhh4wkk7t46ioalgj3eps77yzvql7sy74izrpgegm
+- valory/abstract_round_abci:0.1.0:bafybeibfemo6nqd5itfd2damllya56qi4jrtythwcsb7wyt55qtxtsuu3u
+- valory/oracle_deployment_abci:0.1.0:bafybeig6velupimbwwmnzqhglfj47rli6akhgc5c4s5mbfbwp7jkkpgiwy
+- valory/transaction_settlement_abci:0.1.0:bafybeidy4dsrzpn5pg7ikq5te4ayufjmktzv5sp7ten5g62hidcdqgfsme
 behaviours:
   main:
     args: {}
@@ -126,6 +126,8 @@ models:
       service_id: price_estimation
       service_registry_address: null
       setup:
+        all_participants:
+        - - '0x0000000000000000000000000000000000000000'
         oracle_contract_address: []
         safe_contract_address: []
       sleep_time: 1
@@ -183,5 +185,5 @@ models:
     class_name: SharedState
 dependencies:
   open-aea-test-autonomy:
-    version: ==0.6.0
+    version: ==0.7.0
 is_abstract: true

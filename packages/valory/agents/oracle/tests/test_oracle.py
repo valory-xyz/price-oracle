@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # ------------------------------------------------------------------------------
 #
-#   Copyright 2021-2022 Valory AG
+#   Copyright 2021-2023 Valory AG
 #
 #   Licensed under the Apache License, Version 2.0 (the "License");
 #   you may not use this file except in compliance with the License.
@@ -21,6 +21,7 @@
 
 # pylint: skip-file
 
+import json
 from copy import deepcopy
 from pathlib import Path
 from typing import Tuple
@@ -31,7 +32,8 @@ from aea_test_autonomy.base_test_classes.agents import (
     BaseTestEnd2EndExecution,
     RoundChecks,
 )
-from aea_test_autonomy.fixture_helpers import abci_host  # noqa: F401
+from aea_test_autonomy.configurations import KEY_PAIRS
+from aea_test_autonomy.docker.registries import SERVICE_MULTISIG_1, SERVICE_MULTISIG_2
 from aea_test_autonomy.fixture_helpers import abci_port  # noqa: F401
 from aea_test_autonomy.fixture_helpers import flask_tendermint  # noqa: F401
 from aea_test_autonomy.fixture_helpers import ganache_addr  # noqa: F401
@@ -45,9 +47,15 @@ from aea_test_autonomy.fixture_helpers import key_pairs  # noqa: F401
 from aea_test_autonomy.fixture_helpers import tendermint  # noqa: F401
 from aea_test_autonomy.fixture_helpers import tendermint_port  # noqa: F401
 from aea_test_autonomy.fixture_helpers import (  # noqa: F401
+    UseACNNode,
     UseGnosisSafeHardHatNet,
+    UseRegistries,
+    abci_host,
+    acn_config,
+    acn_node,
     gnosis_safe_hardhat_scope_class,
     gnosis_safe_hardhat_scope_function,
+    registries_scope_class,
 )
 
 from packages.valory.skills.oracle_deployment_abci.rounds import (
@@ -63,12 +71,6 @@ from packages.valory.skills.price_estimation_abci.rounds import (
 )
 from packages.valory.skills.registration_abci.rounds import RegistrationStartupRound
 from packages.valory.skills.reset_pause_abci.rounds import ResetAndPauseRound
-from packages.valory.skills.safe_deployment_abci.rounds import (
-    DeploySafeRound,
-    RandomnessSafeRound,
-    SelectKeeperSafeRound,
-    ValidateSafeRound,
-)
 from packages.valory.skills.transaction_settlement_abci.rounds import (
     CollectSignatureRound,
     FinalizationRound,
@@ -80,10 +82,6 @@ from packages.valory.skills.transaction_settlement_abci.rounds import (
 
 HAPPY_PATH: Tuple[RoundChecks, ...] = (
     RoundChecks(RegistrationStartupRound.auto_round_id()),
-    RoundChecks(RandomnessSafeRound.auto_round_id()),
-    RoundChecks(SelectKeeperSafeRound.auto_round_id()),
-    RoundChecks(DeploySafeRound.auto_round_id()),
-    RoundChecks(ValidateSafeRound.auto_round_id()),
     RoundChecks(RandomnessOracleRound.auto_round_id()),
     RoundChecks(SelectKeeperOracleRound.auto_round_id()),
     RoundChecks(DeployOracleRound.auto_round_id()),
@@ -133,11 +131,10 @@ STRICT_CHECK_STRINGS = (
 PACKAGES_DIR = Path(__file__).parent.parent.parent.parent.parent
 
 
-@pytest.mark.e2e
-@pytest.mark.parametrize("nb_nodes", (1,))
-class TestABCIPriceEstimationSingleAgent(
+class ABCIPriceEstimationTest(
     BaseTestEnd2EndExecution,
-    UseGnosisSafeHardHatNet,
+    UseRegistries,
+    UseACNNode,
 ):
     """Test the ABCI oracle skill with only one agent."""
 
@@ -147,53 +144,66 @@ class TestABCIPriceEstimationSingleAgent(
     strict_check_strings = STRICT_CHECK_STRINGS
     happy_path = HAPPY_PATH
     package_registry_src_rel = PACKAGES_DIR
+    multisig = SERVICE_MULTISIG_1
+    key_pairs_override = KEY_PAIRS[:4]
+    _skill_name = PublicId.from_str(skill_package).name
+
+    @classmethod
+    def setup_class(cls) -> None:
+        """Set the class up."""
+        super().setup_class()
+        cls.extra_configs = [
+            {
+                "dotted_path": f"vendor.valory.skills.{cls._skill_name}.models.params.args.setup.safe_contract_address",
+                "value": json.dumps([cls.multisig]),
+                "type_": "list",
+            },
+        ]
+
+    def prepare_and_launch(self, nb_nodes: int) -> None:
+        """Prepare and launch the agents."""
+        # we need to set the correct key pairs, since the 5th agent is registered for the service with 1 agent instance.
+        self.key_pairs = self.key_pairs_override
+        super().prepare_and_launch(nb_nodes)
+
+
+@pytest.mark.e2e
+@pytest.mark.parametrize("nb_nodes", (1,))
+class TestABCIPriceEstimationSingleAgent(ABCIPriceEstimationTest):
+    """Test the ABCI oracle skill with only one agent."""
+
+    multisig = SERVICE_MULTISIG_2
+    key_pairs_override = [KEY_PAIRS[4]]
 
 
 @pytest.mark.e2e
 @pytest.mark.parametrize("nb_nodes", (2,))
-class TestABCIPriceEstimationTwoAgents(
-    BaseTestEnd2EndExecution,
-    UseGnosisSafeHardHatNet,
-):
+@pytest.mark.skip(
+    "Enable and set the correct multisig and key pairs "
+    "when registries image gets updated to include a service with 2 agent instances"
+)
+class TestABCIPriceEstimationTwoAgents(ABCIPriceEstimationTest):
     """Test the ABCI oracle skill with two agents."""
 
-    agent_package = "valory/oracle:0.1.0"
-    skill_package = "valory/oracle_abci:0.1.0"
-    wait_to_finish = 180
-    strict_check_strings = STRICT_CHECK_STRINGS
-    happy_path = HAPPY_PATH
-    package_registry_src_rel = PACKAGES_DIR
-
 
 @pytest.mark.e2e
 @pytest.mark.parametrize("nb_nodes", (4,))
-class TestABCIPriceEstimationFourAgents(
-    BaseTestEnd2EndExecution,
-    UseGnosisSafeHardHatNet,
-):
+class TestABCIPriceEstimationFourAgents(ABCIPriceEstimationTest):
     """Test the ABCI oracle skill with four agents."""
 
-    agent_package = "valory/oracle:0.1.0"
-    skill_package = "valory/oracle_abci:0.1.0"
-    wait_to_finish = 180
-    strict_check_strings = STRICT_CHECK_STRINGS
-    happy_path = HAPPY_PATH
-    package_registry_src_rel = PACKAGES_DIR
-
 
 @pytest.mark.e2e
 @pytest.mark.parametrize("nb_nodes", (4,))
-class TestAgentCatchup(BaseTestEnd2EndExecution, UseGnosisSafeHardHatNet):
+class TestAgentCatchup(ABCIPriceEstimationTest):
     """Test that an agent that is launched later can synchronize with the rest of the network"""
 
     agent_package = "valory/oracle:0.1.0"
     skill_package = "valory/oracle_abci:0.1.0"
     wait_to_finish = 200
     restart_after = 45
+    strict_check_strings = ()
     happy_path = HAPPY_PATH
     stop_string = f"'{RegistrationStartupRound.auto_round_id()}' round is done with event: Event.DONE"
-    package_registry_src_rel = PACKAGES_DIR
-
     n_terminal = 1
 
 
