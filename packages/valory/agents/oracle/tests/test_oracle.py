@@ -78,7 +78,7 @@ from packages.valory.skills.transaction_settlement_abci.rounds import (
 
 
 HAPPY_PATH: Tuple[RoundChecks, ...] = (
-    RoundChecks(RegistrationStartupRound.auto_round_id(), success_event="FAST_FORWARD"),
+    RoundChecks(RegistrationStartupRound.auto_round_id()),
     RoundChecks(RandomnessOracleRound.auto_round_id()),
     RoundChecks(SelectKeeperOracleRound.auto_round_id()),
     RoundChecks(DeployOracleRound.auto_round_id()),
