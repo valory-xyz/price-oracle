@@ -123,7 +123,7 @@ models:
       service_registry_address: null
       setup:
         all_participants:
-        - {}
+        - - '0x0000000000000000000000000000000000000000'
         oracle_contract_address: []
         safe_contract_address: []
       share_tm_config_on_startup: false
