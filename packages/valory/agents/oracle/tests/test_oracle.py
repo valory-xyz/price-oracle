@@ -203,7 +203,7 @@ class TestAgentCatchup(ABCIPriceEstimationTest):
     restart_after = 45
     strict_check_strings = ()
     happy_path = HAPPY_PATH
-    stop_string = f"'{RegistrationStartupRound.auto_round_id()}' round is done with event: Event.FAST_FORWARD"
+    stop_string = f"'{RegistrationStartupRound.auto_round_id()}' round is done with event: Event.DONE"
     n_terminal = 1
 
 
