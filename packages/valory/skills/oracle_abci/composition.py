@@ -23,14 +23,10 @@ from packages.valory.skills.abstract_round_abci.abci_app_chain import (
     AbciAppTransitionMapping,
     chain,
 )
-from packages.valory.skills.abstract_round_abci.base import get_name
 from packages.valory.skills.oracle_deployment_abci.rounds import (
     FinishedOracleRound,
     OracleDeploymentAbciApp,
     SetupCheckRound,
-)
-from packages.valory.skills.oracle_deployment_abci.rounds import (
-    SynchronizedData as ODSynchronizedData,
 )
 from packages.valory.skills.price_estimation_abci.rounds import (
     CollectObservationRound,
@@ -65,15 +61,6 @@ abci_app_transition_mapping: AbciAppTransitionMapping = {
     FinishedResetAndPauseRound: CollectObservationRound,
     FinishedResetAndPauseErrorRound: RegistrationRound,
 }
-
-AgentRegistrationAbciApp.db_post_conditions[FinishedRegistrationRound].extend(
-    [
-        get_name(ODSynchronizedData.oracle_contract_address),
-        # this is a patch and needs to be addressed in the autonomy repo
-        # we need to add this in the post-conditions of the registration abci
-        "safe_contract_address",
-    ]
-)
 
 OracleAbciApp = chain(
     (
