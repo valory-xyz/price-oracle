@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # ------------------------------------------------------------------------------
 #
-#   Copyright 2021-2022 Valory AG
+#   Copyright 2021-2023 Valory AG
 #
 #   Licensed under the Apache License, Version 2.0 (the "License");
 #   you may not use this file except in compliance with the License.
@@ -104,6 +104,7 @@ class BaseDeployBehaviourTest(FSMBehaviourBaseCase):
     synchronized_data_kwargs: Dict
     contract_id: str
     done_event: Any
+    path_to_skill = PACKAGES_DIR
 
     def test_deployer_act(
         self,
@@ -261,6 +262,7 @@ class BaseValidateBehaviourTest(FSMBehaviourBaseCase):
     synchronized_data_kwargs: Dict
     contract_id: str
     done_event: Any
+    path_to_skill = PACKAGES_DIR
 
     def test_validate_behaviour(self) -> None:
         """Run test."""
@@ -311,9 +313,7 @@ class TestValidateOracleBehaviour(
     """Test ValidateOracleBehaviour."""
 
     behaviour_class = ValidateOracleBehaviour
-    next_behaviour_class = make_degenerate_behaviour(
-        FinishedOracleRound.auto_round_id()
-    )
+    next_behaviour_class = make_degenerate_behaviour(FinishedOracleRound)
     synchronized_data_kwargs = dict(
         safe_contract_address="safe_contract_address",
         oracle_contract_address="oracle_contract_address",
