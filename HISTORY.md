@@ -1,6 +1,19 @@
 # Release History - `price-oracle`
 
 
+## 0.7.0 (2023-01-18)
+
+- Uses local ACN for tests #30
+- Bumps `open-aea` and `open-autonomy` frameworks #29
+- Adds docs #27 && #28
+- Adds ACN #26
+- Removes safe deployment #23
+- Mocks APIs for tests #21
+- Fixes the estimate round #20
+- Utilizes backoff logic #18
+- Fills coverage gap #17
+
+
 ## 0.3.5.post1 (2022-11-11)
 
 - Fixes services #15
