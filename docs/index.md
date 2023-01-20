@@ -15,7 +15,7 @@ Once the consensus on an estimate has been reached, it is settled in the Polygon
 Note that the service is secured through a multisig contract. This means that, in order to settle the
 Bitcoin estimate in Polygon, the agents execute a multi-signature transaction that requires at least $\lceil(2N + 1) / 3\rceil$ agents signatures to be accepted.
 
-Finally, a random agent (keeper) is voted among the agents in the service to submit the transaction, and the service stars its cycle again.
+Finally, a random agent (keeper) is voted among the agents in the service to submit the transaction, and the service starts its cycle again.
 
 ## Demo
 
