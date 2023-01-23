@@ -21,10 +21,11 @@
 
 
 from typing import Dict, List, Tuple, Union
+from unittest.mock import MagicMock
 
 import pytest
 import requests
-from aea.skills.base import SkillContext
+from aea.skills.base import SkillContext, Skill
 from aea_test_autonomy.docker.base import skip_docker_tests
 
 from packages.valory.skills.price_estimation_abci.models import PriceApi, RandomnessApi
@@ -126,7 +127,7 @@ class TestApis:
 
         api = PriceApi(
             name="price_api",
-            skill_context=SkillContext(),
+            skill_context=SkillContext(MagicMock(), Skill(MagicMock())),
             currency_id="BTC",
             convert_id="USD",
             method="GET",
@@ -147,7 +148,7 @@ class TestApis:
 
         api = RandomnessApi(
             name="randomness_api",
-            skill_context=SkillContext(),
+            skill_context=SkillContext(MagicMock(), Skill(MagicMock())),
             method="GET",
             response_type="dict",
             retries=5,

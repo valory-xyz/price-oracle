@@ -151,10 +151,9 @@ class TestObserveBehaviour(PriceEstimationFSMBehaviourBaseCase):
             ).auto_behaviour_id()
             == ObserveBehaviour.auto_behaviour_id()
         )
-        with mock.patch.object(
-            self.behaviour.context.price_api,
-            "is_retries_exceeded",
-            return_value=True,
+        with mock.patch.dict(
+            self.behaviour.context.price_api.__dict__,
+            {"is_retries_exceeded": mock.MagicMock(return_value=True)},
         ):
             self.behaviour.act_wrapper()
             behaviour = cast(BaseBehaviour, self.behaviour.current_behaviour)
@@ -363,7 +362,7 @@ class TestTransactionHashBehaviour(PriceEstimationFSMBehaviourBaseCase):
 
         # change setting, mock message flow with and without broadcast to server
         behaviour_params = self.behaviour.current_behaviour.params  # type: ignore
-        behaviour_params.is_broadcasting_to_server = broadcast_to_server  # type: ignore
+        behaviour_params.__dict__["is_broadcasting_to_server"] = broadcast_to_server  # type: ignore
 
         self.fast_forward_to_behaviour(
             behaviour=self.behaviour,

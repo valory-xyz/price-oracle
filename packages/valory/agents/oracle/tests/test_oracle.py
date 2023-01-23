@@ -55,6 +55,8 @@ from aea_test_autonomy.fixture_helpers import (  # noqa: F401
     acn_node,
     gnosis_safe_hardhat_scope_class,
     gnosis_safe_hardhat_scope_function,
+    ipfs_daemon,
+    ipfs_domain,
     registries_scope_class,
 )
 

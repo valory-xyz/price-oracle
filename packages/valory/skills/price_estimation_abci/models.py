@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # ------------------------------------------------------------------------------
 #
-#   Copyright 2021-2022 Valory AG
+#   Copyright 2021-2023 Valory AG
 #
 #   Licensed under the Apache License, Version 2.0 (the "License");
 #   you may not use this file except in compliance with the License.
@@ -49,7 +49,7 @@ class Params(OracleParams, TransactionParams):
     def __init__(self, *args: Any, **kwargs: Any) -> None:
         """Initialize the parameters object."""
         self.observation_aggregator_function = self._ensure(
-            "observation_aggregator_function", kwargs
+            "observation_aggregator_function", kwargs, str
         )
         self.is_broadcasting_to_server = kwargs.pop("broadcast_to_server", False)
         super().__init__(*args, **kwargs)
@@ -58,9 +58,7 @@ class Params(OracleParams, TransactionParams):
 class SharedState(BaseSharedState):
     """Keep the current shared state of the skill."""
 
-    def __init__(self, *args: Any, **kwargs: Any) -> None:
-        """Initialize the state."""
-        super().__init__(*args, abci_app_cls=PriceAggregationAbciApp, **kwargs)
+    abci_app_cls = PriceAggregationAbciApp
 
 
 class RandomnessApi(ApiSpecs):
@@ -75,8 +73,8 @@ class PriceApi(ApiSpecs):
 
     def __init__(self, *args: Any, **kwargs: Any) -> None:
         """Initialize PriceApi."""
-        self.convert_id = self.ensure("convert_id", kwargs)
-        self.currency_id = self.ensure("currency_id", kwargs)
+        self.convert_id = self._ensure("convert_id", kwargs, str)
+        self.currency_id = self._ensure("currency_id", kwargs, str)
         super().__init__(*args, **kwargs)
 
 

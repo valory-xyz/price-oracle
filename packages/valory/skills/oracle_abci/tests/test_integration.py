@@ -506,7 +506,7 @@ class TestSyncing(TransactionSettlementIntegrationBaseCase):
         """Synchronize late messages."""
         params = cast(
             TransactionSettlementBaseBehaviour, self.behaviour.current_behaviour
-        ).params
+        ).params.mutable_params
         late_messages_len = len(params.late_messages)
         expected_sync_result = params.tx_hash
 
@@ -542,8 +542,10 @@ class TestSyncing(TransactionSettlementIntegrationBaseCase):
             self.behaviour.current_behaviour.auto_behaviour_id()
             == SynchronizeLateMessagesBehaviour.auto_behaviour_id()
         )
-        assert self.behaviour.current_behaviour.params.tx_hash == ""
-        assert self.behaviour.current_behaviour.params.late_messages == []
+        assert self.behaviour.current_behaviour.params.mutable_params.tx_hash == ""
+        assert (
+            self.behaviour.current_behaviour.params.mutable_params.late_messages == []
+        )
 
         tx_digest_msgs = msgs[0::2]
         for i in range(len(tx_digest_msgs)):
@@ -635,7 +637,7 @@ class TestSyncing(TransactionSettlementIntegrationBaseCase):
         assert self.tx_settlement_synchronized_data.missed_messages == 1
         # store the tx hash that we have missed.
         assert isinstance(self.behaviour.current_behaviour, FinalizeBehaviour)
-        missed_hash = self.behaviour.current_behaviour.params.tx_hash
+        missed_hash = self.behaviour.current_behaviour.params.mutable_params.tx_hash
         # sync the tx hash that we missed before
         self.sync_late_messages()
         # check that we have decreased the number of missed messages.

@@ -55,6 +55,9 @@ handlers:
   http:
     args: {}
     class_name: HttpHandler
+  ipfs:
+    args: {}
+    class_name: IpfsHandler
   ledger_api:
     args: {}
     class_name: LedgerApiHandler
@@ -78,6 +81,9 @@ models:
   http_dialogues:
     args: {}
     class_name: HttpDialogues
+  ipfs_dialogues:
+    args: {}
+    class_name: IpfsDialogues
   ledger_api_dialogues:
     args: {}
     class_name: LedgerApiDialogues
@@ -86,6 +92,7 @@ models:
       broadcast_to_server: false
       cleanup_history_depth: 1
       cleanup_history_depth_current: null
+      max_attempts: 10
       consensus:
         max_participants: 1
       drand_public_key: 868f005eb8e6e4ca0a47c8a77ceaa5309a47978a7c71bc5cce96366b5d7a569937c529eeda66c7293784a9402801af31
@@ -108,6 +115,7 @@ models:
           version: {}
         voting_power: '10'
       history_check_timeout: 1205
+      init_fallback_gas: 0
       keeper_allowed_retries: 3
       keeper_timeout: 30.0
       max_healthcheck: 120
@@ -119,6 +127,8 @@ models:
         max_answer: 1000000000000000000000000
         decimals: 18
         description: BTC
+      request_retry_delay: 1.0
+      request_timeout: 10.0
       reset_tendermint_after: 2
       retry_attempts: 400
       retry_timeout: 3
@@ -130,11 +140,14 @@ models:
         - - '0x0000000000000000000000000000000000000000'
         oracle_contract_address: []
         safe_contract_address: []
+      share_tm_config_on_startup: false
       sleep_time: 1
       tendermint_check_sleep_delay: 3
       tendermint_com_url: http://localhost:8080
       tendermint_max_retries: 5
+      tendermint_p2p_url: localhost:26656
       tendermint_url: http://localhost:26657
+      tx_timeout: 10.0
       validate_timeout: 1205
     class_name: Params
   price_api:
@@ -183,6 +196,9 @@ models:
   state:
     args: {}
     class_name: SharedState
+  tendermint_dialogues:
+    args: {}
+    class_name: TendermintDialogues
 dependencies:
   open-aea-test-autonomy:
     version: ==0.8.0

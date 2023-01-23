@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # ------------------------------------------------------------------------------
 #
-#   Copyright 2021-2022 Valory AG
+#   Copyright 2021-2023 Valory AG
 #
 #   Licensed under the Apache License, Version 2.0 (the "License");
 #   you may not use this file except in compliance with the License.
@@ -19,7 +19,7 @@
 
 """This module contains the shared state for the price estimation app ABCI application."""
 
-from typing import Any
+from typing import Any, Dict, Union
 
 from packages.valory.skills.abstract_round_abci.models import ApiSpecs, BaseParams
 from packages.valory.skills.abstract_round_abci.models import (
@@ -35,19 +35,15 @@ from packages.valory.skills.oracle_deployment_abci.rounds import OracleDeploymen
 class SharedState(BaseSharedState):
     """Keep the current shared state of the skill."""
 
-    def __init__(self, *args: Any, **kwargs: Any) -> None:
-        """Initialize the state."""
-        super().__init__(*args, abci_app_cls=OracleDeploymentAbciApp, **kwargs)
+    abci_app_cls = OracleDeploymentAbciApp
 
 
 class Params(BaseParams):
     """Parameters."""
 
-    observation_interval: float
-
     def __init__(self, *args: Any, **kwargs: Any) -> None:
         """Initialize the parameters object."""
-        self.oracle_params = self._ensure("oracle", kwargs)
+        self.oracle_params = self._ensure("oracle", kwargs, Dict[str, Union[int, str]])
         super().__init__(*args, **kwargs)
 
 

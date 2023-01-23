@@ -26,9 +26,6 @@ from packages.valory.skills.price_estimation_abci.payloads import (
     ObservationPayload,
     TransactionHashPayload,
 )
-from packages.valory.skills.price_estimation_abci.payloads import (
-    TransactionType as PETransactionType,
-)
 
 
 def test_observation_payload() -> None:
@@ -38,7 +35,6 @@ def test_observation_payload() -> None:
 
     assert payload.observation == 1.0
     assert payload.data == {"observation": 1.0}
-    assert payload.transaction_type == PETransactionType.OBSERVATION
 
 
 def test_estimate_payload() -> None:
@@ -48,7 +44,6 @@ def test_estimate_payload() -> None:
 
     assert payload.estimate == 1.0
     assert payload.data == {"estimate": 1.0}
-    assert payload.transaction_type == PETransactionType.ESTIMATE
 
 
 def test_transaction_hash_payload() -> None:
@@ -58,4 +53,3 @@ def test_transaction_hash_payload() -> None:
 
     assert payload.tx_hash == "hash"
     assert payload.data == {"tx_hash": "hash"}
-    assert payload.transaction_type == PETransactionType.TX_HASH
