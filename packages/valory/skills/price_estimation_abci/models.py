@@ -22,6 +22,7 @@
 from typing import Any
 
 from aea.skills.base import Model
+
 from packages.valory.skills.abstract_round_abci.models import ApiSpecs
 from packages.valory.skills.abstract_round_abci.models import (
     BenchmarkTool as BaseBenchmarkTool,
@@ -31,10 +32,10 @@ from packages.valory.skills.abstract_round_abci.models import ResponseInfo, Retr
 from packages.valory.skills.abstract_round_abci.models import (
     SharedState as BaseSharedState,
 )
-from packages.valory.skills.transaction_settlement_abci.models import TransactionParams
-
 from packages.valory.skills.oracle_deployment_abci.models import Params as OracleParams
 from packages.valory.skills.price_estimation_abci.rounds import PriceAggregationAbciApp
+from packages.valory.skills.transaction_settlement_abci.models import TransactionParams
+
 
 MARGIN = 5
 MULTIPLIER = 2

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # ------------------------------------------------------------------------------
 #
-#   Copyright 2021-2022 Valory AG
+#   Copyright 2021-2023 Valory AG
 #
 #   Licensed under the Apache License, Version 2.0 (the "License");
 #   you may not use this file except in compliance with the License.
@@ -25,7 +25,7 @@ from unittest.mock import MagicMock
 
 import pytest
 import requests
-from aea.skills.base import SkillContext, Skill
+from aea.skills.base import Skill, SkillContext
 from aea_test_autonomy.docker.base import skip_docker_tests
 
 from packages.valory.skills.price_estimation_abci.models import PriceApi, RandomnessApi
