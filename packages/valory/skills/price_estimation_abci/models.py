@@ -21,18 +21,20 @@
 
 from typing import Any
 
+from aea.skills.base import Model
 from packages.valory.skills.abstract_round_abci.models import ApiSpecs
 from packages.valory.skills.abstract_round_abci.models import (
     BenchmarkTool as BaseBenchmarkTool,
 )
 from packages.valory.skills.abstract_round_abci.models import Requests as BaseRequests
+from packages.valory.skills.abstract_round_abci.models import ResponseInfo, RetriesInfo
 from packages.valory.skills.abstract_round_abci.models import (
     SharedState as BaseSharedState,
 )
-from packages.valory.skills.oracle_deployment_abci.models import Params as OracleParams
-from packages.valory.skills.price_estimation_abci.rounds import PriceAggregationAbciApp
 from packages.valory.skills.transaction_settlement_abci.models import TransactionParams
 
+from packages.valory.skills.oracle_deployment_abci.models import Params as OracleParams
+from packages.valory.skills.price_estimation_abci.rounds import PriceAggregationAbciApp
 
 MARGIN = 5
 MULTIPLIER = 2
@@ -61,11 +63,28 @@ class SharedState(BaseSharedState):
     abci_app_cls = PriceAggregationAbciApp
 
 
-class RandomnessApi(ApiSpecs):
+# TODO remove this workaround when the types get fixed in `open-autonomy`
+class FixedApiSpecs(ApiSpecs):
+    """A model that wraps APIs to get cryptocurrency prices."""
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        """Initialize ApiSpecsModel."""
+        self.url: str = self._ensure("url", kwargs, str)
+        self.api_id: str = self._ensure("api_id", kwargs, str)
+        self.method: str = self._ensure("method", kwargs, str)
+        self.headers = kwargs.pop("headers", [])
+        self.parameters = kwargs.pop("parameters", [])
+        self.response_info = ResponseInfo.from_json_dict(kwargs)
+        self.retries_info = RetriesInfo.from_json_dict(kwargs)
+        super(Model, self).__init__(*args, **kwargs)  # pylint: disable=bad-super-call
+        self._frozen = True
+
+
+class RandomnessApi(FixedApiSpecs):
     """A model for randomness api specifications."""
 
 
-class PriceApi(ApiSpecs):
+class PriceApi(FixedApiSpecs):
     """A model for various cryptocurrency price api specifications."""
 
     convert_id: str
@@ -78,5 +97,5 @@ class PriceApi(ApiSpecs):
         super().__init__(*args, **kwargs)
 
 
-class ServerApi(ApiSpecs):
+class ServerApi(FixedApiSpecs):
     """A model for oracle web server api specs"""
