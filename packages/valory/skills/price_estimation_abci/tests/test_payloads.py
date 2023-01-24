@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # ------------------------------------------------------------------------------
 #
-#   Copyright 2021-2022 Valory AG
+#   Copyright 2021-2023 Valory AG
 #
 #   Licensed under the Apache License, Version 2.0 (the "License");
 #   you may not use this file except in compliance with the License.
@@ -26,9 +26,6 @@ from packages.valory.skills.price_estimation_abci.payloads import (
     ObservationPayload,
     TransactionHashPayload,
 )
-from packages.valory.skills.price_estimation_abci.payloads import (
-    TransactionType as PETransactionType,
-)
 
 
 def test_observation_payload() -> None:
@@ -38,7 +35,6 @@ def test_observation_payload() -> None:
 
     assert payload.observation == 1.0
     assert payload.data == {"observation": 1.0}
-    assert payload.transaction_type == PETransactionType.OBSERVATION
 
 
 def test_estimate_payload() -> None:
@@ -48,7 +44,6 @@ def test_estimate_payload() -> None:
 
     assert payload.estimate == 1.0
     assert payload.data == {"estimate": 1.0}
-    assert payload.transaction_type == PETransactionType.ESTIMATE
 
 
 def test_transaction_hash_payload() -> None:
@@ -58,4 +53,3 @@ def test_transaction_hash_payload() -> None:
 
     assert payload.tx_hash == "hash"
     assert payload.data == {"tx_hash": "hash"}
-    assert payload.transaction_type == PETransactionType.TX_HASH

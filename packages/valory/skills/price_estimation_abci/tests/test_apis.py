@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # ------------------------------------------------------------------------------
 #
-#   Copyright 2021-2022 Valory AG
+#   Copyright 2021-2023 Valory AG
 #
 #   Licensed under the Apache License, Version 2.0 (the "License");
 #   you may not use this file except in compliance with the License.
@@ -19,12 +19,14 @@
 
 """Test various price apis."""
 
-
-from typing import Dict, List, Tuple, Union
+from typing import Dict, List
+from typing import OrderedDict as OrderedDictType
+from typing import Tuple, Union
+from unittest.mock import MagicMock
 
 import pytest
 import requests
-from aea.skills.base import SkillContext
+from aea.skills.base import Skill, SkillContext
 from aea_test_autonomy.docker.base import skip_docker_tests
 
 from packages.valory.skills.price_estimation_abci.models import PriceApi, RandomnessApi
@@ -43,6 +45,7 @@ price_apis = pytest.mark.parametrize(
         [
             ("url", f"{MOCKED_APIS_URL}/coingecko"),
             ("api_id", "coingecko"),
+            ("headers", []),
             ("parameters", [["ids", "bitcoin"], ["vs_currencies", "usd"]]),
             ("response_key", "bitcoin:usd"),
         ],
@@ -51,16 +54,20 @@ price_apis = pytest.mark.parametrize(
             ("api_id", "kraken"),
             ("response_key", "result:XXBTZUSD:b"),
             ("response_index", 0),
+            ("headers", []),
             ("parameters", [["pair", "BTCUSD"]]),
         ],
         [
             ("url", f"{MOCKED_APIS_URL}/coinbase"),
             ("api_id", "coinbase"),
             ("response_key", "data:amount"),
+            ("headers", []),
+            ("parameters", []),
         ],
         [
             ("url", f"{MOCKED_APIS_URL}/binance"),
             ("api_id", "binance"),
+            ("headers", []),
             ("parameters", [["symbol", "BTCUSDT"]]),
             ("response_key", "price"),
         ],
@@ -73,18 +80,26 @@ randomness_apis = pytest.mark.parametrize(
         [
             ("url", f"{MOCKED_APIS_URL}/cloudflare"),
             ("api_id", "cloudflare"),
+            ("headers", []),
+            ("parameters", []),
         ],
         [
             ("url", f"{MOCKED_APIS_URL}/protocollabs1"),
             ("api_id", "protocollabs1"),
+            ("headers", []),
+            ("parameters", []),
         ],
         [
             ("url", f"{MOCKED_APIS_URL}/protocollabs2"),
             ("api_id", "protocollabs2"),
+            ("headers", []),
+            ("parameters", []),
         ],
         [
             ("url", f"{MOCKED_APIS_URL}/protocollabs3"),
             ("api_id", "protocollabs3"),
+            ("headers", []),
+            ("parameters", []),
         ],
     ],
 )
@@ -121,12 +136,14 @@ class TestApis:
 
     @staticmethod
     @price_apis
-    def test_price_api(api_specs: List[Tuple[str, Union[str, List]]]) -> None:
+    def test_price_api(
+        api_specs: List[Tuple[str, Union[str, List[OrderedDictType[str, str]]]]]
+    ) -> None:
         """Test various price api specs."""
 
         api = PriceApi(
             name="price_api",
-            skill_context=SkillContext(),
+            skill_context=SkillContext(MagicMock(), Skill(MagicMock())),
             currency_id="BTC",
             convert_id="USD",
             method="GET",
@@ -147,7 +164,7 @@ class TestApis:
 
         api = RandomnessApi(
             name="randomness_api",
-            skill_context=SkillContext(),
+            skill_context=SkillContext(MagicMock(), Skill(MagicMock())),
             method="GET",
             response_type="dict",
             retries=5,

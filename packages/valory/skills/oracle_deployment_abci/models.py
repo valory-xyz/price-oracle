@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # ------------------------------------------------------------------------------
 #
-#   Copyright 2021-2022 Valory AG
+#   Copyright 2021-2023 Valory AG
 #
 #   Licensed under the Apache License, Version 2.0 (the "License");
 #   you may not use this file except in compliance with the License.
@@ -19,13 +19,16 @@
 
 """This module contains the shared state for the price estimation app ABCI application."""
 
-from typing import Any
+from typing import Any, Dict, List, OrderedDict, Union
+
+from aea.skills.base import Model
 
 from packages.valory.skills.abstract_round_abci.models import ApiSpecs, BaseParams
 from packages.valory.skills.abstract_round_abci.models import (
     BenchmarkTool as BaseBenchmarkTool,
 )
 from packages.valory.skills.abstract_round_abci.models import Requests as BaseRequests
+from packages.valory.skills.abstract_round_abci.models import ResponseInfo, RetriesInfo
 from packages.valory.skills.abstract_round_abci.models import (
     SharedState as BaseSharedState,
 )
@@ -35,23 +38,36 @@ from packages.valory.skills.oracle_deployment_abci.rounds import OracleDeploymen
 class SharedState(BaseSharedState):
     """Keep the current shared state of the skill."""
 
-    def __init__(self, *args: Any, **kwargs: Any) -> None:
-        """Initialize the state."""
-        super().__init__(*args, abci_app_cls=OracleDeploymentAbciApp, **kwargs)
+    abci_app_cls = OracleDeploymentAbciApp
 
 
 class Params(BaseParams):
     """Parameters."""
 
-    observation_interval: float
-
     def __init__(self, *args: Any, **kwargs: Any) -> None:
         """Initialize the parameters object."""
-        self.oracle_params = self._ensure("oracle", kwargs)
+        self.oracle_params = self._ensure("oracle", kwargs, Dict[str, Union[int, str]])
         super().__init__(*args, **kwargs)
 
 
-class RandomnessApi(ApiSpecs):
+# TODO remove this workaround when the types get fixed in `open-autonomy`
+class FixedApiSpecs(ApiSpecs):
+    """A model that wraps APIs to get cryptocurrency prices."""
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        """Initialize ApiSpecsModel."""
+        self.url: str = self._ensure("url", kwargs, str)
+        self.api_id: str = self._ensure("api_id", kwargs, str)
+        self.method: str = self._ensure("method", kwargs, str)
+        self.headers = self._ensure("headers", kwargs, List[OrderedDict[str, str]])
+        self.parameters = self._ensure("parameters", kwargs, List[List[str]])
+        self.response_info = ResponseInfo.from_json_dict(kwargs)
+        self.retries_info = RetriesInfo.from_json_dict(kwargs)
+        super(Model, self).__init__(*args, **kwargs)  # pylint: disable=bad-super-call
+        self._frozen = True
+
+
+class RandomnessApi(FixedApiSpecs):
     """A model for randomness api specifications."""
 
 

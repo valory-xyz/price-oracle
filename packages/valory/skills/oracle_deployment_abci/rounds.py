@@ -76,8 +76,7 @@ class SynchronizedData(BaseSynchronizedData):
 class SetupCheckRound(VotingRound):
     """A round which checks if the oracle address is already provided via the agents' `setup` or not"""
 
-    round_id = "ffw"
-    allowed_tx_type = VotingOraclePayload.transaction_type
+    payload_class = VotingOraclePayload
     payload_attribute = "vote"
     synchronized_data_class = SynchronizedData
     done_event = Event.DONE
@@ -90,8 +89,8 @@ class SetupCheckRound(VotingRound):
 class RandomnessOracleRound(CollectSameUntilThresholdRound):
     """A round for generating randomness"""
 
-    allowed_tx_type = RandomnessPayload.transaction_type
-    payload_attribute = get_name(RandomnessPayload.randomness)
+    payload_class = RandomnessPayload
+    payload_attribute = "randomness"
     synchronized_data_class = SynchronizedData
     done_event = Event.DONE
     no_majority_event = Event.NO_MAJORITY
@@ -102,8 +101,8 @@ class RandomnessOracleRound(CollectSameUntilThresholdRound):
 class SelectKeeperOracleRound(CollectSameUntilThresholdRound):
     """A round in a which keeper is selected"""
 
-    allowed_tx_type = SelectKeeperPayload.transaction_type
-    payload_attribute = get_name(SelectKeeperPayload.keeper)
+    payload_class = SelectKeeperPayload
+    payload_attribute = "keeper"
     synchronized_data_class = SynchronizedData
     done_event = Event.DONE
     no_majority_event = Event.NO_MAJORITY
@@ -114,8 +113,8 @@ class SelectKeeperOracleRound(CollectSameUntilThresholdRound):
 class DeployOracleRound(OnlyKeeperSendsRound):
     """A round in a which the oracle is deployed"""
 
-    allowed_tx_type = DeployOraclePayload.transaction_type
-    payload_attribute = get_name(DeployOraclePayload.oracle_contract_address)
+    payload_class = DeployOraclePayload
+    payload_attribute = "oracle_contract_address"
     synchronized_data_class = SynchronizedData
     done_event = Event.DONE
     fail_event = Event.FAILED
@@ -125,8 +124,8 @@ class DeployOracleRound(OnlyKeeperSendsRound):
 class ValidateOracleRound(VotingRound):
     """A round in a which the oracle address is validated"""
 
-    allowed_tx_type = VotingOraclePayload.transaction_type
-    payload_attribute = get_name(VotingOraclePayload.vote)
+    payload_class = VotingOraclePayload
+    payload_attribute = "vote"
     synchronized_data_class = SynchronizedData
     done_event = Event.DONE
     negative_event = Event.NEGATIVE

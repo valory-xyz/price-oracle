@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # ------------------------------------------------------------------------------
 #
-#   Copyright 2021-2022 Valory AG
+#   Copyright 2021-2023 Valory AG
 #
 #   Licensed under the Apache License, Version 2.0 (the "License");
 #   you may not use this file except in compliance with the License.
@@ -141,7 +141,7 @@ class BaseDeployTestClass(BaseOnlyKeeperSendsRoundTest):
         self._complete_run(
             self._test_round(
                 test_round=test_round,  # type: ignore
-                keeper_payloads=self.payload_class(keeper, get_safe_contract_address()),
+                keeper_payloads=self.payload_class(keeper, get_safe_contract_address()),  # type: ignore
                 synchronized_data_update_fn=lambda _synchronized_data, _: _synchronized_data.update(
                     **{self.update_keyword: get_safe_contract_address()}
                 ),

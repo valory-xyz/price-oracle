@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # ------------------------------------------------------------------------------
 #
-#   Copyright 2021-2022 Valory AG
+#   Copyright 2021-2023 Valory AG
 #
 #   Licensed under the Apache License, Version 2.0 (the "License");
 #   you may not use this file except in compliance with the License.
@@ -102,8 +102,8 @@ class SynchronizedData(BaseSynchronizedData):
 class CollectObservationRound(CollectDifferentUntilThresholdRound):
     """A round in which agents collect observations"""
 
-    allowed_tx_type = ObservationPayload.transaction_type
-    payload_attribute = get_name(ObservationPayload.observation)
+    payload_class = ObservationPayload
+    payload_attribute = "observation"
     synchronized_data_class = SynchronizedData
     done_event = Event.DONE
     no_majority_event = Event.NO_MAJORITY
@@ -113,8 +113,8 @@ class CollectObservationRound(CollectDifferentUntilThresholdRound):
 class EstimateConsensusRound(CollectSameUntilThresholdRound):
     """A round in which agents reach consensus on an estimate"""
 
-    allowed_tx_type = EstimatePayload.transaction_type
-    payload_attribute = get_name(EstimatePayload.estimate)
+    payload_class = EstimatePayload
+    payload_attribute = "estimate"
     synchronized_data_class = SynchronizedData
     done_event = Event.DONE
     none_event = Event.NONE
@@ -126,8 +126,8 @@ class EstimateConsensusRound(CollectSameUntilThresholdRound):
 class TxHashRound(CollectSameUntilThresholdRound):
     """A round in which agents compute the transaction hash"""
 
-    allowed_tx_type = TransactionHashPayload.transaction_type
-    payload_attribute = get_name(TransactionHashPayload.tx_hash)
+    payload_class = TransactionHashPayload
+    payload_attribute = "tx_hash"
     synchronized_data_class = SynchronizedData
     done_event = Event.DONE
     none_event = Event.NONE
