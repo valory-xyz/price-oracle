@@ -13,7 +13,7 @@ fingerprint:
   dialogues.py: bafybeigabhaykiyzbluu4mk6bbrmqhzld2kyp32pg24bvjmzrrb74einwm
   fsm_specification.yaml: bafybeihumi2e44hgpqktsprko7x2e6qslusjqkzjml7hdyc7t3nsnjbu2i
   handlers.py: bafybeiapfrhwvgnvbmlagb2du4jlmepnngjmbw4oqhe3lv4smgpskbkybe
-  models.py: bafybeid3ydwwse5wn3fawcxadhaqxlzxd5juc6bsfywmqvexfcdyrntr2u
+  models.py: bafybeibq3taafbk7eb3b7xsui4kxpj4xwudv537gz7emtz5estq7pxzs6i
   payloads.py: bafybeicks5tq7w7umcydkr7q7bzqz73ganpbobueb5gj4dr7u6uvvw7f5m
   rounds.py: bafybeidy4bj62kcpqrzpxsc3ohfcwvvtt3z7jqwqqn45bi3ctdq3rwuf2e
   tests/__init__.py: bafybeic73ajpjybqzpvmyjnl5ejsq6ytibs3r7czvz7re3gmtdkpunqap4
@@ -21,7 +21,7 @@ fingerprint:
   tests/helpers/__init__.py: bafybeid7fapk3tht6iztu4udogr5uvmc36mqivnyuk73qqp6t4cmaxac24
   tests/helpers/data/mock_apis_json_server/mock_data.json: bafybeiebnsrujxhdqq5flsqawtcr4ey3ngdminoxalcnlokpyaql2tjecq
   tests/helpers/docker.py: bafybeiep32dj3ikedeflxo6gqjxl5fguvyxpbzqww3vishweex5nflqklq
-  tests/test_apis.py: bafybeifxd7udgt7qzpukbnebjlkzgf6rkirgc3wgeuyhfdpyktjhzq3sdm
+  tests/test_apis.py: bafybeigpvabj3sjbcegx2lcb4uijb5soemsvm4uthn76xnx3brjjxmuzam
   tests/test_behaviours.py: bafybeihl4xpupjttnnwya3qg366r2yq4adrdzuatmf4iqxkuh4xqvjk3yu
   tests/test_dialogues.py: bafybeigmz5coi27zy7sgwnlhsvk7hg5auxexzbtdsw6uie375x3zjhzd4e
   tests/test_handlers.py: bafybeiaq5bvl2ypvamd4aq6dtngg2yewh44thvlfqvf4dexwy4ecut5es4
@@ -39,7 +39,7 @@ protocols:
 - valory/contract_api:1.0.0:bafybeif32nchkgn6yet7e5gt4auhf7lsahxnj4t36kxbw55p3gi7qpeuxq
 skills:
 - valory/abstract_round_abci:0.1.0:bafybeicvbxixjsu3bgjk5frqz5mq2kmv44grwd6324viz4tehw3yejfhji
-- valory/oracle_deployment_abci:0.1.0:bafybeidx4irjvq2hym3yiixjtgq7lm5axiyukdkb2zodq7upj75gw6yhwy
+- valory/oracle_deployment_abci:0.1.0:bafybeibcheodjlplofwoohhtbqh4g2e22mr4ewfwgpxcmv7zea4mfphzlq
 - valory/transaction_settlement_abci:0.1.0:bafybeib3dkmogar5q5ggfbgi3bfrjqb74nd7tc7zxl6rpt2qucdv6i3bpy
 behaviours:
   main:
