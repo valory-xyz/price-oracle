@@ -38,7 +38,7 @@ type: skill
         - - vs_currencies
           - usd
         response_key: bitcoin:usd
-        headers: null
+        headers: []
     randomness_api:
       args:
         url: https://drand.cloudflare.com/public/latest
@@ -89,8 +89,8 @@ type: skill
         url: https://api.coinbase.com/v2/prices/BTC-USD/buy
         api_id: coinbase
         response_key: data:amount
-        headers: null
-        parameters: null
+        headers: []
+        parameters: []
     randomness_api:
       args:
         url: https://api2.drand.sh/public/latest
@@ -117,7 +117,7 @@ type: skill
         - - symbol
           - BTCUSDT
         response_key: price
-        headers: null
+        headers: []
     randomness_api:
       args:
         url: https://api3.drand.sh/public/latest

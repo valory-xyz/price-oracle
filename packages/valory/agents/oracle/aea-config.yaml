@@ -111,10 +111,10 @@ models:
     args:
       url: ${SKILL_ORACLE_ABCI_MODELS_PRICE_API_ARGS_URL:str:https://api.coinbase.com/v2/prices/BTC-USD/buy}
       api_id: ${SKILL_ORACLE_ABCI_MODELS_PRICE_API_ARGS_API_ID:str:coinbase}
-      parameters: ${SKILL_ORACLE_ABCI_MODELS_PRICE_API_ARGS_PARAMETERS:list:null}
+      parameters: ${SKILL_ORACLE_ABCI_MODELS_PRICE_API_ARGS_PARAMETERS:list:[]}
       response_key: ${SKILL_ORACLE_ABCI_MODELS_PRICE_API_ARGS_RESPONSE_KEY:str:data:amount}
       response_index: ${SKILL_ORACLE_ABCI_MODELS_PRICE_API_ARGS_RESPONSE_INDEX:int:null}
-      headers: ${SKILL_ORACLE_ABCI_MODELS_PRICE_API_ARGS_HEADERS:list:null}
+      headers: ${SKILL_ORACLE_ABCI_MODELS_PRICE_API_ARGS_HEADERS:list:[]}
   randomness_api:
     args:
       url: ${SKILL_ORACLE_ABCI_MODELS_RANDOMNESS_API_ARGS_URL:str:https://drand.cloudflare.com/public/latest}
