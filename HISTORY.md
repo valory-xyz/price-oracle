@@ -1,5 +1,10 @@
 # Release History - `price-oracle`
 
+## 0.8.0 (2023-01-25)
+
+- Adds release workflow #35
+- Bumps `open-aea` and `open-autonomy` frameworks #33
+- Adds documentation #32 and #34
 
 ## 0.7.0 (2023-01-18)
 
