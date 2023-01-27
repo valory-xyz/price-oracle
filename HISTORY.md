@@ -1,5 +1,10 @@
 # Release History - `price-oracle`
 
+## 0.8.0.post1 (2023-01-27)
+
+- Fixes ACN configuration #38
+
+
 ## 0.8.0 (2023-01-25)
 
 - Adds release workflow #35
