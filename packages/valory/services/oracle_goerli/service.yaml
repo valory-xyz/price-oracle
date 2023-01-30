@@ -7,20 +7,22 @@ license: Apache-2.0
 fingerprint:
   README.md: bafybeig4wu7inb6ibwfgged3djyc7emopcg5n7d7gwrlotne53pp3jfgq4
 fingerprint_ignore_patterns: []
-agent: valory/oracle:0.1.0:bafybeialjgaf3apz2kglte3qgzlayhuhiesuravsqp444qyluw4j76xj3y
+agent: valory/oracle:0.1.0:bafybeian7hlykql44jsluegeeto3nrzl332phlic6va3xnvz4aiyuaiaqe
 number_of_agents: 4
 ---
 extra:
   params_args:
     args:
       setup: &id001
+        all_participants:
+        - - '0xB51D93A8A1E67c3Db8f9dE5ff89BB2d6525c6aD0'
+          - '0x77E9b2EF921253A171Fa0CB9ba80558648Ff7215'
+          - '0x91B22F6957fE459e471C52Cdaba1D3c8eC95d2d3'
+          - '0x7E07817939c1dBAaBea9Dc56220549539DE1aFC6'
         safe_contract_address:
         - '0x623cE6087190B53520f00609d41d79e5B71B881F'
         oracle_contract_address:
         - '0xA2b06beb69b5e454759976ABa7555e2639c0522f'
-      max_healthcheck: 43200
-      observation_interval: 3000
-      broadcast_to_server: true
   valory_monitoring_backend:
     args: &id002
       url: https://oracle-server.staging.autonolas.tech/deposit
