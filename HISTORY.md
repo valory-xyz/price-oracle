@@ -1,5 +1,12 @@
 # Release History - `price-oracle`
 
+
+## 0.8.0.post2 (2023-01-31)
+
+- Updates kits icons #41
+- Fixes addresses configuration #40
+
+
 ## 0.8.0.post1 (2023-01-27)
 
 - Fixes ACN configuration #38
