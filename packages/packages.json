@@ -32,6 +32,8 @@
         "connection/valory/p2p_libp2p_client/0.1.0": "bafybeiayoofxmj6z3pasn2akqj3udgq2ta2ar6mv6zoehstul2btvv3gqa",
         "skill/valory/transaction_settlement_abci/0.1.0": "bafybeib3dkmogar5q5ggfbgi3bfrjqb74nd7tc7zxl6rpt2qucdv6i3bpy",
         "skill/valory/registration_abci/0.1.0": "bafybeihai2otcmnb2w7k64bnwf5qagfexg5gqow74xhj3wynikgdxre3ka",
-        "skill/valory/reset_pause_abci/0.1.0": "bafybeifs6zpg5nbvuapmxafzo6fdhoz5ebpiujetvk243apo3iwl2rn45i"
+        "skill/valory/reset_pause_abci/0.1.0": "bafybeifs6zpg5nbvuapmxafzo6fdhoz5ebpiujetvk243apo3iwl2rn45i",
+        "contract/valory/multisend/0.1.0": "bafybeigjywkl7hydjsrkogob3xebj2ifhqwmfhhxoeyrndzhhxi5u6amey",
+        "skill/valory/termination_abci/0.1.0": "bafybeib3pxsbvjwqqedfdujs42mzwe7asjepsdx5n3bomsp4zz56cfycnu"
     }
 }
