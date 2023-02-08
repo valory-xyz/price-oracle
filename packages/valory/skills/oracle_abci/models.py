@@ -42,6 +42,7 @@ from packages.valory.skills.price_estimation_abci.models import (
 )
 from packages.valory.skills.price_estimation_abci.rounds import Event
 from packages.valory.skills.reset_pause_abci.rounds import Event as ResetPauseEvent
+from packages.valory.skills.termination_abci.models import TerminationParams
 from packages.valory.skills.transaction_settlement_abci.rounds import Event as TSEvent
 
 
@@ -50,7 +51,6 @@ MULTIPLIER = 2
 
 Requests = BaseRequests
 BenchmarkTool = BaseBenchmarkTool
-Params = PriceEstimationParams
 RandomnessApi = PriceEstimationRandomnessApi
 PriceApi = PriceEstimationPriceApi
 ServerApi = PriceEstimationServerApi
@@ -97,3 +97,10 @@ class SharedState(BaseSharedState):
         OracleAbciApp.event_to_timeout[ResetPauseEvent.RESET_AND_PAUSE_TIMEOUT] = (
             self.context.params.observation_interval + MARGIN
         )
+
+
+class Params(
+    PriceEstimationParams,
+    TerminationParams,
+):
+    """A model to represent params for multiple abci apps."""

@@ -49,6 +49,7 @@ type: skill
       args:
         setup: *id001
         max_healthcheck: 43200
+        multisend_address: '0xA238CBeb142c10Ef7Ad8442C6D1f9E89e07e7761'
         tendermint_p2p_url: ${TM_P2P_ENDPOINT_NODE_0:str:node0:26656}
         observation_interval: 3000
         broadcast_to_server: true
@@ -76,6 +77,7 @@ type: skill
       args:
         setup: *id001
         max_healthcheck: 43200
+        multisend_address: '0xA238CBeb142c10Ef7Ad8442C6D1f9E89e07e7761'
         tendermint_p2p_url: ${TM_P2P_ENDPOINT_NODE_1:str:node1:26666}
         observation_interval: 3000
         broadcast_to_server: true
@@ -101,6 +103,7 @@ type: skill
       args:
         setup: *id001
         max_healthcheck: 43200
+        multisend_address: '0xA238CBeb142c10Ef7Ad8442C6D1f9E89e07e7761'
         tendermint_p2p_url: ${TM_P2P_ENDPOINT_NODE_2:str:node2:26676}
         observation_interval: 3000
         broadcast_to_server: true
@@ -128,6 +131,7 @@ type: skill
       args:
         setup: *id001
         max_healthcheck: 43200
+        multisend_address: '0xA238CBeb142c10Ef7Ad8442C6D1f9E89e07e7761'
         tendermint_p2p_url: ${TM_P2P_ENDPOINT_NODE_3:str:node3:26686}
         observation_interval: 3000
         broadcast_to_server: true
