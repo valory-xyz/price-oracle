@@ -24,7 +24,7 @@ Once you have {{set_up_system}} to work with the Open Autonomy framework, you ca
 1. Fetch the Price Oracle service (Hardhat flavour).
 
 	```bash
-	autonomy fetch valory/oracle_hardhat:0.1.0:bafybeihs7iicd6cf2ustxfaz74crvpwpcyr2i2jdjycx6k2w4arhvhytze --service
+	autonomy fetch valory/oracle_hardhat:0.1.0:bafybeiedzmt64oi3ghoeodjscku5ol5ctpqbwn4ie2md5gnz5tfudd637i --service
 	```
 
 2. Build the Docker image of the service agents
