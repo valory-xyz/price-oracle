@@ -73,6 +73,7 @@ from packages.valory.skills.price_estimation_abci.rounds import (
 from packages.valory.skills.price_estimation_abci.tests.conftest import (
     GnosisIntegrationBaseCase,
 )
+from packages.valory.skills.termination_abci.behaviours import BackgroundBehaviour
 from packages.valory.skills.transaction_settlement_abci.behaviours import (
     CheckLateTxHashesBehaviour,
     FinalizeBehaviour,
@@ -279,9 +280,11 @@ class TransactionSettlementIntegrationBaseCase(
 class TestRepricing(TransactionSettlementIntegrationBaseCase):
     """Test failure modes related to repricing."""
 
+    @mock.patch.object(BackgroundBehaviour, "async_act")
     @pytest.mark.parametrize("should_mock_ledger_pricing_mechanism", (True, False))
     def test_same_keeper(
         self,
+        _: mock._patch,
         should_mock_ledger_pricing_mechanism: bool,
     ) -> None:
         """Test repricing with and without mocking ledger's `try_get_gas_pricing` method."""
@@ -623,7 +626,8 @@ class TestSyncing(TransactionSettlementIntegrationBaseCase):
         "try_get_gas_pricing",
         side_effect=TransactionSettlementIntegrationBaseCase.dummy_try_get_gas_pricing_wrapper(),
     )
-    def test_sync_local_hash(self, _: mock.Mock) -> None:
+    @mock.patch.object(BackgroundBehaviour, "async_act")
+    def test_sync_local_hash(self, *_: mock.Mock) -> None:
         """Test the case in which we have received a tx hash during finalization, but timed out before sharing it."""
         # deploy the oracle
         self.deploy_oracle()
