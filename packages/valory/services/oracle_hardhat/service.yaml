@@ -123,7 +123,7 @@ type: connection
 config:
   ledger_apis:
     ethereum:
-      address: ${SERVICE_ORACLE_HARDHAT_RPC:str:http://host.docker.internal:8545}
+      address: ${SERVICE_ORACLE_HARDHAT_RPC:str:http://hardhat:8545}
       chain_id: 31337
       poa_chain: false
       default_gas_price_strategy: eip1559
