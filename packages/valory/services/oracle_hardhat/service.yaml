@@ -14,10 +14,16 @@ extra:
   setup_args:
     args: &id001
       setup:
-        safe_contract_address: []
+        all_participants:
+        - - '0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266'
+          - '0x70997970C51812dc3A010C7d01b50e0d17dc79C8'
+          - '0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC'
+          - '0x90F79bf6EB2c4f870365E785982E1f101E93b906'
+        safe_contract_address:
+        - '0xD8dE647170163a981bb3Fdb2063583eAcF7D55AC'
       observation_interval: 30
       broadcast_to_server: false
-      service_registry_address: '0x0DCd1Bf9A1b36cE34237eEaFef220932846BCD82'
+      service_registry_address: '0x998abeb3E57409262aE5b751f60747921B33613E'
       on_chain_service_id: 1
   benchmark_persistence_params:
     args: &id003
