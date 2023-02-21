@@ -7,7 +7,7 @@ license: Apache-2.0
 fingerprint:
   README.md: bafybeifqnvekc6s44wsczofdhofiozxekstjau2bk5yqfqvjuv4wzoopku
 fingerprint_ignore_patterns: []
-agent: valory/oracle:0.1.0:bafybeiaipizzrzlynif3evm6nxp5ji2ypvo45hwjespe7a5nir25lgvz5m
+agent: valory/oracle:0.1.0:bafybeidrzudseyohwzz42pwuqruap3wajt7yzzyexyp454mvgg5ihez4ae
 number_of_agents: 4
 ---
 extra:
@@ -23,6 +23,8 @@ extra:
         - '0x37ba5291A5bE8cbE44717a0673fe2c5a45B4B6A8'
         oracle_contract_address:
         - '0x3d9e92B0FE7673ddA3d7C33B9ff302768A03de19'
+        consensus_threshold:
+        - null
       max_healthcheck: 43200
       observation_interval: 3000
       broadcast_to_server: true

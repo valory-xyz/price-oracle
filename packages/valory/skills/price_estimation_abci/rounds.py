@@ -20,7 +20,7 @@
 """This module contains the data classes for the price estimation ABCI application."""
 
 from enum import Enum
-from typing import Dict, List, Set, Type, cast
+from typing import Dict, List, Mapping, Set, Type, cast
 
 from packages.valory.skills.abstract_round_abci.base import (
     AbciApp,
@@ -30,7 +30,9 @@ from packages.valory.skills.abstract_round_abci.base import (
     BaseSynchronizedData,
     CollectDifferentUntilThresholdRound,
     CollectSameUntilThresholdRound,
+    CollectionRound,
     DegenerateRound,
+    DeserializedCollection,
     get_name,
 )
 from packages.valory.skills.price_estimation_abci.payloads import (
@@ -83,27 +85,35 @@ class SynchronizedData(BaseSynchronizedData):
         """Get the most_voted_tx_hash."""
         return cast(float, self.db.get_strict("most_voted_tx_hash"))
 
+    def _get_deserialized(self, key: str) -> DeserializedCollection:
+        """Strictly get a collection and return it deserialized."""
+        serialized = self.db.get_strict(key)
+        deserialized = CollectionRound.deserialize_collection(serialized)
+        return cast(DeserializedCollection, deserialized)
+
     @property
-    def participant_to_observations(self) -> Dict:
+    def participant_to_observations(self) -> Mapping[str, ObservationPayload]:
         """Get the participant_to_observations."""
-        return cast(Dict, self.db.get_strict("participant_to_observations"))
+        return cast(
+            Mapping[str, ObservationPayload],
+            self._get_deserialized("participant_to_observations"),
+        )
 
     @property
-    def participant_to_estimate(self) -> Dict:
+    def participant_to_estimate(self) -> DeserializedCollection:
         """Get the participant_to_estimate."""
-        return cast(Dict, self.db.get_strict("participant_to_estimate"))
+        return self._get_deserialized("participant_to_estimate")
 
     @property
-    def participant_to_tx_hash(self) -> Dict:
+    def participant_to_tx_hash(self) -> DeserializedCollection:
         """Get the participant_to_tx_hash."""
-        return cast(Dict, self.db.get_strict("participant_to_tx_hash"))
+        return self._get_deserialized("participant_to_tx_hash")
 
 
 class CollectObservationRound(CollectDifferentUntilThresholdRound):
     """A round in which agents collect observations"""
 
     payload_class = ObservationPayload
-    payload_attribute = "observation"
     synchronized_data_class = SynchronizedData
     done_event = Event.DONE
     no_majority_event = Event.NO_MAJORITY
@@ -114,7 +124,6 @@ class EstimateConsensusRound(CollectSameUntilThresholdRound):
     """A round in which agents reach consensus on an estimate"""
 
     payload_class = EstimatePayload
-    payload_attribute = "estimate"
     synchronized_data_class = SynchronizedData
     done_event = Event.DONE
     none_event = Event.NONE
@@ -127,7 +136,6 @@ class TxHashRound(CollectSameUntilThresholdRound):
     """A round in which agents compute the transaction hash"""
 
     payload_class = TransactionHashPayload
-    payload_attribute = "tx_hash"
     synchronized_data_class = SynchronizedData
     done_event = Event.DONE
     none_event = Event.NONE
@@ -195,12 +203,12 @@ class PriceAggregationAbciApp(AbciApp[Event]):
     event_to_timeout: Dict[Event, float] = {
         Event.ROUND_TIMEOUT: 30.0,
     }
-    db_pre_conditions: Dict[AppState, List[str]] = {
-        CollectObservationRound: [
+    db_pre_conditions: Dict[AppState, Set[str]] = {
+        CollectObservationRound: {
             get_name(SynchronizedData.participants),
             get_name(SynchronizedData.oracle_contract_address),
-        ]
+        }
     }
-    db_post_conditions: Dict[AppState, List[str]] = {
-        FinishedPriceAggregationRound: [get_name(SynchronizedData.most_voted_tx_hash)]
+    db_post_conditions: Dict[AppState, Set[str]] = {
+        FinishedPriceAggregationRound: {get_name(SynchronizedData.most_voted_tx_hash)}
     }

@@ -9,13 +9,13 @@ alphabet_in:
 - FINALIZE_TIMEOUT
 - INCORRECT_SERIALIZATION
 - INSUFFICIENT_FUNDS
-- MISSED_AND_LATE_MESSAGES_MISMATCH
 - NEGATIVE
 - NONE
 - NO_MAJORITY
 - RESET_AND_PAUSE_TIMEOUT
 - RESET_TIMEOUT
 - ROUND_TIMEOUT
+- SUSPICIOUS_ACTIVITY
 - VALIDATE_TIMEOUT
 default_start_state: RegistrationStartupRound
 final_states: []
@@ -116,10 +116,9 @@ transition_func:
     (SetupCheckRound, NO_MAJORITY): RandomnessOracleRound
     (SetupCheckRound, ROUND_TIMEOUT): SetupCheckRound
     (SynchronizeLateMessagesRound, DONE): CheckLateTxHashesRound
-    (SynchronizeLateMessagesRound, MISSED_AND_LATE_MESSAGES_MISMATCH): ResetAndPauseRound
     (SynchronizeLateMessagesRound, NONE): SelectKeeperTransactionSubmissionRoundB
-    (SynchronizeLateMessagesRound, NO_MAJORITY): SynchronizeLateMessagesRound
     (SynchronizeLateMessagesRound, ROUND_TIMEOUT): SynchronizeLateMessagesRound
+    (SynchronizeLateMessagesRound, SUSPICIOUS_ACTIVITY): ResetAndPauseRound
     (TxHashRound, DONE): RandomnessTransactionSubmissionRound
     (TxHashRound, NONE): CollectObservationRound
     (TxHashRound, NO_MAJORITY): CollectObservationRound

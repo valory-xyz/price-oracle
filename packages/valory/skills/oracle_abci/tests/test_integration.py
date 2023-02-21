@@ -20,6 +20,7 @@
 # pylint: skip-file
 
 """Integration tests for various transaction settlement skill's failure modes."""
+
 from collections import deque
 from math import ceil
 from pathlib import Path
@@ -46,7 +47,7 @@ from packages.valory.protocols.ledger_api.custom_types import (
     TransactionDigest,
     TransactionReceipt,
 )
-from packages.valory.skills.abstract_round_abci.base import AbciAppDB
+from packages.valory.skills.abstract_round_abci.base import AbciAppDB, _MetaPayload
 from packages.valory.skills.abstract_round_abci.test_tools.base import (
     FSMBehaviourBaseCase,
 )
@@ -86,6 +87,7 @@ from packages.valory.skills.transaction_settlement_abci.payload_tools import (
     VerificationStatus,
     hash_payload_to_hex,
 )
+from packages.valory.skills.transaction_settlement_abci.payloads import SignaturePayload
 from packages.valory.skills.transaction_settlement_abci.rounds import (
     SynchronizedData as TxSettlementSynchronizedSata,
 )
@@ -118,6 +120,8 @@ class TransactionSettlementIntegrationBaseCase(
     def setup_class(cls, **kwargs: Any) -> None:
         """Setup."""
         super().setup_class()
+        _MetaPayload.registry["payloads.SignaturePayload"] = SignaturePayload
+        participants = tuple(cls.safe_owners.keys())
 
         keeper_initial_retries = 1
         cls.tx_settlement_synchronized_data = TxSettlementSynchronizedSata(
@@ -125,7 +129,8 @@ class TransactionSettlementIntegrationBaseCase(
                 setup_data=AbciAppDB.data_to_lists(
                     dict(
                         safe_contract_address=cls.safe_contract_address,
-                        participants=frozenset(list(cls.safe_owners.keys())),
+                        all_participants=participants,
+                        participants=participants,
                         keepers=keeper_initial_retries.to_bytes(32, "big").hex()
                         + cls.keeper_address,
                     )
@@ -138,7 +143,8 @@ class TransactionSettlementIntegrationBaseCase(
                 setup_data=AbciAppDB.data_to_lists(
                     dict(
                         safe_contract_address=cls.safe_contract_address,
-                        participants=frozenset(list(cls.safe_owners.keys())),
+                        all_participants=participants,
+                        participants=participants,
                         most_voted_keeper_address=cls.keeper_address,
                         most_voted_estimate=1,
                     )
@@ -369,12 +375,15 @@ class TestKeepers(OracleBehaviourBaseCase, IntegrationBaseCase):
     def setup(self, **kwargs: Any) -> None:
         """Set up the test class."""
         super().setup()
+        participants = [tuple(self.agents.keys())]
 
         # init synchronized data
         self.tx_settlement_synchronized_data = TxSettlementSynchronizedSata(
             AbciAppDB(
                 setup_data=dict(
-                    participants=[frozenset(list(self.agents.keys()))],
+                    all_participants=participants,
+                    participants=participants,
+                    consensus_threshold=[3],
                     most_voted_randomness=["0xabcd"],
                 ),
             )
@@ -429,7 +438,7 @@ class TestKeepers(OracleBehaviourBaseCase, IntegrationBaseCase):
         """Test that we are alternating the keepers when we fail or timeout more than `keeper_allowed_retries` times."""
         # set verification status
         self.tx_settlement_synchronized_data.update(
-            final_verification_status=VerificationStatus.PENDING,
+            final_verification_status=VerificationStatus.PENDING.value,
         )
 
         # select keeper a
@@ -503,7 +512,7 @@ class TestSyncing(TransactionSettlementIntegrationBaseCase):
         super().setup_class()
 
         # update synchronized data
-        cls.tx_settlement_synchronized_data.update(missed_messages=0)
+        cls.tx_settlement_synchronized_data.update(late_arriving_tx_hashes={})
 
     def sync_late_messages(self) -> None:
         """Synchronize late messages."""
@@ -564,31 +573,45 @@ class TestSyncing(TransactionSettlementIntegrationBaseCase):
             expected_sync_result += tx_digest
 
         assert self.behaviour.current_behaviour._tx_hashes == expected_sync_result
+        late_arriving_tx_hashes = {
+            self.behaviour.context.agent_address: expected_sync_result
+        }
         self.tx_settlement_synchronized_data.update(
-            late_arriving_tx_hashes=[expected_sync_result],
+            late_arriving_tx_hashes=late_arriving_tx_hashes,
         )
+        late_arriving_tx_hashes_counts = {
+            sender: len(hashes)
+            for sender, hashes in self.tx_settlement_synchronized_data.late_arriving_tx_hashes.items()
+        }
+        missed_after_sync = {
+            sender: missed - late_arriving_tx_hashes_counts.get(sender, 0)
+            for sender, missed in self.tx_settlement_synchronized_data.missed_messages.items()
+        }
         self.tx_settlement_synchronized_data.update(
-            missed_messages=self.behaviour.current_behaviour.synchronized_data.missed_messages
-            - len(
-                self.behaviour.current_behaviour.synchronized_data.late_arriving_tx_hashes
-            ),
+            missed_messages=missed_after_sync,
         )
 
     def check_late_tx_hashes(self) -> None:
         """Check the late transaction hashes to see if any is validated."""
+        flattened_hashes = [
+            hash_
+            for hashes in self.tx_settlement_synchronized_data.late_arriving_tx_hashes.values()
+            for hash_ in hashes
+        ]
+        n_hashes = len(flattened_hashes)
         handlers: HandlersType = [
             self.contract_handler,
-        ] * len(self.tx_settlement_synchronized_data.late_arriving_tx_hashes)
+        ] * n_hashes
         expected_content: ExpectedContentType = [
             {"performative": ContractApiMessage.Performative.STATE},
-        ] * len(self.tx_settlement_synchronized_data.late_arriving_tx_hashes)
+        ] * n_hashes
         expected_types: ExpectedTypesType = [
             {
                 "state": State,
             },
-        ] * len(self.tx_settlement_synchronized_data.late_arriving_tx_hashes)
+        ] * n_hashes
         msgs = self.process_n_messages(
-            len(self.tx_settlement_synchronized_data.late_arriving_tx_hashes),
+            n_hashes,
             self.tx_settlement_synchronized_data,
             CheckLateTxHashesBehaviour.auto_behaviour_id(),
             handlers,
@@ -615,10 +638,8 @@ class TestSyncing(TransactionSettlementIntegrationBaseCase):
         assert verified_count == 1, "More than 1 messages have been verified!"
 
         self.tx_settlement_synchronized_data.update(
-            final_verification_status=VerificationStatus.VERIFIED,
-            final_tx_hash=self.tx_settlement_synchronized_data.late_arriving_tx_hashes[
-                -verified_idx
-            ],
+            final_verification_status=VerificationStatus.VERIFIED.value,
+            final_tx_hash=flattened_hashes[verified_idx],
         )
 
     @mock.patch.object(
@@ -638,14 +659,27 @@ class TestSyncing(TransactionSettlementIntegrationBaseCase):
         # send tx, but do not update the state in order to simulate a round's time out.
         self.send_tx(simulate_timeout=True)
         # check that we have increased the number of missed messages.
-        assert self.tx_settlement_synchronized_data.missed_messages == 1
+        assert self.tx_settlement_synchronized_data.n_missed_messages == 1
+        expected_messages = dict.fromkeys(
+            {
+                "0x1CBd3b2770909D4e10f157cABC84C7264073C9Ec",
+                "0x71bE63f3384f5fb98995898A86B02Fb2426c5788",
+                "0xBcd4042DE499D14e55001CcbB24a551F3b954096",
+                "0xFABB0ac9d68B0B445fB7357272Ff202C5651694a",
+            },
+            0,
+        )
+        expected_messages["0xBcd4042DE499D14e55001CcbB24a551F3b954096"] = 1
+        assert self.tx_settlement_synchronized_data.missed_messages == expected_messages
         # store the tx hash that we have missed.
         assert isinstance(self.behaviour.current_behaviour, FinalizeBehaviour)
         missed_hash = self.behaviour.current_behaviour.params.mutable_params.tx_hash
         # sync the tx hash that we missed before
         self.sync_late_messages()
         # check that we have decreased the number of missed messages.
-        assert self.tx_settlement_synchronized_data.missed_messages == 0
+        assert self.tx_settlement_synchronized_data.n_missed_messages == 0
+        expected_messages["0xBcd4042DE499D14e55001CcbB24a551F3b954096"] = 0
+        assert self.tx_settlement_synchronized_data.missed_messages == expected_messages
         # check the tx hash that we missed before to see if it is verified
         self.check_late_tx_hashes()
         assert (
