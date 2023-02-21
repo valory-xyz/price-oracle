@@ -122,8 +122,6 @@ models:
       api_id: ${SKILL_ORACLE_ABCI_MODELS_RANDOMNESS_API_ARGS_API_ID:str:cloudflare}
   params:
     args:
-      consensus:
-        max_participants: ${MAX_PARTICIPANTS:int:4}
       setup:
         all_participants: ${SKILL_ORACLE_ABCI_MODELS_PARAMS_ARGS_SETUP_ALL_PARTICIPANTS:list:[]}
         safe_contract_address: ${SKILL_ORACLE_ABCI_MODELS_PARAMS_ARGS_SETUP_SAFE_CONTRACT_ADDRESS:list:[]}
