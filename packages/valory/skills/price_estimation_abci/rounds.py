@@ -114,7 +114,6 @@ class CollectObservationRound(CollectDifferentUntilThresholdRound):
     """A round in which agents collect observations"""
 
     payload_class = ObservationPayload
-    payload_attribute = "observation"
     synchronized_data_class = SynchronizedData
     done_event = Event.DONE
     no_majority_event = Event.NO_MAJORITY
@@ -125,7 +124,6 @@ class EstimateConsensusRound(CollectSameUntilThresholdRound):
     """A round in which agents reach consensus on an estimate"""
 
     payload_class = EstimatePayload
-    payload_attribute = "estimate"
     synchronized_data_class = SynchronizedData
     done_event = Event.DONE
     none_event = Event.NONE
@@ -138,7 +136,6 @@ class TxHashRound(CollectSameUntilThresholdRound):
     """A round in which agents compute the transaction hash"""
 
     payload_class = TransactionHashPayload
-    payload_attribute = "tx_hash"
     synchronized_data_class = SynchronizedData
     done_event = Event.DONE
     none_event = Event.NONE

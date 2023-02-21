@@ -77,7 +77,6 @@ class SetupCheckRound(VotingRound):
     """A round which checks if the oracle address is already provided via the agents' `setup` or not"""
 
     payload_class = VotingOraclePayload
-    payload_attribute = "vote"
     synchronized_data_class = SynchronizedData
     done_event = Event.DONE
     negative_event = Event.NEGATIVE
@@ -90,7 +89,6 @@ class RandomnessOracleRound(CollectSameUntilThresholdRound):
     """A round for generating randomness"""
 
     payload_class = RandomnessPayload
-    payload_attribute = "randomness"
     synchronized_data_class = SynchronizedData
     done_event = Event.DONE
     no_majority_event = Event.NO_MAJORITY
@@ -102,7 +100,6 @@ class SelectKeeperOracleRound(CollectSameUntilThresholdRound):
     """A round in a which keeper is selected"""
 
     payload_class = SelectKeeperPayload
-    payload_attribute = "keeper"
     synchronized_data_class = SynchronizedData
     done_event = Event.DONE
     no_majority_event = Event.NO_MAJORITY
@@ -114,7 +111,6 @@ class DeployOracleRound(OnlyKeeperSendsRound):
     """A round in a which the oracle is deployed"""
 
     payload_class = DeployOraclePayload
-    payload_attribute = "oracle_contract_address"
     synchronized_data_class = SynchronizedData
     done_event = Event.DONE
     fail_event = Event.FAILED
@@ -125,7 +121,6 @@ class ValidateOracleRound(VotingRound):
     """A round in a which the oracle address is validated"""
 
     payload_class = VotingOraclePayload
-    payload_attribute = "vote"
     synchronized_data_class = SynchronizedData
     done_event = Event.DONE
     negative_event = Event.NEGATIVE
