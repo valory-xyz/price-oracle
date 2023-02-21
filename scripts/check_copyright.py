@@ -315,9 +315,16 @@ def main() -> None:
             Path("examples").glob("**/*.py"),
             Path("tests").glob("**/*.py"),
             Path("packages", "valory", "agents").glob("**/*.py"),
-            Path("packages", "valory", "connections", "abci").glob("**/*.py"),
-            Path("packages", "valory", "contracts").glob("**/*.py"),
-            Path("packages", "valory", "skills").glob("**/*.py"),
+            Path("packages", "valory", "contracts", "offchain_aggregator").glob(
+                "**/*.py"
+            ),
+            Path("packages", "valory", "skills", "oracle_abci").glob("**/*.py"),
+            Path("packages", "valory", "skills", "oracle_deployment_abci").glob(
+                "**/*.py"
+            ),
+            Path("packages", "valory", "skills", "price_estimation_abci").glob(
+                "**/*.py"
+            ),
             Path("tests").glob("**/*.py"),
             Path("scripts").glob("**/*.py"),
             Path("replay_scripts").glob("**/*.py"),

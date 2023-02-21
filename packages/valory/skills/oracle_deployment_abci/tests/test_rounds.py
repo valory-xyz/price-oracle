@@ -31,6 +31,7 @@ from packages.valory.skills.abstract_round_abci.base import (
 from packages.valory.skills.abstract_round_abci.base import (
     BaseTxPayload,
     CollectSameUntilThresholdRound,
+    CollectionRound,
     MAX_INT_256,
     VotingRound,
 )
@@ -135,7 +136,6 @@ class BaseDeployTestClass(BaseOnlyKeeperSendsRoundTest):
 
         test_round = self.round_class(
             synchronized_data=self.synchronized_data,
-            consensus_params=self.consensus_params,
         )
 
         self._complete_run(
@@ -180,7 +180,6 @@ class BaseValidateRoundTest(BaseVotingRoundTest):
 
         test_round = self.test_class(
             synchronized_data=self.synchronized_data,
-            consensus_params=self.consensus_params,
         )
 
         self._complete_run(
@@ -188,7 +187,7 @@ class BaseValidateRoundTest(BaseVotingRoundTest):
                 test_round=test_round,
                 round_payloads=get_participant_to_votes(self.participants),
                 synchronized_data_update_fn=lambda _synchronized_data, _: _synchronized_data.update(
-                    participant_to_votes=dict(
+                    participant_to_votes=CollectionRound.serialize_collection(
                         get_participant_to_votes(self.participants)
                     )
                 ),
@@ -206,7 +205,6 @@ class BaseValidateRoundTest(BaseVotingRoundTest):
 
         test_round = self.test_class(
             synchronized_data=self.synchronized_data,
-            consensus_params=self.consensus_params,
         )
 
         self._complete_run(
@@ -214,7 +212,7 @@ class BaseValidateRoundTest(BaseVotingRoundTest):
                 test_round=test_round,
                 round_payloads=get_participant_to_votes(self.participants, vote=False),
                 synchronized_data_update_fn=lambda _synchronized_data, _: _synchronized_data.update(
-                    participant_to_votes=dict(
+                    participant_to_votes=CollectionRound.serialize_collection(
                         get_participant_to_votes(self.participants, vote=False)
                     )
                 ),
@@ -230,7 +228,6 @@ class BaseValidateRoundTest(BaseVotingRoundTest):
 
         test_round = self.test_class(
             synchronized_data=self.synchronized_data,
-            consensus_params=self.consensus_params,
         )
 
         self._complete_run(
@@ -238,7 +235,7 @@ class BaseValidateRoundTest(BaseVotingRoundTest):
                 test_round=test_round,
                 round_payloads=get_participant_to_votes(self.participants, vote=None),
                 synchronized_data_update_fn=lambda _synchronized_data, _: _synchronized_data.update(
-                    participant_to_votes=dict(
+                    participant_to_votes=CollectionRound.serialize_collection(
                         get_participant_to_votes(self.participants, vote=None)
                     )
                 ),
@@ -283,7 +280,6 @@ class BaseSelectKeeperRoundTest(BaseCollectSameUntilThresholdRoundTest):
             synchronized_data=self.synchronized_data.update(
                 keepers=keepers,
             ),
-            consensus_params=self.consensus_params,
         )
 
         self._complete_run(
@@ -293,7 +289,7 @@ class BaseSelectKeeperRoundTest(BaseCollectSameUntilThresholdRoundTest):
                     self.participants, most_voted_payload
                 ),
                 synchronized_data_update_fn=lambda _synchronized_data, _test_round: _synchronized_data.update(
-                    participant_to_selection=dict(
+                    participant_to_selection=CollectionRound.serialize_collection(
                         self._participant_to_selection(
                             self.participants, most_voted_payload
                         )
@@ -323,23 +319,32 @@ def test_synchronized_datas() -> None:
 
     participants = get_participants()
     participant_to_randomness = get_participant_to_randomness(participants, 1)
+    participant_to_randomness_serialized = CollectionRound.serialize_collection(
+        participant_to_randomness
+    )
     most_voted_randomness = get_most_voted_randomness()
     participant_to_selection = get_participant_to_selection(participants)
+    participant_to_selection_serialized = CollectionRound.serialize_collection(
+        participant_to_selection
+    )
     most_voted_keeper_address = get_most_voted_keeper_address()
     safe_contract_address = get_safe_contract_address()
     oracle_contract_address = get_safe_contract_address()
     participant_to_votes = get_participant_to_votes(participants)
+    participant_to_votes_serialized = CollectionRound.serialize_collection(
+        participant_to_votes
+    )
     actual_keeper_randomness = int(most_voted_randomness, base=16) / MAX_INT_256
 
     synchronized_data__ = OracleDeploymentSynchronizedSata(
         AbciAppDB(
             setup_data=AbciAppDB.data_to_lists(
                 dict(
-                    participants=participants,
-                    participant_to_randomness=participant_to_randomness,
+                    participants=tuple(get_participants()),
+                    participant_to_randomness=participant_to_randomness_serialized,
                     most_voted_randomness=most_voted_randomness,
-                    participant_to_selection=participant_to_selection,
-                    participant_to_votes=participant_to_votes,
+                    participant_to_selection=participant_to_selection_serialized,
+                    participant_to_votes=participant_to_votes_serialized,
                     most_voted_keeper_address=most_voted_keeper_address,
                     safe_contract_address=safe_contract_address,
                     oracle_contract_address=oracle_contract_address,
@@ -347,6 +352,10 @@ def test_synchronized_datas() -> None:
             ),
         )
     )
+    assert synchronized_data__.participants == participants
+    assert synchronized_data__.participant_to_randomness == participant_to_randomness
+    assert synchronized_data__.participant_to_selection == participant_to_selection
+    assert synchronized_data__.participant_to_votes == participant_to_votes
     assert (
         abs(synchronized_data__.keeper_randomness - actual_keeper_randomness) < 1e-10
     )  # avoid equality comparisons between floats

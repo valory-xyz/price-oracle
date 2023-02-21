@@ -20,7 +20,7 @@
 """This module contains the data classes for the oracle deployment ABCI application."""
 
 from enum import Enum
-from typing import Dict, List, Optional, Set, Type, cast
+from typing import Dict, Optional, Set, Type, cast
 
 from packages.valory.skills.abstract_round_abci.base import (
     AbciApp,
@@ -77,7 +77,6 @@ class SetupCheckRound(VotingRound):
     """A round which checks if the oracle address is already provided via the agents' `setup` or not"""
 
     payload_class = VotingOraclePayload
-    payload_attribute = "vote"
     synchronized_data_class = SynchronizedData
     done_event = Event.DONE
     negative_event = Event.NEGATIVE
@@ -90,19 +89,17 @@ class RandomnessOracleRound(CollectSameUntilThresholdRound):
     """A round for generating randomness"""
 
     payload_class = RandomnessPayload
-    payload_attribute = "randomness"
     synchronized_data_class = SynchronizedData
     done_event = Event.DONE
     no_majority_event = Event.NO_MAJORITY
     collection_key = get_name(SynchronizedData.participant_to_randomness)
-    selection_key = get_name(SynchronizedData.most_voted_randomness)
+    selection_key = ("ignored", get_name(SynchronizedData.most_voted_randomness))
 
 
 class SelectKeeperOracleRound(CollectSameUntilThresholdRound):
     """A round in a which keeper is selected"""
 
     payload_class = SelectKeeperPayload
-    payload_attribute = "keeper"
     synchronized_data_class = SynchronizedData
     done_event = Event.DONE
     no_majority_event = Event.NO_MAJORITY
@@ -114,7 +111,6 @@ class DeployOracleRound(OnlyKeeperSendsRound):
     """A round in a which the oracle is deployed"""
 
     payload_class = DeployOraclePayload
-    payload_attribute = "oracle_contract_address"
     synchronized_data_class = SynchronizedData
     done_event = Event.DONE
     fail_event = Event.FAILED
@@ -125,7 +121,6 @@ class ValidateOracleRound(VotingRound):
     """A round in a which the oracle address is validated"""
 
     payload_class = VotingOraclePayload
-    payload_attribute = "vote"
     synchronized_data_class = SynchronizedData
     done_event = Event.DONE
     negative_event = Event.NEGATIVE
@@ -222,11 +217,11 @@ class OracleDeploymentAbciApp(AbciApp[Event]):
         Event.VALIDATE_TIMEOUT: 30.0,
         Event.DEPLOY_TIMEOUT: 30.0,
     }
-    cross_period_persisted_keys = [
+    cross_period_persisted_keys = {
         get_name(SynchronizedData.safe_contract_address),
         get_name(SynchronizedData.oracle_contract_address),
-    ]
-    db_pre_conditions: Dict[AppState, List[str]] = {SetupCheckRound: []}
-    db_post_conditions: Dict[AppState, List[str]] = {
-        FinishedOracleRound: [get_name(SynchronizedData.oracle_contract_address)]
+    }
+    db_pre_conditions: Dict[AppState, Set[str]] = {SetupCheckRound: set()}
+    db_post_conditions: Dict[AppState, Set[str]] = {
+        FinishedOracleRound: {get_name(SynchronizedData.oracle_contract_address)}
     }

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # ------------------------------------------------------------------------------
 #
-#   Copyright 2021-2022 Valory AG
+#   Copyright 2021-2023 Valory AG
 #
 #   Licensed under the Apache License, Version 2.0 (the "License");
 #   you may not use this file except in compliance with the License.
@@ -21,6 +21,7 @@
 
 import statistics
 from abc import ABC
+from decimal import Decimal
 from typing import Dict, Generator, List, Optional, Sequence, Set, Type, cast
 
 from aea.exceptions import enforce
@@ -34,7 +35,6 @@ from packages.valory.skills.abstract_round_abci.behaviours import (
     AbstractRoundBehaviour,
     BaseBehaviour,
 )
-from packages.valory.skills.abstract_round_abci.utils import to_int
 from packages.valory.skills.price_estimation_abci.models import Params
 from packages.valory.skills.price_estimation_abci.payloads import (
     EstimatePayload,
@@ -177,6 +177,17 @@ class EstimateBehaviour(PriceEstimationBaseBehaviour):
             yield from self.wait_until_round_end()
 
         self.set_done()
+
+
+def to_int(most_voted_estimate: float, decimals: int) -> int:
+    """Convert to int."""
+    most_voted_estimate_ = str(most_voted_estimate)
+    decimal_places = most_voted_estimate_[::-1].find(".")
+    if decimal_places > decimals:
+        most_voted_estimate_ = most_voted_estimate_[: -(decimal_places - decimals)]
+    most_voted_estimate_decimal = Decimal(most_voted_estimate_)
+    int_value = int(most_voted_estimate_decimal * (10**decimals))
+    return int_value
 
 
 def pack_for_server(  # pylint: disable-msg=too-many-arguments

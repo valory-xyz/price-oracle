@@ -41,7 +41,11 @@ from packages.valory.contracts.offchain_aggregator.contract import (
     PUBLIC_ID as ORACLE_CONTRACT_ID,
 )
 from packages.valory.protocols.contract_api.message import ContractApiMessage
-from packages.valory.skills.abstract_round_abci.base import AbciAppDB
+from packages.valory.skills.abstract_round_abci.base import (
+    AbciAppDB,
+    CollectionRound,
+    _MetaPayload,
+)
 from packages.valory.skills.abstract_round_abci.behaviour_utils import (
     BaseBehaviour,
     make_degenerate_behaviour,
@@ -237,7 +241,9 @@ class TestEstimateBehaviour(PriceEstimationFSMBehaviourBaseCase):
                 AbciAppDB(
                     setup_data=dict(
                         participant_to_observations=[
-                            {"a": ObservationPayload(sender="a", observation=1.0)}
+                            CollectionRound.serialize_collection(
+                                {"a": ObservationPayload(sender="a", observation=1.0)}
+                            )
                         ]
                     ),
                 ),
@@ -250,6 +256,22 @@ class TestEstimateBehaviour(PriceEstimationFSMBehaviourBaseCase):
             ).auto_behaviour_id()
             == EstimateBehaviour.auto_behaviour_id()
         )
+
+        # FIXME: The following is a patch. The
+        #  [_get_python_modules](https://github.com/valory-xyz/open-aea/blob/d0e60881b1371442c3572df86c53fc92dc9228fa/aea/skills/base.py#L907-L925)
+        #  is getting the python modules from the skill directory.
+        #  As we can see from the code, the path will end up being relative, which means that the
+        #  [_metaclass_registry_key](https://github.com/valory-xyz/open-autonomy/blob/5d151f1fff4934f70be8c5f6be77705cc2e6ef4c/packages/valory/skills/abstract_round_abci/base.py#L167)
+        #  inserted in the `_MetaPayload`'s registry will also be relative. However, this is causing issues when calling
+        #  `BaseTxPayload.from_json(payload_json)` later from the behaviour's act wrapper below
+        #  (`self.behaviour.act_wrapper()`) because the `payload_json` will have been
+        #  serialized using an imported payload (the `ObservationPayload` above), and therefore a key error will be
+        #  raised since the imported payload's path is not relative and the registry has a relative path as a key.
+        #  Therefore, we convert the key to absolute.
+        _MetaPayload.registry[
+            "packages.valory.skills.price_estimation_abci.payloads.ObservationPayload"
+        ] = _MetaPayload.registry.pop("payloads.ObservationPayload")
+
         self.behaviour.act_wrapper()
         self.mock_a2a_transaction()
         self._test_done_flag_set()
@@ -419,7 +441,7 @@ class TestTransactionHashBehaviour(PriceEstimationFSMBehaviourBaseCase):
         period_data = synchronized_data.db.get_latest()
         period_data.update(
             {
-                "participants": {"agent1"},
+                "participants": ("agent1",),
                 "participant_to_observations": {"agent1": 1.0},
                 "most_voted_estimate": 1.0,
                 "final_tx_hash": tx_hashes[1],
