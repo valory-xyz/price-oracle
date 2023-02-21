@@ -19,6 +19,7 @@
 
 """This module contains the handler for the 'price_estimation_abci' skill."""
 
+
 from packages.valory.skills.abstract_round_abci.handlers import ABCIRoundHandler
 from packages.valory.skills.abstract_round_abci.handlers import (
     ContractApiHandler as BaseContractApiHandler,

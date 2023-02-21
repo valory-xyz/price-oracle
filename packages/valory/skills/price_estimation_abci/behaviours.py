@@ -19,6 +19,8 @@
 
 """This module contains the behaviours for the 'abci' skill."""
 
+import hashlib
+import json
 import statistics
 from abc import ABC
 from decimal import Decimal
@@ -35,14 +37,23 @@ from packages.valory.skills.abstract_round_abci.behaviours import (
     AbstractRoundBehaviour,
     BaseBehaviour,
 )
-from packages.valory.skills.price_estimation_abci.models import Params
+from packages.valory.skills.price_estimation_abci.models import (
+    Params,
+    SHARED_STATE_SERVICE_DATA_BYTES_KEY_NAME,
+    SHARED_STATE_SERVICE_DATA_KEY_NAME,
+    SHARED_STATE_SIGNATURES_KEY_NAME,
+)
 from packages.valory.skills.price_estimation_abci.payloads import (
+    EmptyPayload,
     EstimatePayload,
     ObservationPayload,
+    SignaturePayload,
     TransactionHashPayload,
 )
 from packages.valory.skills.price_estimation_abci.rounds import (
     CollectObservationRound,
+    DataHashSignRound,
+    DataHashSignaturesStoreRound,
     EstimateConsensusRound,
     PriceAggregationAbciApp,
     SynchronizedData,
@@ -244,26 +255,18 @@ class TransactionHashBehaviour(PriceEstimationBaseBehaviour):
             payload = TransactionHashPayload(self.context.agent_address, payload_string)
 
         with self.context.benchmark_tool.measure(self.behaviour_id).consensus():
+            service_data = self.get_service_data()
+            # store local service data
+            self.context.shared_state[SHARED_STATE_SERVICE_DATA_KEY_NAME] = service_data
             if self.params.is_broadcasting_to_server:
-                yield from self.send_to_server()
+                yield from self.send_to_server(service_data)
             yield from self.send_a2a_transaction(payload)
             yield from self.wait_until_round_end()
 
         self.set_done()
 
-    def send_to_server(self) -> Generator:  # pylint: disable-msg=too-many-locals
-        """
-        Send data to server.
-
-        We send current period data of the agents and the previous
-        cycle's on-chain settlement tx hash. The current cycle's tx hash
-        is not available at this stage yet, and the first iteration will
-        contain no tx hash since there has not been on-chain transaction
-        settlement yet.
-
-        :yield: the http response
-        """
-
+    def get_service_data(self) -> Dict:
+        """Get service data to expose."""
         period_count = self.synchronized_data.period_count
 
         self.context.logger.info("Attempting broadcast")
@@ -292,7 +295,7 @@ class TransactionHashBehaviour(PriceEstimationBaseBehaviour):
 
         # adding timestamp on server side when received
         # period and agent_address are used as `primary key`
-        data_for_server = {
+        return {
             "period_count": period_count,
             "agent_address": self.context.agent_address,
             "estimate": estimate,
@@ -301,6 +304,24 @@ class TransactionHashBehaviour(PriceEstimationBaseBehaviour):
             "data_source": price_api.api_id,
             "unit": f"{price_api.currency_id}:{price_api.convert_id}",
         }
+
+    def send_to_server(
+        self, data_for_server: Dict
+    ) -> Generator:  # pylint: disable-msg=too-many-locals
+        """
+        Send data to server.
+
+        We send current period data of the agents and the previous
+        cycle's on-chain settlement tx hash. The current cycle's tx hash
+        is not available at this stage yet, and the first iteration will
+        contain no tx hash since there has not been on-chain transaction
+        settlement yet.
+
+        :param data_for_server: dict
+        :yield: the http response
+        """
+
+        self.context.logger.info("Attempting broadcast")
 
         # pack data
         participants = self.synchronized_data.sorted_participants
@@ -388,6 +409,69 @@ class TransactionHashBehaviour(PriceEstimationBaseBehaviour):
         return payload_string
 
 
+class SignServiceDataHashBehaviour(PriceEstimationBaseBehaviour):
+    """Sign service data."""
+
+    matching_round = DataHashSignRound
+
+    def async_act(self) -> Generator:
+        """
+        Do the action.
+
+        Steps:
+        - Construct hash from context.shared_state[SHARED_STATE_SERVICE_DATA_KEY_NAME]
+          Sign hash
+        - Send the signature to be collected by round.
+        - Wait until ABCI application transitions to the next round.
+        - Go to the next behaviour (set done event).
+        """
+        service_data = self.context.shared_state[SHARED_STATE_SERVICE_DATA_KEY_NAME]
+
+        with self.context.benchmark_tool.measure(self.behaviour_id).consensus():
+            signature_string = yield from self.get_data_signature(service_data)
+            payload = SignaturePayload(self.context.agent_address, signature_string)
+            yield from self.send_a2a_transaction(payload)
+            yield from self.wait_until_round_end()
+
+    def get_data_signature(self, data: Dict) -> Generator[None, None, str]:
+        """Get signature for the data."""
+        data_bytes = json.dumps(data, sort_keys=True).encode("ascii")
+        self.context.shared_state[SHARED_STATE_SERVICE_DATA_BYTES_KEY_NAME] = data_bytes
+
+        hash_bytes = hashlib.sha256(data_bytes).digest()
+
+        signature_hex = yield from self.get_signature(
+            hash_bytes, is_deprecated_mode=True
+        )
+        # remove the leading '0x'
+        signature_hex = signature_hex[2:]
+        self.context.logger.info(f"Data signature: {signature_hex}")
+        return signature_hex
+
+
+class DataHashSignatureStoreBehaviour(PriceEstimationBaseBehaviour):
+    """Save signatures for data hash in shared state to use in http server handler."""
+
+    matching_round = DataHashSignaturesStoreRound
+
+    def async_act(self) -> Generator:
+        """
+        Do the action.
+
+        Steps:
+        - Get signatures from synchronized_data
+          Store signatures into shared state
+        """
+        self.context.shared_state[SHARED_STATE_SIGNATURES_KEY_NAME] = {
+            k.lower(): v
+            for k, v in self.synchronized_data.service_data_signatures.items()
+        }
+
+        payload = EmptyPayload(self.context.agent_address)
+        yield from self.send_a2a_transaction(payload)
+        yield from self.wait_until_round_end()
+
+
 class ObserverRoundBehaviour(AbstractRoundBehaviour):
     """This behaviour manages the consensus stages for the observer behaviour."""
 
@@ -397,4 +481,6 @@ class ObserverRoundBehaviour(AbstractRoundBehaviour):
         ObserveBehaviour,  # type: ignore
         EstimateBehaviour,  # type: ignore
         TransactionHashBehaviour,  # type: ignore
+        SignServiceDataHashBehaviour,  # type: ignore
+        DataHashSignatureStoreBehaviour,  # type: ignore
     }

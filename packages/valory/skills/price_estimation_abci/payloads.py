@@ -33,6 +33,18 @@ class TransactionHashPayload(BaseTxPayload):
 
 
 @dataclass(frozen=True)
+class SignaturePayload(BaseTxPayload):
+    """Represent a transaction payload of type 'signature'."""
+
+    signature: str
+
+
+@dataclass(frozen=True)
+class EmptyPayload(BaseTxPayload):
+    """Represent a transaction  empty payload."""
+
+
+@dataclass(frozen=True)
 class ObservationPayload(BaseTxPayload):
     """Represent a transaction payload of type 'observation'."""
 

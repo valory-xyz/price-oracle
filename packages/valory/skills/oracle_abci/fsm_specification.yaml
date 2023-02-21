@@ -46,6 +46,8 @@ states:
 - TxHashRound
 - ValidateOracleRound
 - ValidateTransactionRound
+- DataHashSignRound
+- DataHashSignaturesStoreRound
 transition_func:
     (CheckLateTxHashesRound, CHECK_LATE_ARRIVING_MESSAGE): SynchronizeLateMessagesRound
     (CheckLateTxHashesRound, CHECK_TIMEOUT): CheckLateTxHashesRound
@@ -119,10 +121,15 @@ transition_func:
     (SynchronizeLateMessagesRound, NONE): SelectKeeperTransactionSubmissionRoundB
     (SynchronizeLateMessagesRound, ROUND_TIMEOUT): SynchronizeLateMessagesRound
     (SynchronizeLateMessagesRound, SUSPICIOUS_ACTIVITY): ResetAndPauseRound
-    (TxHashRound, DONE): RandomnessTransactionSubmissionRound
+    (TxHashRound, DONE): DataHashSignRound
     (TxHashRound, NONE): CollectObservationRound
     (TxHashRound, NO_MAJORITY): CollectObservationRound
     (TxHashRound, ROUND_TIMEOUT): CollectObservationRound
+    (DataHashSignRound, DONE): DataHashSignaturesStoreRound
+    (DataHashSignRound, NONE): CollectObservationRound
+    (DataHashSignRound, NO_MAJORITY): CollectObservationRound
+    (DataHashSignRound, ROUND_TIMEOUT): CollectObservationRound
+    (DataHashSignaturesStoreRound, DONE): RandomnessTransactionSubmissionRound
     (ValidateOracleRound, DONE): CollectObservationRound
     (ValidateOracleRound, NEGATIVE): RandomnessOracleRound
     (ValidateOracleRound, NONE): RandomnessOracleRound

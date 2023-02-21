@@ -1,0 +1,36 @@
+name: http_server_data
+author: valory
+version: 0.1.0
+type: skill
+description: Skill to provide service/agent data for http server connection.
+license: Apache-2.0
+aea_version: '>=1.0.0, <2.0.0'
+fingerprint:
+  README.md: bafybeicg5eg7f4fhaxflzaz6h73xklax6cfggg6d4sjl27tcs3rjqgflza
+  __init__.py: bafybeighk4ughmdsiicrpmybaomnzxxnfj74emi6nn6tq4ixnrkurm2m6a
+  behaviours.py: bafybeihlpqxt5juysich4ehms5r56op2diu3cua7v5iq7ikxporduixwty
+  dialogues.py: bafybeibggve3jy72w3a5effyobh7dgldeag5ikbhbw4tziuk5h2mpf7cc4
+  handlers.py: bafybeie2adadffzflzufu4estp6airmhvaaq3ukob4qxslv2ekbsfuw3iu
+  models.py: bafybeibl2of7324fi5aiw6m2h6ayrlq2epl35gy7b4wr6slaiuenrh7sa4
+  tests/__init__.py: bafybeihlgffzmngu3ydky57kchhrdsfakmvpbq5mcmyrsdnolfnimftktm
+  tests/test_handlers.py: bafybeifrpafjwduducg4da4m23wa27upgkdq5o6zgr2joplpgwvjdf4v7m
+fingerprint_ignore_patterns: []
+connections:
+- fetchai/http_server:0.22.0:bafybeihktreqs2fsidphiydky7sw5ssc5tuxk4acgerqv5aehpst5r3w6y
+contracts: []
+protocols:
+- valory/http:1.0.0:bafybeifyoio7nlh5zzyn5yz7krkou56l22to3cwg7gw5v5o3vxwklibhty
+skills:
+- valory/abstract_round_abci:0.1.0:bafybeidzvyg6x3zjvbp5hkn2nocv5zwzzjrvptbqojep4yjdmncer2fkrm
+- valory/price_estimation_abci:0.1.0:bafybeiaiq7hrnrknb3r2tgrzvkjwctkpt4fj7sp4xhqev4bs4fb6kvhu2q
+behaviours: {}
+handlers:
+  http_server_handler:
+    args: {}
+    class_name: HttpServerHandler
+models:
+  http_dialogues:
+    args: {}
+    class_name: HttpDialogues
+dependencies: {}
+is_abstract: false

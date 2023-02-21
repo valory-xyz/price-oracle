@@ -19,14 +19,15 @@
 
 """Integration tests for the valory/oracle_abci skill."""
 
-# pylint: skip-file
-
 import json
 from copy import deepcopy
 from pathlib import Path
 from typing import Tuple
 
 import pytest
+
+# pylint: skip-file
+import requests
 from aea.configurations.data_types import PublicId
 from aea_test_autonomy.base_test_classes.agents import (
     BaseTestEnd2EndExecution,
@@ -126,6 +127,7 @@ def _generate_reset_happy_path(
 STRICT_CHECK_STRINGS = (
     "Finalized with transaction hash",
     "Signature:",
+    "Data signature:",
     "Got estimate of BTC price in USD:",
     "Got observation of BTC price in USD",
     "Period end",
@@ -149,6 +151,8 @@ class ABCIPriceEstimationTest(
     multisig = SERVICE_MULTISIG_1
     key_pairs_override = KEY_PAIRS[:4]
     _skill_name = PublicId.from_str(skill_package).name
+    
+    BASE_PORT = 18000
 
     @classmethod
     def setup_class(cls) -> None:
@@ -167,6 +171,15 @@ class ABCIPriceEstimationTest(
         # we need to set the correct key pairs, since the 5th agent is registered for the service with 1 agent instance.
         self.key_pairs = self.key_pairs_override
         super().prepare_and_launch(nb_nodes)
+    
+    def prepare(self, nb_nodes: int) -> None:
+        super().prepare(nb_nodes)
+        
+        for i in range(nb_nodes):
+            agent_name = self._get_agent_name(i)
+            self.set_agent_context(agent_name)
+            port = self.BASE_PORT + i
+            self.set_config(dotted_path="vendor.fetchai.connections.http_server.config.port", value=port, type_="int")
 
 
 @pytest.mark.e2e
@@ -283,3 +296,30 @@ class TestTendermintResetInterruptNoRejoin(TestTendermintResetInterrupt):
     restart_after = wait_to_finish
     # check if we manage to reset with Tendermint `__n_resets_to_perform` times with the rest of the agents
     exclude_from_checks = [3]
+
+
+
+@pytest.mark.e2e
+@pytest.mark.parametrize("nb_nodes", (1,))
+class TestABCIPriceEstimationSingleAgentHTTPServer(ABCIPriceEstimationTest):
+    """Test the ABCI oracle skill with only one agent with data share over http server connection."""
+
+    multisig = SERVICE_MULTISIG_2
+    key_pairs_override = [KEY_PAIRS[4]]
+    
+    def check_aea_messages(self) -> None:
+        """
+        Check that *each* AEA prints these messages.
+
+        First failing check will cause assertion error and test tear down.
+        """
+        super().check_aea_messages()
+        self.check_data_exposed()
+        
+    def check_data_exposed(self):
+        """Check http data."""
+        resp = requests.get(f"http://127.0.0.1:{self.BASE_PORT}")
+        assert resp.json().get("payload")
+        assert isinstance(resp.json().get("signatures"), dict)
+        assert resp.json().get("signatures")
+        assert self.key_pairs_override[0][0] in resp.json().get("signatures")

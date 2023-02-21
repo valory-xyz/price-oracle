@@ -133,6 +133,7 @@ class TransactionSettlementIntegrationBaseCase(
                         participants=participants,
                         keepers=keeper_initial_retries.to_bytes(32, "big").hex()
                         + cls.keeper_address,
+                        participant_to_observations={i: "" for i in participants},
                     )
                 ),
             )
@@ -147,6 +148,7 @@ class TransactionSettlementIntegrationBaseCase(
                         participants=participants,
                         most_voted_keeper_address=cls.keeper_address,
                         most_voted_estimate=1,
+                        participant_to_observations={i: "" for i in participants},
                     )
                 ),
             )

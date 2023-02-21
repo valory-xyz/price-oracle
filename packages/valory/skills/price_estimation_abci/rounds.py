@@ -20,7 +20,7 @@
 """This module contains the data classes for the price estimation ABCI application."""
 
 from enum import Enum
-from typing import Dict, List, Mapping, Set, Type, cast
+from typing import Dict, List, Mapping, Optional, Set, Tuple, Type, cast
 
 from packages.valory.skills.abstract_round_abci.base import (
     AbciApp,
@@ -28,6 +28,7 @@ from packages.valory.skills.abstract_round_abci.base import (
     AbstractRound,
     AppState,
     BaseSynchronizedData,
+    CollectDifferentUntilAllRound,
     CollectDifferentUntilThresholdRound,
     CollectSameUntilThresholdRound,
     CollectionRound,
@@ -36,8 +37,10 @@ from packages.valory.skills.abstract_round_abci.base import (
     get_name,
 )
 from packages.valory.skills.price_estimation_abci.payloads import (
+    EmptyPayload,
     EstimatePayload,
     ObservationPayload,
+    SignaturePayload,
     TransactionHashPayload,
 )
 
@@ -109,6 +112,11 @@ class SynchronizedData(BaseSynchronizedData):
         """Get the participant_to_tx_hash."""
         return self._get_deserialized("participant_to_tx_hash")
 
+    @property
+    def service_data_signatures(self) -> Dict:
+        """Get the participant_to_sign"""
+        return cast(Dict, self.db.get_strict("service_data_signatures"))
+
 
 class CollectObservationRound(CollectDifferentUntilThresholdRound):
     """A round in which agents collect observations"""
@@ -144,6 +152,46 @@ class TxHashRound(CollectSameUntilThresholdRound):
     selection_key = get_name(SynchronizedData.most_voted_tx_hash)
 
 
+class DataHashSignRound(CollectDifferentUntilAllRound):
+    """A round in which agents sign the data hash"""
+
+    payload_class = SignaturePayload
+    payload_attribute = "signature"
+    synchronized_data_class = SynchronizedData
+    done_event = Event.DONE
+    none_event = Event.NONE
+    no_majority_event = Event.NO_MAJORITY
+    collection_key = get_name(SynchronizedData.service_data_signatures)
+
+    def end_block(self) -> Optional[Tuple[BaseSynchronizedData, Event]]:
+        """Process the end of the block."""
+        if self.collection_threshold_reached:
+            signatures = {
+                addr: payload.signature
+                for addr, payload in cast(
+                    Dict[str, SignaturePayload], self.collection
+                ).items()
+            }
+            synchronized_data = self.synchronized_data.update(
+                **{self.collection_key: signatures},
+                synchronized_data_class=SynchronizedData,
+            )
+            return synchronized_data, Event.DONE
+        return None
+
+
+class DataHashSignaturesStoreRound(CollectionRound):
+    """A round in which agents store signatures collected in the DataHashSignRound."""
+
+    payload_class = EmptyPayload
+    payload_attribute = "signature"
+    synchronized_data_class = SynchronizedData
+
+    def end_block(self) -> Optional[Tuple[BaseSynchronizedData, Event]]:
+        """Process the end of the block."""
+        return self.synchronized_data, Event.DONE
+
+
 class FinishedPriceAggregationRound(DegenerateRound):
     """A round that represents price aggregation has finished"""
 
@@ -170,7 +218,14 @@ class PriceAggregationAbciApp(AbciApp[Event]):
             - none: 0.
             - round timeout: 0.
             - no majority: 0.
-        3. FinishedPriceAggregationRound
+        3. DataHashSignRound
+            - done: 4.
+            - none: 0.
+            - round timeout: 0.
+            - no majority: 0.
+        4. DataHashSignaturesStoreRound
+            - done: 5.
+        5. FinishedPriceAggregationRound
 
     Final states: {FinishedPriceAggregationRound}
 
@@ -192,10 +247,19 @@ class PriceAggregationAbciApp(AbciApp[Event]):
             Event.NO_MAJORITY: CollectObservationRound,
         },
         TxHashRound: {
-            Event.DONE: FinishedPriceAggregationRound,
+            Event.DONE: DataHashSignRound,
             Event.NONE: CollectObservationRound,
             Event.ROUND_TIMEOUT: CollectObservationRound,
             Event.NO_MAJORITY: CollectObservationRound,
+        },
+        DataHashSignRound: {
+            Event.DONE: DataHashSignaturesStoreRound,
+            Event.NONE: CollectObservationRound,
+            Event.ROUND_TIMEOUT: CollectObservationRound,
+            Event.NO_MAJORITY: CollectObservationRound,
+        },
+        DataHashSignaturesStoreRound: {
+            Event.DONE: FinishedPriceAggregationRound,
         },
         FinishedPriceAggregationRound: {},
     }

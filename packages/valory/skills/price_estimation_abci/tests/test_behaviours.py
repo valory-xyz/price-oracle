@@ -46,24 +46,19 @@ from packages.valory.skills.abstract_round_abci.base import (
     CollectionRound,
     _MetaPayload,
 )
-from packages.valory.skills.abstract_round_abci.behaviour_utils import (
-    BaseBehaviour,
-    make_degenerate_behaviour,
-)
+from packages.valory.skills.abstract_round_abci.behaviour_utils import BaseBehaviour
 from packages.valory.skills.abstract_round_abci.test_tools.base import (
     FSMBehaviourBaseCase,
 )
 from packages.valory.skills.price_estimation_abci.behaviours import (
     EstimateBehaviour,
     ObserveBehaviour,
+    SignServiceDataHashBehaviour,
     TransactionHashBehaviour,
     pack_for_server,
 )
 from packages.valory.skills.price_estimation_abci.payloads import ObservationPayload
-from packages.valory.skills.price_estimation_abci.rounds import (
-    Event,
-    FinishedPriceAggregationRound,
-)
+from packages.valory.skills.price_estimation_abci.rounds import Event
 from packages.valory.skills.price_estimation_abci.rounds import (
     SynchronizedData as PriceEstimationSynchronizedSata,
 )
@@ -488,9 +483,7 @@ class TestTransactionHashBehaviour(PriceEstimationFSMBehaviourBaseCase):
         behaviour = cast(BaseBehaviour, self.behaviour.current_behaviour)
         assert (
             behaviour.auto_behaviour_id()
-            == make_degenerate_behaviour(
-                FinishedPriceAggregationRound
-            ).auto_behaviour_id()
+            == SignServiceDataHashBehaviour.auto_behaviour_id()
         )
 
 
