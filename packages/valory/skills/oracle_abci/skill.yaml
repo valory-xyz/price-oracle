@@ -12,31 +12,31 @@ fingerprint:
   behaviours.py: bafybeig3klyi5thvogwcdrqqzswaad3c3xihq5wa4op6dnkrtxfpedlorq
   composition.py: bafybeie67y75ajuijisina4pm6l557vx2wu5tftr6a62d6mctgg3mh2r4q
   dialogues.py: bafybeigabhaykiyzbluu4mk6bbrmqhzld2kyp32pg24bvjmzrrb74einwm
-  fsm_specification.yaml: bafybeidusr4lmxmzm7h54hiqkzpb7mhdas77e5bqzk5h47mtksdzq4vbte
+  fsm_specification.yaml: bafybeic62iv4ys6hlbrqc4oupqhzvdltemc7avd7kleox5jpx5j6bjowca
   handlers.py: bafybeiapfrhwvgnvbmlagb2du4jlmepnngjmbw4oqhe3lv4smgpskbkybe
   models.py: bafybeifd4cfs3lzccvygkf5zpv4k47kumbjng4npd6iaa4khe45oa73iye
   tests/__init__.py: bafybeihlgffzmngu3ydky57kchhrdsfakmvpbq5mcmyrsdnolfnimftktm
   tests/test_behaviours.py: bafybeibvh43inrplfd62hbhmryxy6zjdptz2ekfdkgoo37neahbldoekju
   tests/test_dialogues.py: bafybeiecwwsjclbhje3bg5bbrias453yuztlg23fbj3a3y4sjyuh2sg62i
   tests/test_handlers.py: bafybeigffxznt27ujgxdko5bhco2z5bmipiauzkrtwwx6dpdj773rtj2om
-  tests/test_integration.py: bafybeib337te3szztk2pxf6xoyycgimvulvfr3an6hy7jp222mzc4uswfu
-  tests/test_models.py: bafybeib5qugc5wrsoc2huo6dpwfekungcqdcjytfoo6hyx434nqtuqeblq
+  tests/test_integration.py: bafybeife7hdghsyw3nqjgr6lfjrn7bnzalrwg4be34tda45nq5cfxyy4ri
+  tests/test_models.py: bafybeibqcmwyunbxdoyhorypukrt3bxgvvm3yff7prdkbaenysxoix4e3u
 fingerprint_ignore_patterns: []
 connections:
-- valory/ledger:0.19.0:bafybeicpxyoxez7lperltamvikxu6vzk2lhqakbivce4nzywyzoqbxoogm
+- valory/ledger:0.19.0:bafybeiavzloea5rtoxfdqjuexkqzpgbq73n4sl6af2vwa4bv2wd22qigyi
 contracts: []
 protocols:
-- open_aea/signing:1.0.0:bafybeiclsbgrviyxbmi2vex5ze3dhr7ywohrqedebx26jozayxvroqtegq
-- valory/contract_api:1.0.0:bafybeif32nchkgn6yet7e5gt4auhf7lsahxnj4t36kxbw55p3gi7qpeuxq
-- valory/ledger_api:1.0.0:bafybeigqr4y3ykz3iulrcoqmji7hy3dxaoy7zmyyzff4ivpbubcpwdknai
+- open_aea/signing:1.0.0:bafybeibqlfmikg5hk4phzak6gqzhpkt6akckx7xppbp53mvwt6r73h7tk4
+- valory/contract_api:1.0.0:bafybeidv6wxpjyb2sdyibnmmum45et4zcla6tl63bnol6ztyoqvpl4spmy
+- valory/ledger_api:1.0.0:bafybeih6hfzj2obw5oajnt6ng6355edgvi5ngoaub44vpuszqoplfvyaom
 skills:
-- valory/abstract_round_abci:0.1.0:bafybeicvbxixjsu3bgjk5frqz5mq2kmv44grwd6324viz4tehw3yejfhji
-- valory/oracle_deployment_abci:0.1.0:bafybeibcheodjlplofwoohhtbqh4g2e22mr4ewfwgpxcmv7zea4mfphzlq
-- valory/price_estimation_abci:0.1.0:bafybeie2jwyil6oe5uasq2wwocxhchryt6uynz26b5yolaw7dvdqz755bm
-- valory/registration_abci:0.1.0:bafybeihai2otcmnb2w7k64bnwf5qagfexg5gqow74xhj3wynikgdxre3ka
-- valory/reset_pause_abci:0.1.0:bafybeifs6zpg5nbvuapmxafzo6fdhoz5ebpiujetvk243apo3iwl2rn45i
-- valory/termination_abci:0.1.0:bafybeib3pxsbvjwqqedfdujs42mzwe7asjepsdx5n3bomsp4zz56cfycnu
-- valory/transaction_settlement_abci:0.1.0:bafybeib3dkmogar5q5ggfbgi3bfrjqb74nd7tc7zxl6rpt2qucdv6i3bpy
+- valory/abstract_round_abci:0.1.0:bafybeiami2y2uwvtmjf76hl3jvfahujdir5docjby6erdyjl66ekoblesi
+- valory/oracle_deployment_abci:0.1.0:bafybeies5dztg3ki3spjba7lz3jg26xkmc4pyrdi7mquqsfs3ha6l2uuwy
+- valory/price_estimation_abci:0.1.0:bafybeie4rkwgw52fgia4vaafzfr2ncsi5wz4lqhe36a5qtxqnnup52pldi
+- valory/registration_abci:0.1.0:bafybeieaggf6mc43tses5k7fg3pyxca43wsmfvnnzszzucohp5ebg3umwq
+- valory/reset_pause_abci:0.1.0:bafybeic6ayed23np6ngkawsf2you6nnfuvbq4smcepdvvcrw5wxn5jaevy
+- valory/termination_abci:0.1.0:bafybeigg4eyjaeidojnvxdenztaywb7ijtjdtjirpc6pvhglscfqdhfupe
+- valory/transaction_settlement_abci:0.1.0:bafybeiajvxzaeeeamvb3guxtihlrj7xoyrmfeuo5chp4f3pdd2sgiecayq
 behaviours:
   main:
     args: {}
@@ -88,8 +88,6 @@ models:
       broadcast_to_server: false
       cleanup_history_depth: 1
       cleanup_history_depth_current: null
-      consensus:
-        max_participants: 1
       drand_public_key: 868f005eb8e6e4ca0a47c8a77ceaa5309a47978a7c71bc5cce96366b5d7a569937c529eeda66c7293784a9402801af31
       finalize_timeout: 60.0
       genesis_config:
@@ -137,6 +135,8 @@ models:
         - - '0x0000000000000000000000000000000000000000'
         oracle_contract_address: []
         safe_contract_address: []
+        consensus_threshold:
+        - null
       share_tm_config_on_startup: false
       sleep_time: 1
       tendermint_check_sleep_delay: 3
@@ -199,5 +199,5 @@ models:
     class_name: TendermintDialogues
 dependencies:
   open-aea-test-autonomy:
-    version: ==0.8.0
+    version: ==0.9.0
 is_abstract: false

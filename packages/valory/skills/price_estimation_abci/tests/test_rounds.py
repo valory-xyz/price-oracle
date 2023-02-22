@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # ------------------------------------------------------------------------------
 #
-#   Copyright 2021-2022 Valory AG
+#   Copyright 2021-2023 Valory AG
 #
 #   Licensed under the Apache License, Version 2.0 (the "License");
 #   you may not use this file except in compliance with the License.
@@ -28,7 +28,7 @@ from packages.valory.skills.abstract_round_abci.base import AbciAppDB
 from packages.valory.skills.abstract_round_abci.base import (
     BaseSynchronizedData as SynchronizedData,
 )
-from packages.valory.skills.abstract_round_abci.base import MAX_INT_256
+from packages.valory.skills.abstract_round_abci.base import CollectionRound, MAX_INT_256
 from packages.valory.skills.abstract_round_abci.test_tools.rounds import (
     BaseCollectDifferentUntilThresholdRoundTest,
     BaseCollectSameUntilThresholdRoundTest,
@@ -177,22 +177,24 @@ class TestRandomnessTransactionSubmissionRound(BaseCollectSameUntilThresholdRoun
     ) -> None:
         """Run tests."""
 
-        test_round = RandomnessTransactionSubmissionRound(
-            self.synchronized_data, self.consensus_params
-        )
+        test_round = RandomnessTransactionSubmissionRound(self.synchronized_data)
         self._complete_run(
             self._test_round(
                 test_round=test_round,
                 round_payloads=get_participant_to_randomness(self.participants, 1),
                 synchronized_data_update_fn=lambda _synchronized_data, _test_round: _synchronized_data.update(
-                    participant_to_randomness=dict(
+                    participant_to_randomness=CollectionRound.serialize_collection(
                         get_participant_to_randomness(self.participants, 1)
-                    )
+                    ),
+                    most_voted_randomness_round=1,
+                    most_voted_randomness=RANDOMNESS,
                 ),
                 synchronized_data_attr_checks=[
-                    lambda _synchronized_data: _synchronized_data.participant_to_randomness.keys()
+                    lambda _synchronized_data: _synchronized_data.participant_to_randomness.keys(),
+                    lambda _synchronized_data: _synchronized_data.most_voted_randomness_round,
+                    lambda _synchronized_data: _synchronized_data.most_voted_randomness,
                 ],
-                most_voted_payload=RANDOMNESS,
+                most_voted_payload=1,
                 exit_event=TransactionSettlementEvent.DONE,
             )
         )
@@ -211,15 +213,14 @@ class TestCollectObservationRound(BaseCollectDifferentUntilThresholdRoundTest):
 
         test_round = CollectObservationRound(
             synchronized_data=self.synchronized_data,
-            consensus_params=self.consensus_params,
         )
         self._complete_run(
             self._test_round(
                 test_round=test_round,
                 round_payloads=get_participant_to_observations(self.participants),
                 synchronized_data_update_fn=lambda _synchronized_data, _: _synchronized_data.update(
-                    participant_to_observations=get_participant_to_observations(
-                        self.participants
+                    participant_to_observations=CollectionRound.serialize_collection(
+                        get_participant_to_observations(self.participants)
                     )
                 ),
                 synchronized_data_attr_checks=[
@@ -236,7 +237,6 @@ class TestCollectObservationRound(BaseCollectDifferentUntilThresholdRoundTest):
 
         test_round = CollectObservationRound(
             synchronized_data=self.synchronized_data,
-            consensus_params=self.consensus_params,
         )
 
         self._complete_run(
@@ -246,8 +246,10 @@ class TestCollectObservationRound(BaseCollectDifferentUntilThresholdRoundTest):
                     frozenset(list(self.participants)[:-1])
                 ),
                 synchronized_data_update_fn=lambda _synchronized_data, _: _synchronized_data.update(
-                    participant_to_observations=get_participant_to_observations(
-                        frozenset(list(self.participants)[:-1])
+                    participant_to_observations=CollectionRound.serialize_collection(
+                        get_participant_to_observations(
+                            frozenset(list(self.participants)[:-1])
+                        )
                     )
                 ),
                 synchronized_data_attr_checks=[
@@ -271,14 +273,13 @@ class TestEstimateConsensusRound(BaseCollectSameUntilThresholdRoundTest):
 
         test_round = EstimateConsensusRound(
             synchronized_data=self.synchronized_data,
-            consensus_params=self.consensus_params,
         )
         self._complete_run(
             self._test_round(
                 test_round=test_round,
                 round_payloads=get_participant_to_estimate(self.participants),
                 synchronized_data_update_fn=lambda _synchronized_data, _test_round: _synchronized_data.update(
-                    participant_to_estimate=dict(
+                    participant_to_estimate=CollectionRound.serialize_collection(
                         get_participant_to_estimate(self.participants)
                     ),
                     most_voted_estimate=_test_round.most_voted_payload,
@@ -305,7 +306,6 @@ class TestTxHashRound(BaseCollectSameUntilThresholdRoundTest):
 
         test_round = TxHashRound(
             synchronized_data=self.synchronized_data,
-            consensus_params=self.consensus_params,
         )
 
         hash_ = "tx_hash"
@@ -327,7 +327,6 @@ class TestTxHashRound(BaseCollectSameUntilThresholdRoundTest):
 
         test_round = TxHashRound(
             synchronized_data=self.synchronized_data,
-            consensus_params=self.consensus_params,
         )
 
         hash_ = None
@@ -347,27 +346,40 @@ def test_synchronized_data() -> None:
     """Test SynchronizedData."""
 
     participants = get_participants()
+    participants_serializable = tuple(participants)
     participant_to_randomness = get_participant_to_randomness(participants, 1)
+    participant_to_randomness_serialized = CollectionRound.serialize_collection(
+        participant_to_randomness
+    )
     most_voted_randomness = get_most_voted_randomness()
     participant_to_selection = get_participant_to_selection(participants)
+    participant_to_selection_serialized = CollectionRound.serialize_collection(
+        participant_to_selection
+    )
     most_voted_keeper_address = get_most_voted_keeper_address()
     safe_contract_address = get_safe_contract_address()
     oracle_contract_address = get_safe_contract_address()
     participant_to_votes = get_participant_to_votes(participants)
+    participant_to_votes_serialized = CollectionRound.serialize_collection(
+        participant_to_votes
+    )
     most_voted_tx_hash = get_most_voted_tx_hash()
     participant_to_observations = get_participant_to_observations(participants)
+    participant_to_observations_serialized = CollectionRound.serialize_collection(
+        participant_to_observations
+    )
     most_voted_estimate = get_most_voted_estimate()
 
     synchronized_data = SynchronizedData(
         AbciAppDB(
             setup_data=AbciAppDB.data_to_lists(
                 dict(
-                    participants=participants,
-                    participant_to_randomness=participant_to_randomness,
+                    participants=participants_serializable,
+                    participant_to_randomness=participant_to_randomness_serialized,
                     most_voted_randomness=most_voted_randomness,
-                    participant_to_selection=participant_to_selection,
+                    participant_to_selection=participant_to_selection_serialized,
                     most_voted_keeper_address=most_voted_keeper_address,
-                    participant_to_votes=participant_to_votes,
+                    participant_to_votes=participant_to_votes_serialized,
                 )
             ),
         )
@@ -383,10 +395,10 @@ def test_synchronized_data() -> None:
         AbciAppDB(
             setup_data=AbciAppDB.data_to_lists(
                 dict(
-                    participants=participants,
-                    participant_to_randomness=participant_to_randomness,
+                    participants=participants_serializable,
+                    participant_to_randomness=participant_to_randomness_serialized,
                     most_voted_randomness=most_voted_randomness,
-                    participant_to_selection=participant_to_selection,
+                    participant_to_selection=participant_to_selection_serialized,
                     most_voted_keeper_address=most_voted_keeper_address,
                 )
             ),
@@ -407,16 +419,16 @@ def test_synchronized_data() -> None:
         AbciAppDB(
             setup_data=AbciAppDB.data_to_lists(
                 dict(
-                    participants=participants,
-                    participant_to_randomness=participant_to_randomness,
+                    participants=participants_serializable,
+                    participant_to_randomness=participant_to_randomness_serialized,
                     most_voted_randomness=most_voted_randomness,
-                    participant_to_selection=participant_to_selection,
+                    participant_to_selection=participant_to_selection_serialized,
                     most_voted_keeper_address=most_voted_keeper_address,
                     safe_contract_address=safe_contract_address,
                     oracle_contract_address=oracle_contract_address,
                     most_voted_tx_hash=most_voted_tx_hash,
                     most_voted_estimate=most_voted_estimate,
-                    participant_to_observations=participant_to_observations,
+                    participant_to_observations=participant_to_observations_serialized,
                 )
             ),
         )
