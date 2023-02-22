@@ -19,12 +19,12 @@ Finally, a random agent (keeper) is voted among the agents in the service to sub
 
 ## Demo
 
-Please follow the {{set_up_system}} guide to set up the enviroment, after you are done setting up you can run a local demo of the Price Oracle with a Hardhat node as follows:
+Please follow the {{set_up_system}} guide to set up the environment, after you are done setting up you can run a local demo of the Price Oracle with a Hardhat node as follows:
 
 1. Fetch the Price Oracle service (Hardhat flavour).
 
 	```bash
-	autonomy fetch valory/oracle_hardhat:0.1.0:bafybeihgfuyqesf2img53b3ys66ydmrqucayf7x4avrl73yvy54wspcgem --service
+	autonomy fetch valory/oracle_hardhat:0.1.0:bafybeiczukzksrfh273z4yfljy52c6svuqlwhaifr3zfdgzpcqcn5qvqde --service
 	```
 
 2. Build the Docker image of the service agents
@@ -64,7 +64,7 @@ Please follow the {{set_up_system}} guide to set up the enviroment, after you ar
 4. Build the service deployment.
 
     ```bash
-    autonomy deploy build keys.json --aev
+    autonomy deploy build keys.json --aev -ltm
     ```
 
 5. Run the service.
