@@ -19,16 +19,12 @@ Finally, a random agent (keeper) is voted among the agents in the service to sub
 
 ## Demo
 
-Once you have {{set_up_system}} to work with the Open Autonomy framework, you can run a local demo of the Price Oracle with a Hardhat node as follows:
+Please follow the {{set_up_system}} guide to set up the enviroment, after you are done setting up you can run a local demo of the Price Oracle with a Hardhat node as follows:
 
 1. Fetch the Price Oracle service (Hardhat flavour).
 
 	```bash
-<<<<<<< HEAD
 	autonomy fetch valory/oracle_hardhat:0.1.0:bafybeihgfuyqesf2img53b3ys66ydmrqucayf7x4avrl73yvy54wspcgem --service
-=======
-	autonomy fetch valory/oracle_hardhat:0.1.0:bafybeiaipltk6trvl5lxf2d4ru2hhx2f2lgd6j3yrliiloywmariptfoqe --service
->>>>>>> main
 	```
 
 2. Build the Docker image of the service agents
@@ -87,6 +83,8 @@ Once you have {{set_up_system}} to work with the Open Autonomy framework, you ca
 		```
 
 		You can cancel the local execution at any time by pressing ++ctrl+c++.
+
+To understand the deployment process better, follow the deployment guide [here](https://docs.autonolas.network/open-autonomy/guides/deploy_service/).
 
 ## Build
 
