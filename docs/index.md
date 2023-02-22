@@ -19,7 +19,7 @@ Finally, a random agent (keeper) is voted among the agents in the service to sub
 
 ## Demo
 
-In order to run a local demo of the Price Oracle with a Hardhat node  service:
+In order to run a local demo of the Price Oracle service with a Hardhat node:
 
 1. [Set up your system](https://docs.autonolas.network/open-autonomy/guides/set_up/) to work with the Open Autonomy framework. We recommend that you use these commands:
 
