@@ -24,7 +24,7 @@ Please follow the {{set_up_system}} guide to set up the environment, after you a
 1. Fetch the Price Oracle service (Hardhat flavour).
 
 	```bash
-	autonomy fetch valory/oracle_hardhat:0.1.0:bafybeiczukzksrfh273z4yfljy52c6svuqlwhaifr3zfdgzpcqcn5qvqde --service
+	autonomy fetch valory/oracle_hardhat:0.1.0:bafybeifdxobwhjwi7g7l4qhm5hvsurt6z7vl2ynqqi536zhbg6lgdi4gu4 --service
 	```
 
 2. Build the Docker image of the service agents
