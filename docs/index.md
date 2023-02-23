@@ -74,7 +74,7 @@ In order to run a local demo of the Price Oracle service with a Hardhat node:
 5. Build the service deployment.
 
     ```bash
-    autonomy deploy build keys.json --aev -ltm
+    autonomy deploy build keys.json --aev -ltm --use-hardhat
     ```
 
 6. Run the service.
