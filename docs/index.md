@@ -34,7 +34,7 @@ In order to run a local demo of the Price Oracle service with a Hardhat node:
 2. Fetch the Price Oracle service (Hardhat flavour).
 
 	```bash
-	autonomy fetch valory/oracle_hardhat:0.1.0:bafybeiaipltk6trvl5lxf2d4ru2hhx2f2lgd6j3yrliiloywmariptfoqe --service
+	autonomy fetch valory/oracle_hardhat:0.1.0:bafybeifdxobwhjwi7g7l4qhm5hvsurt6z7vl2ynqqi536zhbg6lgdi4gu4 --service
 	```
 
 3. Build the Docker image of the service agents
@@ -74,7 +74,7 @@ In order to run a local demo of the Price Oracle service with a Hardhat node:
 5. Build the service deployment.
 
     ```bash
-    autonomy deploy build keys.json --aev
+    autonomy deploy build keys.json --aev -ltm
     ```
 
 6. Run the service.
@@ -93,6 +93,8 @@ In order to run a local demo of the Price Oracle service with a Hardhat node:
 		```
 
 		You can cancel the local execution at any time by pressing ++ctrl+c++.
+
+To understand the deployment process better, follow the deployment guide [here](https://docs.autonolas.network/open-autonomy/guides/deploy_service/).
 
 ## Build
 

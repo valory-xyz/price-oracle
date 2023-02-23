@@ -15,22 +15,21 @@ extra:
     args: &id001
       setup:
         all_participants:
-        - - '0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266'
-          - '0x70997970C51812dc3A010C7d01b50e0d17dc79C8'
-          - '0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC'
-          - '0x90F79bf6EB2c4f870365E785982E1f101E93b906'
+        - - '0x15d34AAf54267DB7D7c367839AAf71A00a2C6A65'
+          - '0x9965507D1a55bcC2695C58ba16FB37d819B0A4dc'
+          - '0x976EA74026E726554dB657fA54763abd0C3a0aa9'
+          - '0x14dC79964da2C08b23698B3D3cc7Ca32193d9955'
         safe_contract_address:
         - '0xD8dE647170163a981bb3Fdb2063583eAcF7D55AC'
+        oracle_contract_address: []
       observation_interval: 30
       broadcast_to_server: false
       service_registry_address: '0x998abeb3E57409262aE5b751f60747921B33613E'
+      share_tm_config_on_startup: false
       on_chain_service_id: 1
   benchmark_persistence_params:
-    args: &id003
-      log_dir: /benchmarks
-  valory_monitoring_backend:
     args: &id002
-      url: https://oracle-server.staging.autonolas.tech/deposit
+      log_dir: /benchmarks
 public_id: valory/oracle_abci:0.1.0
 type: skill
 0:
@@ -52,10 +51,8 @@ type: skill
         api_id: cloudflare
     params:
       args: *id001
-    server_api:
-      args: *id002
     benchmark_tool:
-      args: *id003
+      args: *id002
 1:
   models:
     price_api:
@@ -73,10 +70,8 @@ type: skill
         api_id: protocollabs1
     params:
       args: *id001
-    server_api:
-      args: *id002
     benchmark_tool:
-      args: *id003
+      args: *id002
 2:
   models:
     price_api:
@@ -92,10 +87,8 @@ type: skill
         api_id: protocollabs2
     params:
       args: *id001
-    server_api:
-      args: *id002
     benchmark_tool:
-      args: *id003
+      args: *id002
 3:
   models:
     price_api:
@@ -113,17 +106,15 @@ type: skill
         api_id: protocollabs3
     params:
       args: *id001
-    server_api:
-      args: *id002
     benchmark_tool:
-      args: *id003
+      args: *id002
 ---
 public_id: valory/ledger:0.19.0
 type: connection
 config:
   ledger_apis:
     ethereum:
-      address: ${SERVICE_ORACLE_HARDHAT_RPC:str:http://hardhat:8545}
+      address: ${SERVICE_ORACLE_HARDHAT_RPC:str:http://host.docker.internal:8545}
       chain_id: 31337
       poa_chain: false
       default_gas_price_strategy: eip1559
