@@ -3,6 +3,8 @@
 # global dictionary is at the start, file overrides afterwards
 # one word per line, to define a file override use ' - filename'
 # where filename is relative to this configuration file
+e45cfc9b05f40ec0b708a1e7bc594196edfeef7b
+v3
 0.8.0.post1
 0.8.0.post2
 OracleKit

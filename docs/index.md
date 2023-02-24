@@ -19,70 +19,86 @@ Finally, a random agent (keeper) is voted among the agents in the service to sub
 
 ## Demo
 
-Once you have {{set_up_system}} to work with the Open Autonomy framework, you can run a local demo of the Price Oracle with a Hardhat node as follows:
+In order to run a local demo of the Price Oracle service with a Hardhat node:
 
-1. Fetch the Price Oracle service (Hardhat flavour).
+1. [Set up your system](https://docs.autonolas.network/open-autonomy/guides/set_up/) to work with the Open Autonomy framework. We recommend that you use these commands:
+
+    ```bash
+    mkdir your_workspace && cd your_workspace
+    touch Pipfile && pipenv --python 3.10 && pipenv shell
+
+    pipenv install open-autonomy[all]==0.9.1
+    autonomy init --remote --ipfs --reset --author=your_name
+    ```
+
+2. Fetch the Price Oracle service (Hardhat flavour).
 
 	```bash
-	autonomy fetch valory/oracle_hardhat:0.1.0:bafybeiaipltk6trvl5lxf2d4ru2hhx2f2lgd6j3yrliiloywmariptfoqe --service
+	autonomy fetch valory/oracle_hardhat:0.1.0:bafybeih6eqd3324mlumtimugsm7sl5beb6hrpsk5b3x4mpx6ou5eipplhy --service
 	```
 
-2. Build the Docker image of the service agents
+3. Build the Docker image of the service agents
 
 	```bash
 	cd oracle_hardhat
 	autonomy build-image
 	```
 
-3. Prepare the `keys.json` file containing the wallet address and the private key for each of the agents.
+4. Prepare the `keys.json` file containing the wallet address and the private key for each of the agents.
 
-    ??? example "Example of a `keys.json` file"
+    ??? example "Generating an example `keys.json` file"
 
         <span style="color:red">**WARNING: Use this file for testing purposes only. Never use the keys or addresses provided in this example in a production environment or for personal use.**</span>
 
-        ```json
+        ```bash
+        cat > keys.json << EOF
         [
           {
-              "address": "0x15d34AAf54267DB7D7c367839AAf71A00a2C6A65",
-              "private_key": "0x47e179ec197488593b187f80a00eb0da91f1b9d0b13f8733639f19c30a34926a"
+            "address": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+            "private_key": "0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80"
           },
           {
-              "address": "0x9965507D1a55bcC2695C58ba16FB37d819B0A4dc",
-              "private_key": "0x8b3a350cf5c34c9194ca85829a2df0ec3153be0318b5e2d3348e872092edffba"
+            "address": "0x70997970C51812dc3A010C7d01b50e0d17dc79C8",
+            "private_key": "0x59c6995e998f97a5a0044966f0945389dc9e86dae88c7a8412f4603b6b78690d"
           },
           {
-              "address": "0x976EA74026E726554dB657fA54763abd0C3a0aa9",
-              "private_key": "0x92db14e403b83dfe3df233f83dfa3a0d7096f21ca9b0d6d6b8d88b2b4ec1564e"
+            "address": "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC",
+            "private_key": "0x5de4111afa1a4b94908f83103eb1f1706367c2e68ca870fc3fb9a804cdab365a"
           },
           {
-              "address": "0x14dC79964da2C08b23698B3D3cc7Ca32193d9955",
-              "private_key": "0x4bbbf85ce3377467afe5d46f804f221813b2bb87f24d81f60f1fcdbf7cbf4356"
+            "address": "0x90F79bf6EB2c4f870365E785982E1f101E93b906",
+            "private_key": "0x7c852118294e51e653712a81e05800f419141751be58f605c371e15141b007a6"
           }
         ]
+        EOF
         ```
 
-4. Build the service deployment.
+5. Build the service deployment.
+   
+    The `--use-hardhat` flag below, adds an image with a Hardhat node containing some default smart contracts 
+    (e.g., a [Safe](https://safe.global/)) to the service deployment. You can use any image with a Hardhat node, 
+    instead of the default `valory/open-autonomy-hardhat`. To achieve that, you need to modify the environment variable 
+    `HARDHAT_IMAGE_NAME`.
+
+    The Price Oracle service demo requires the Autonolas Protocol registry contracts in order to run. 
+    We conveniently provide the image `valory/autonolas-registries` containing them. 
+    Therefore, build the deployment as follows:
 
     ```bash
-    autonomy deploy build keys.json --aev
+    export HARDHAT_IMAGE_NAME=valory/autonolas-registries
+    autonomy deploy build keys.json --aev -ltm --use-hardhat
     ```
 
-5. Run the service.
+6. Run the service.
 
-      1. In a separate terminal, run a Hardhat node. We provide a pre-configured Docker image for testing.
+    ```bash
+    cd abci_build
+    autonomy deploy run
+    ```
 
-		```bash
-		docker run -p 8545:8545 -it valory/open-autonomy-hardhat:0.1.0
-		```
+    You can cancel the local execution at any time by pressing ++ctrl+c++.
 
-      2. Once the Hardhat node is up and running, run the service deployment.
-
-		```bash
-		cd abci_build
-		autonomy deploy run
-		```
-
-		You can cancel the local execution at any time by pressing ++ctrl+c++.
+To understand the deployment process better, follow the deployment guide [here](https://docs.autonolas.network/open-autonomy/guides/deploy_service/).
 
 ## Build
 

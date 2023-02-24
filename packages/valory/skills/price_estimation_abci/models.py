@@ -19,16 +19,13 @@
 
 """This module contains the shared state for the price estimation app ABCI application."""
 
-from typing import Any, List, OrderedDict
-
-from aea.skills.base import Model
+from typing import Any
 
 from packages.valory.skills.abstract_round_abci.models import ApiSpecs
 from packages.valory.skills.abstract_round_abci.models import (
     BenchmarkTool as BaseBenchmarkTool,
 )
 from packages.valory.skills.abstract_round_abci.models import Requests as BaseRequests
-from packages.valory.skills.abstract_round_abci.models import ResponseInfo, RetriesInfo
 from packages.valory.skills.abstract_round_abci.models import (
     SharedState as BaseSharedState,
 )
@@ -64,28 +61,11 @@ class SharedState(BaseSharedState):
     abci_app_cls = PriceAggregationAbciApp
 
 
-# TODO remove this workaround when the types get fixed in `open-autonomy`
-class FixedApiSpecs(ApiSpecs):
-    """A model that wraps APIs to get cryptocurrency prices."""
-
-    def __init__(self, *args: Any, **kwargs: Any) -> None:
-        """Initialize ApiSpecsModel."""
-        self.url: str = self._ensure("url", kwargs, str)
-        self.api_id: str = self._ensure("api_id", kwargs, str)
-        self.method: str = self._ensure("method", kwargs, str)
-        self.headers = self._ensure("headers", kwargs, List[OrderedDict[str, str]])
-        self.parameters = self._ensure("parameters", kwargs, List[List[str]])
-        self.response_info = ResponseInfo.from_json_dict(kwargs)
-        self.retries_info = RetriesInfo.from_json_dict(kwargs)
-        super(Model, self).__init__(*args, **kwargs)  # pylint: disable=bad-super-call
-        self._frozen = True
-
-
-class RandomnessApi(FixedApiSpecs):
+class RandomnessApi(ApiSpecs):
     """A model for randomness api specifications."""
 
 
-class PriceApi(FixedApiSpecs):
+class PriceApi(ApiSpecs):
     """A model for various cryptocurrency price api specifications."""
 
     convert_id: str
@@ -96,7 +76,10 @@ class PriceApi(FixedApiSpecs):
         self.convert_id = self._ensure("convert_id", kwargs, str)
         self.currency_id = self._ensure("currency_id", kwargs, str)
         super().__init__(*args, **kwargs)
+        self.__dict__["parameters"] = {
+            key: value for key, value in self.parameters.items() if value is not None
+        }
 
 
-class ServerApi(FixedApiSpecs):
+class ServerApi(ApiSpecs):
     """A model for oracle web server api specs"""
