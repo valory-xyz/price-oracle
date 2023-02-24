@@ -76,6 +76,9 @@ class PriceApi(ApiSpecs):
         self.convert_id = self._ensure("convert_id", kwargs, str)
         self.currency_id = self._ensure("currency_id", kwargs, str)
         super().__init__(*args, **kwargs)
+        self.__dict__["parameters"] = {
+            key: value for key, value in self.parameters.items() if value is not None
+        }
 
 
 class ServerApi(ApiSpecs):

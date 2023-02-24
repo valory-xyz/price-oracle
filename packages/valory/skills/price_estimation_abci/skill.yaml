@@ -155,7 +155,11 @@ models:
       currency_id: BTC
       headers: {}
       method: GET
-      parameters: {}
+      parameters:
+        ids: null
+        vs_currencies: null
+        pair: null
+        symbol: null
       response_index: null
       response_key: data:amount
       response_type: float
