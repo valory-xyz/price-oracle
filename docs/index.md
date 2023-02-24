@@ -36,53 +36,55 @@ Once you have {{set_up_system}} to work with the Open Autonomy framework, you ca
 
 3. Prepare the `keys.json` file containing the wallet address and the private key for each of the agents.
 
-    ??? example "Example of a `keys.json` file"
+    ??? example "Generating an example `keys.json` file"
 
         <span style="color:red">**WARNING: Use this file for testing purposes only. Never use the keys or addresses provided in this example in a production environment or for personal use.**</span>
 
-        ```json
+        ```bash
+        cat > keys.json << EOF
         [
           {
-              "address": "0x15d34AAf54267DB7D7c367839AAf71A00a2C6A65",
-              "private_key": "0x47e179ec197488593b187f80a00eb0da91f1b9d0b13f8733639f19c30a34926a"
+            "address": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+            "private_key": "0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80"
           },
           {
-              "address": "0x9965507D1a55bcC2695C58ba16FB37d819B0A4dc",
-              "private_key": "0x8b3a350cf5c34c9194ca85829a2df0ec3153be0318b5e2d3348e872092edffba"
+            "address": "0x70997970C51812dc3A010C7d01b50e0d17dc79C8",
+            "private_key": "0x59c6995e998f97a5a0044966f0945389dc9e86dae88c7a8412f4603b6b78690d"
           },
           {
-              "address": "0x976EA74026E726554dB657fA54763abd0C3a0aa9",
-              "private_key": "0x92db14e403b83dfe3df233f83dfa3a0d7096f21ca9b0d6d6b8d88b2b4ec1564e"
+            "address": "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC",
+            "private_key": "0x5de4111afa1a4b94908f83103eb1f1706367c2e68ca870fc3fb9a804cdab365a"
           },
           {
-              "address": "0x14dC79964da2C08b23698B3D3cc7Ca32193d9955",
-              "private_key": "0x4bbbf85ce3377467afe5d46f804f221813b2bb87f24d81f60f1fcdbf7cbf4356"
+            "address": "0x90F79bf6EB2c4f870365E785982E1f101E93b906",
+            "private_key": "0x7c852118294e51e653712a81e05800f419141751be58f605c371e15141b007a6"
           }
         ]
+        EOF
         ```
 
 4. Build the service deployment.
+   
+    The `--use-hardhat` flag below, adds an image with a hardhat node containing some defaults, e.g., a gnosis safe.
+    Any image with a hardhat node can be used instead of the default `valory/open-autonomy-hardhat` by using an 
+    environment variable. This service needs the Autonolas registries in order to run. There is an image for that, 
+    and we can override the hardhat image with the registries one, which contains all the necessary contracts deployed:
 
     ```bash
-    autonomy deploy build keys.json --aev
+    export HARDHAT_IMAGE_NAME=valory/autonolas-registries
+    autonomy deploy build keys.json --aev -ltm --use-hardhat
     ```
 
 5. Run the service.
 
-      1. In a separate terminal, run a Hardhat node. We provide a pre-configured Docker image for testing.
+    ```bash
+    cd abci_build
+    autonomy deploy run
+    ```
 
-		```bash
-		docker run -p 8545:8545 -it valory/open-autonomy-hardhat:0.1.0
-		```
+    You can cancel the local execution at any time by pressing ++ctrl+c++.
 
-      2. Once the Hardhat node is up and running, run the service deployment.
-
-		```bash
-		cd abci_build
-		autonomy deploy run
-		```
-
-		You can cancel the local execution at any time by pressing ++ctrl+c++.
+To understand the deployment process better, follow the deployment guide [here](https://docs.autonolas.network/open-autonomy/guides/deploy_service/).
 
 ## Build
 
