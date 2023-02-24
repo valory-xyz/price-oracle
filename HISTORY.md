@@ -1,6 +1,16 @@
 # Release History - `price-oracle`
 
 
+## 0.9.1 (2023-02-24)
+
+- Makes set up step explicit in the demo instructions e45cfc9b05f40ec0b708a1e7bc594196edfeef7b
+- Bumps `open-aea` and `open-autonomy` frameworks #48 && #52
+- Fixes doc links linter - added further paths to check #47
+- Fixes the hardhat service configuration #46
+- Adds termination #45
+- Adds `/work` to the safe directories (#44) and uses checkout v3 (#43) to fix the release workflow
+
+
 ## 0.8.0.post2 (2023-01-31)
 
 - Updates kits icons #41
