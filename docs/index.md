@@ -75,10 +75,14 @@ In order to run a local demo of the Price Oracle service with a Hardhat node:
 
 5. Build the service deployment.
    
-    The `--use-hardhat` flag below, adds an image with a hardhat node containing some defaults, e.g., a gnosis safe.
-    Any image with a hardhat node can be used instead of the default `valory/open-autonomy-hardhat` by using an 
-    environment variable. This service needs the Autonolas registries in order to run. There is an image for that, 
-    and we can override the hardhat image with the registries one, which contains all the necessary contracts deployed:
+    The `--use-hardhat` flag below, adds an image with a Hardhat node containing some default smart contracts 
+    (e.g., a [Safe](https://safe.global/)) to the service deployment. You can use any image with a Hardhat node, 
+    instead of the default `valory/open-autonomy-hardhat`. To achieve that, you need to modify the environment variable 
+    `HARDHAT_IMAGE_NAME`.
+
+    The Price Oracle service demo requires the Autonolas Protocol registry contracts in order to run. 
+    We conveniently provide the image `valory/autonolas-registries` containing them. 
+    Therefore, build the deployment as follows:
 
     ```bash
     export HARDHAT_IMAGE_NAME=valory/autonolas-registries
