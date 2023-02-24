@@ -12,7 +12,7 @@ fingerprint:
   dialogues.py: bafybeigabhaykiyzbluu4mk6bbrmqhzld2kyp32pg24bvjmzrrb74einwm
   fsm_specification.yaml: bafybeicequ2dxya6mtyrgb7fn4xud4wr2b4evelobsge43cljg366esdnu
   handlers.py: bafybeihwzvaufzmko54f2tvrj5eyotw35feffmpqvube3vysd2ealrxq3e
-  models.py: bafybeifmlr4pcygozfx4da2k4ewbyvuffajshk5r6sd6tun57ojgbij7gq
+  models.py: bafybeieuy2cvsxfzglflvqqdspuumhmc475g37g3bxhxo5ln6xhfq5z7ky
   payloads.py: bafybeiex7tpl57g3xaiat4dchcmtodyznb75li5ybubd62vhfyogrbl5wi
   rounds.py: bafybeifzcg7iuwgvbj5qyhkvqsa4xsycw66u27ncu2zziywftvuidudiry
   tests/__init__.py: bafybeig4kgnmdxqconomictyqruydn56gdhoo3yv6ej4yfrxt3srgpcvni
@@ -23,13 +23,13 @@ fingerprint:
 fingerprint_ignore_patterns: []
 connections: []
 contracts:
-- valory/offchain_aggregator:0.1.0:bafybeiejugajg6obnqnoutlbz2xkjkpwaoaroufvz54wasndarbgf5cwoq
+- valory/offchain_aggregator:0.1.0:bafybeiggz7egdsjcumckomecmzfw3vf7yrqb3we3mwlxelzcshpowvv5zq
 protocols:
 - open_aea/signing:1.0.0:bafybeibqlfmikg5hk4phzak6gqzhpkt6akckx7xppbp53mvwt6r73h7tk4
 - valory/contract_api:1.0.0:bafybeidv6wxpjyb2sdyibnmmum45et4zcla6tl63bnol6ztyoqvpl4spmy
 - valory/ledger_api:1.0.0:bafybeih6hfzj2obw5oajnt6ng6355edgvi5ngoaub44vpuszqoplfvyaom
 skills:
-- valory/abstract_round_abci:0.1.0:bafybeiami2y2uwvtmjf76hl3jvfahujdir5docjby6erdyjl66ekoblesi
+- valory/abstract_round_abci:0.1.0:bafybeib2jw7hjccou42wis35orckwycb2dgjk7yw46anuqysf2h7su3fi4
 behaviours:
   main:
     args: {}
