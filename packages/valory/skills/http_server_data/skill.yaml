@@ -6,13 +6,13 @@ description: Skill to provide service/agent data for http server connection.
 license: Apache-2.0
 aea_version: '>=1.0.0, <2.0.0'
 fingerprint:
-  README.md: bafybeicg5eg7f4fhaxflzaz6h73xklax6cfggg6d4sjl27tcs3rjqgflza
-  __init__.py: bafybeighk4ughmdsiicrpmybaomnzxxnfj74emi6nn6tq4ixnrkurm2m6a
-  behaviours.py: bafybeihlpqxt5juysich4ehms5r56op2diu3cua7v5iq7ikxporduixwty
+  README.md: bafybeiag5fzx2g4wt4sf4fkdmybvqatliigyemzjl2tml3lg4yvqttnz6e
+  __init__.py: bafybeihhknecthujtf4njxdzyteu6vm65lwbhhb6bhefqsmcynjbuhfcli
+  behaviours.py: bafybeihmfoxzeb5hfapcwfkgdowd4a6iyby72ssldwavgdgnf5bfosm7ju
   dialogues.py: bafybeibggve3jy72w3a5effyobh7dgldeag5ikbhbw4tziuk5h2mpf7cc4
-  handlers.py: bafybeie2adadffzflzufu4estp6airmhvaaq3ukob4qxslv2ekbsfuw3iu
+  handlers.py: bafybeiexmzr3afb6vvrpibtlzl3qrs43zzliuuovkcycwvithepq2jdvpa
   models.py: bafybeibl2of7324fi5aiw6m2h6ayrlq2epl35gy7b4wr6slaiuenrh7sa4
-  tests/__init__.py: bafybeihlgffzmngu3ydky57kchhrdsfakmvpbq5mcmyrsdnolfnimftktm
+  tests/__init__.py: bafybeidelfxp25fciaqlf3dx7iombmx5b2kax3yenze3x7jdumeraaljiy
   tests/test_handlers.py: bafybeifrpafjwduducg4da4m23wa27upgkdq5o6zgr2joplpgwvjdf4v7m
 fingerprint_ignore_patterns: []
 connections:

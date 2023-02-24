@@ -17,4 +17,4 @@
 #
 # ------------------------------------------------------------------------------
 
-"""This module contains the behaviours for the 'abci' skill."""
+"""This module contains the behaviours for `http server data` skill."""

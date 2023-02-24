@@ -16,10 +16,8 @@
 #   limitations under the License.
 #
 # ------------------------------------------------------------------------------
-
-"""This module contains the handler for the 'price_estimation_abci' skill."""
+"""This module contains the handlers for `http server data` skill."""
 import json
-from enum import Enum
 from typing import Tuple, cast
 
 from aea.protocols.base import Message
@@ -41,16 +39,8 @@ from packages.valory.skills.price_estimation_abci.models import (
 )
 
 
-class HttpMethod(Enum):
-    """Http methods"""
-
-    GET = "get"
-    HEAD = "head"
-    POST = "post"
-
-
 class HttpServerHandler(BaseHttpHandler):
-    """This implements the echo handler."""
+    """This implements the http server request handler."""
 
     SUPPORTED_PROTOCOL = HttpMessage.protocol_id
     allowed_response_performatives = frozenset({HttpMessage.Performative.REQUEST})

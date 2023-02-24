@@ -32,7 +32,7 @@ protocols:
 skills:
 - valory/abstract_abci:0.1.0:bafybeiheudaobfaj5lcrqvgwmdysq3za5yjrjtpdiuwhmw5c7lmbgglxti
 - valory/abstract_round_abci:0.1.0:bafybeidzvyg6x3zjvbp5hkn2nocv5zwzzjrvptbqojep4yjdmncer2fkrm
-- valory/http_server_data:0.1.0:bafybeifmwivtgl27nencnnlesshnw2wvw277465szkdhtdbsgvcoju7g2u
+- valory/http_server_data:0.1.0:bafybeihowkxmsqf7a45jl4zg73v235mcv64zczh4pxrjmcj5vc32mz4jqu
 - valory/oracle_abci:0.1.0:bafybeicqludw5qtbmfdtxyrtnq2jdtrkcv6tz7c76vesyvcs5oq2zvwtsm
 - valory/oracle_deployment_abci:0.1.0:bafybeidgm5p75h6irslsumt7ms4ntjxphnvfvuinax4wn76lnflldb7fqy
 - valory/price_estimation_abci:0.1.0:bafybeiaiq7hrnrknb3r2tgrzvkjwctkpt4fj7sp4xhqev4bs4fb6kvhu2q
