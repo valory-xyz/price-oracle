@@ -19,6 +19,7 @@
 
 """Test various price apis."""
 
+from collections import OrderedDict
 from typing import Dict, List
 from typing import OrderedDict as OrderedDictType
 from typing import Tuple, Union
@@ -45,8 +46,8 @@ price_apis = pytest.mark.parametrize(
         [
             ("url", f"{MOCKED_APIS_URL}/coingecko"),
             ("api_id", "coingecko"),
-            ("headers", []),
-            ("parameters", [["ids", "bitcoin"], ["vs_currencies", "usd"]]),
+            ("headers", OrderedDict()),
+            ("parameters", OrderedDict({"ids": "bitcoin", "vs_currencies": "usd"})),
             ("response_key", "bitcoin:usd"),
         ],
         [
@@ -54,21 +55,21 @@ price_apis = pytest.mark.parametrize(
             ("api_id", "kraken"),
             ("response_key", "result:XXBTZUSD:b"),
             ("response_index", 0),
-            ("headers", []),
-            ("parameters", [["pair", "BTCUSD"]]),
+            ("headers", OrderedDict()),
+            ("parameters", OrderedDict({"pair": "BTCUSD"})),
         ],
         [
             ("url", f"{MOCKED_APIS_URL}/coinbase"),
             ("api_id", "coinbase"),
             ("response_key", "data:amount"),
-            ("headers", []),
-            ("parameters", []),
+            ("headers", OrderedDict()),
+            ("parameters", OrderedDict()),
         ],
         [
             ("url", f"{MOCKED_APIS_URL}/binance"),
             ("api_id", "binance"),
-            ("headers", []),
-            ("parameters", [["symbol", "BTCUSDT"]]),
+            ("headers", OrderedDict()),
+            ("parameters", OrderedDict({"symbol": "BTCUSDT"})),
             ("response_key", "price"),
         ],
     ],
@@ -80,26 +81,26 @@ randomness_apis = pytest.mark.parametrize(
         [
             ("url", f"{MOCKED_APIS_URL}/cloudflare"),
             ("api_id", "cloudflare"),
-            ("headers", []),
-            ("parameters", []),
+            ("headers", OrderedDict()),
+            ("parameters", OrderedDict()),
         ],
         [
             ("url", f"{MOCKED_APIS_URL}/protocollabs1"),
             ("api_id", "protocollabs1"),
-            ("headers", []),
-            ("parameters", []),
+            ("headers", OrderedDict()),
+            ("parameters", OrderedDict()),
         ],
         [
             ("url", f"{MOCKED_APIS_URL}/protocollabs2"),
             ("api_id", "protocollabs2"),
-            ("headers", []),
-            ("parameters", []),
+            ("headers", OrderedDict()),
+            ("parameters", OrderedDict()),
         ],
         [
             ("url", f"{MOCKED_APIS_URL}/protocollabs3"),
             ("api_id", "protocollabs3"),
-            ("headers", []),
-            ("parameters", []),
+            ("headers", OrderedDict()),
+            ("parameters", OrderedDict()),
         ],
     ],
 )
@@ -121,7 +122,7 @@ def make_request(api_specs: Dict) -> requests.Response:
     if api_specs["method"] == "GET":
         if api_specs["parameters"]:
             api_specs["url"] = api_specs["url"] + "?"
-            for key, val in api_specs["parameters"]:
+            for key, val in api_specs["parameters"].items():
                 api_specs["url"] += f"{key}={val}&"
             api_specs["url"] = api_specs["url"][:-1]
         return requests.get(url=api_specs["url"], headers=dict(api_specs["headers"]))
@@ -137,7 +138,7 @@ class TestApis:
     @staticmethod
     @price_apis
     def test_price_api(
-        api_specs: List[Tuple[str, Union[str, List[OrderedDictType[str, str]]]]]
+        api_specs: List[Tuple[str, Union[str, OrderedDictType[str, str]]]]
     ) -> None:
         """Test various price api specs."""
 
@@ -159,7 +160,9 @@ class TestApis:
 
     @staticmethod
     @randomness_apis
-    def test_randomness_api(api_specs: List[Tuple[str, Union[str, List]]]) -> None:
+    def test_randomness_api(
+        api_specs: List[Tuple[str, Union[str, OrderedDictType]]]
+    ) -> None:
         """Test various price api specs."""
 
         api = RandomnessApi(

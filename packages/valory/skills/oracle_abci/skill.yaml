@@ -153,9 +153,9 @@ models:
       api_id: coinbase
       convert_id: USD
       currency_id: BTC
-      headers: []
+      headers: {}
       method: GET
-      parameters: []
+      parameters: {}
       response_index: null
       response_key: data:amount
       response_type: float
@@ -165,9 +165,9 @@ models:
   randomness_api:
     args:
       api_id: cloudflare
-      headers: []
+      headers: {}
       method: GET
-      parameters: []
+      parameters: {}
       response_key: null
       response_type: dict
       retries: 5
@@ -180,9 +180,9 @@ models:
     args:
       api_id: oracle_server
       headers:
-      - Content-Type: application/json
+        Content-Type: application/json
       method: POST
-      parameters: []
+      parameters: {}
       response_key: null
       response_type: dict
       retries: 5
