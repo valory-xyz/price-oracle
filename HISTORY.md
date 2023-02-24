@@ -4,7 +4,7 @@
 ## 0.9.1 (2023-02-24)
 
 - Makes set up step explicit in the demo instructions e45cfc9b05f40ec0b708a1e7bc594196edfeef7b
-- Bumps `open-aea` and `open-autonomy` frameworks #48 && #52
+- Bumps `open-aea` and `open-autonomy` frameworks to `v1.29.0` and `v0.9.1` correspondingly in #48 && #52
 - Fixes doc links linter - added further paths to check #47
 - Fixes the hardhat service configuration #46
 - Adds termination #45
