@@ -268,7 +268,6 @@ class TransactionHashBehaviour(PriceEstimationBaseBehaviour):
     def get_service_data(self) -> Dict:
         """Get service data to expose."""
         period_count = self.synchronized_data.period_count
-
         self.context.logger.info("Attempting broadcast")
 
         prev_tx_hash = ""
@@ -432,6 +431,7 @@ class SignServiceDataHashBehaviour(PriceEstimationBaseBehaviour):
             payload = SignaturePayload(self.context.agent_address, signature_string)
             yield from self.send_a2a_transaction(payload)
             yield from self.wait_until_round_end()
+        self.set_done()
 
     def get_data_signature(self, data: Dict) -> Generator[None, None, str]:
         """Get signature for the data."""
@@ -470,6 +470,7 @@ class DataHashSignatureStoreBehaviour(PriceEstimationBaseBehaviour):
         payload = EmptyPayload(self.context.agent_address)
         yield from self.send_a2a_transaction(payload)
         yield from self.wait_until_round_end()
+        self.set_done()
 
 
 class ObserverRoundBehaviour(AbstractRoundBehaviour):

@@ -30,6 +30,7 @@ from packages.valory.skills.abstract_round_abci.base import (
 )
 from packages.valory.skills.abstract_round_abci.base import CollectionRound, MAX_INT_256
 from packages.valory.skills.abstract_round_abci.test_tools.rounds import (
+    BaseCollectDifferentUntilAllRoundTest,
     BaseCollectDifferentUntilThresholdRoundTest,
     BaseCollectSameUntilThresholdRoundTest,
 )
@@ -40,6 +41,7 @@ from packages.valory.skills.oracle_deployment_abci.payloads import (
 from packages.valory.skills.price_estimation_abci.payloads import (
     EstimatePayload,
     ObservationPayload,
+    SignaturePayload,
     TransactionHashPayload,
 )
 from packages.valory.skills.price_estimation_abci.rounds import (
@@ -47,6 +49,7 @@ from packages.valory.skills.price_estimation_abci.rounds import (
 )
 from packages.valory.skills.price_estimation_abci.rounds import (
     CollectObservationRound,
+    DataHashSignRound,
     EstimateConsensusRound,
 )
 from packages.valory.skills.price_estimation_abci.rounds import (
@@ -157,6 +160,16 @@ def get_participant_to_tx_hash(
     """participant_to_tx_hash"""
     return {
         participant: TransactionHashPayload(sender=participant, tx_hash=hash_)
+        for participant in participants
+    }
+
+
+def get_data_hash_signatures_payloads(
+    participants: FrozenSet[str], signature: str = "signature"
+) -> Dict[str, TransactionHashPayload]:
+    """participant_to_tx_hash"""
+    return {
+        participant: SignaturePayload(sender=participant, signature=signature)
         for participant in participants
     }
 
@@ -450,3 +463,51 @@ def test_synchronized_data() -> None:
     assert price_synchronized_data.observations == [
         value.observation for value in participant_to_observations.values()
     ]
+
+
+class TestDataHashSignRound(BaseCollectDifferentUntilAllRoundTest):
+    """Test DataHashSignRound."""
+
+    _synchronized_data_class = PriceEstimationSynchronizedSata
+    _event_class = PriceEstimationEvent
+
+    def test_run(
+        self,
+    ) -> None:
+        """Runs test."""
+
+        test_round = DataHashSignRound(
+            synchronized_data=self.synchronized_data,
+        )
+
+        signature = "signature"
+
+        def check_synchronized_data(data: PriceEstimationSynchronizedSata):
+            return data.service_data_signatures
+
+        def update_data(data: PriceEstimationSynchronizedSata, _):
+            nonlocal self, signature
+            data.update(
+                **{
+                    "service_data_signatures": {
+                        agent: signature for agent in self.participants
+                    }
+                },
+                synchronized_data_class=SynchronizedData,
+            )
+            return data
+
+        payloads = list(
+            get_data_hash_signatures_payloads(
+                self.participants, signature=signature
+            ).values()
+        )
+        self._complete_run(
+            self._test_round(
+                test_round=test_round,
+                round_payloads=payloads,
+                synchronized_data_update_fn=update_data,
+                synchronized_data_attr_checks=[check_synchronized_data],
+                exit_event=self._event_class.DONE,
+            )
+        )

@@ -46,19 +46,30 @@ from packages.valory.skills.abstract_round_abci.base import (
     CollectionRound,
     _MetaPayload,
 )
-from packages.valory.skills.abstract_round_abci.behaviour_utils import BaseBehaviour
+from packages.valory.skills.abstract_round_abci.behaviour_utils import (
+    BaseBehaviour,
+    make_degenerate_behaviour,
+)
 from packages.valory.skills.abstract_round_abci.test_tools.base import (
     FSMBehaviourBaseCase,
 )
 from packages.valory.skills.price_estimation_abci.behaviours import (
+    DataHashSignatureStoreBehaviour,
     EstimateBehaviour,
     ObserveBehaviour,
     SignServiceDataHashBehaviour,
     TransactionHashBehaviour,
     pack_for_server,
 )
+from packages.valory.skills.price_estimation_abci.models import (
+    SHARED_STATE_SERVICE_DATA_KEY_NAME,
+    SHARED_STATE_SIGNATURES_KEY_NAME,
+)
 from packages.valory.skills.price_estimation_abci.payloads import ObservationPayload
-from packages.valory.skills.price_estimation_abci.rounds import Event
+from packages.valory.skills.price_estimation_abci.rounds import (
+    Event,
+    FinishedPriceAggregationRound,
+)
 from packages.valory.skills.price_estimation_abci.rounds import (
     SynchronizedData as PriceEstimationSynchronizedSata,
 )
@@ -403,7 +414,11 @@ class TestTransactionHashBehaviour(PriceEstimationFSMBehaviourBaseCase):
             ).auto_behaviour_id()
             == TransactionHashBehaviour.auto_behaviour_id()
         )
+        self.behaviour.context.shared_state.pop(
+            SHARED_STATE_SERVICE_DATA_KEY_NAME, None
+        )
         self.behaviour.act_wrapper()
+
         self.mock_contract_api_request(
             request_kwargs=dict(
                 performative=ContractApiMessage.Performative.GET_RAW_TRANSACTION,
@@ -480,6 +495,9 @@ class TestTransactionHashBehaviour(PriceEstimationFSMBehaviourBaseCase):
         self.mock_a2a_transaction()
         self._test_done_flag_set()
         self.end_round(Event.DONE)
+
+        assert SHARED_STATE_SERVICE_DATA_KEY_NAME in self.behaviour.context.shared_state
+
         behaviour = cast(BaseBehaviour, self.behaviour.current_behaviour)
         assert (
             behaviour.auto_behaviour_id()
@@ -555,3 +573,108 @@ def test_fuzz_pack_for_server() -> None:
     atheris.instrument_all()
     atheris.Setup(sys.argv, fuzz_pack_for_server)
     atheris.Fuzz()
+
+
+class TestDataHashSignatureStoreBehaviour(PriceEstimationFSMBehaviourBaseCase):
+    """Test DataHashSignatureStoreBehaviour."""
+
+    def test_run(
+        self,
+    ) -> None:
+        """Test DataHashSignatureStoreBehaviour."""
+
+        signatures = {"some": "signature"}
+        self.fast_forward_to_behaviour(
+            behaviour=self.behaviour,
+            behaviour_id=DataHashSignatureStoreBehaviour.auto_behaviour_id(),
+            synchronized_data=PriceEstimationSynchronizedSata(
+                AbciAppDB(
+                    setup_data=dict(service_data_signatures=[signatures]),
+                ),
+            ),
+        )
+        assert (
+            cast(
+                BaseBehaviour,
+                cast(BaseBehaviour, self.behaviour.current_behaviour),
+            ).auto_behaviour_id()
+            == DataHashSignatureStoreBehaviour.auto_behaviour_id()
+        )
+
+        assert (
+            SHARED_STATE_SIGNATURES_KEY_NAME not in self.behaviour.context.shared_state
+        )
+        self.behaviour.act_wrapper()
+        self.mock_a2a_transaction()
+        self._test_done_flag_set()
+        self.end_round(Event.DONE)
+
+        assert SHARED_STATE_SIGNATURES_KEY_NAME in self.behaviour.context.shared_state
+        assert (
+            self.behaviour.context.shared_state[SHARED_STATE_SIGNATURES_KEY_NAME]
+            == signatures
+        )
+
+        behaviour = cast(BaseBehaviour, self.behaviour.current_behaviour)
+        assert (
+            behaviour.auto_behaviour_id()
+            == make_degenerate_behaviour(
+                FinishedPriceAggregationRound
+            ).auto_behaviour_id()
+        )
+
+
+class TestSignServiceDataHashBehaviour(PriceEstimationFSMBehaviourBaseCase):
+    """Test SignServiceDataHashBehaviour."""
+
+    def test_run(
+        self,
+    ) -> None:
+        """Test SignServiceDataHashBehaviour."""
+
+        signatures = {"some": "signature"}
+        self.fast_forward_to_behaviour(
+            behaviour=self.behaviour,
+            behaviour_id=SignServiceDataHashBehaviour.auto_behaviour_id(),
+            synchronized_data=PriceEstimationSynchronizedSata(
+                AbciAppDB(
+                    setup_data=dict(service_data_signatures=[signatures]),
+                ),
+            ),
+        )
+        assert (
+            cast(
+                BaseBehaviour,
+                cast(BaseBehaviour, self.behaviour.current_behaviour),
+            ).auto_behaviour_id()
+            == SignServiceDataHashBehaviour.auto_behaviour_id()
+        )
+
+        service_data = "some data"
+        self.behaviour.context.shared_state[
+            SHARED_STATE_SERVICE_DATA_KEY_NAME
+        ] = service_data
+        called = False
+        orig = self.behaviour.current_behaviour.get_signature
+
+        def dummy(*args, **kwagrs):
+            nonlocal called, self
+            if not called:
+                called = True
+                return "0xsignature"
+            sig = yield from orig(*args, **kwagrs)
+            return sig
+
+        with mock.patch.object(
+            self.behaviour.current_behaviour, "get_signature", new=dummy
+        ):
+            self.behaviour.act_wrapper()
+        self.mock_a2a_transaction()
+        self._test_done_flag_set()
+        self.end_round(Event.DONE)
+
+        behaviour = cast(BaseBehaviour, self.behaviour.current_behaviour)
+        assert (
+            behaviour.auto_behaviour_id()
+            == DataHashSignatureStoreBehaviour.auto_behaviour_id()
+        )
