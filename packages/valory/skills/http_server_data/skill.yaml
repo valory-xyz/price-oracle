@@ -16,13 +16,13 @@ fingerprint:
   tests/test_handlers.py: bafybeifrpafjwduducg4da4m23wa27upgkdq5o6zgr2joplpgwvjdf4v7m
 fingerprint_ignore_patterns: []
 connections:
-- fetchai/http_server:0.22.0:bafybeihktreqs2fsidphiydky7sw5ssc5tuxk4acgerqv5aehpst5r3w6y
+- fetchai/http_server:0.22.0:bafybeihaax5od5zo5jk2l62hv4jwuwtxloh5mijozudpsjombqc4ncmi6i
 contracts: []
 protocols:
 - valory/http:1.0.0:bafybeifyoio7nlh5zzyn5yz7krkou56l22to3cwg7gw5v5o3vxwklibhty
 skills:
-- valory/abstract_round_abci:0.1.0:bafybeidzvyg6x3zjvbp5hkn2nocv5zwzzjrvptbqojep4yjdmncer2fkrm
-- valory/price_estimation_abci:0.1.0:bafybeiaiq7hrnrknb3r2tgrzvkjwctkpt4fj7sp4xhqev4bs4fb6kvhu2q
+- valory/abstract_round_abci:0.1.0:bafybeib2jw7hjccou42wis35orckwycb2dgjk7yw46anuqysf2h7su3fi4
+- valory/price_estimation_abci:0.1.0:bafybeianok5uh32jsiwriz6zczgwmzg3r6el4brq6d2o3uormyx2skr5oe
 behaviours: {}
 handlers:
   http_server_handler:
