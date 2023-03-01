@@ -32,10 +32,10 @@ protocols:
 skills:
 - valory/abstract_abci:0.1.0:bafybeihkrunmigvlcze7uxhafj2h3kvpf2kifggq7zqj42n2we4mcwuvou
 - valory/abstract_round_abci:0.1.0:bafybeib2jw7hjccou42wis35orckwycb2dgjk7yw46anuqysf2h7su3fi4
-- valory/http_server_data:0.1.0:bafybeig5gl5wnsvyv2gcqdq6ke3asvyxqh5nmv5verjhaj4ku5l6ozb7h4
-- valory/oracle_abci:0.1.0:bafybeiflj23uqiwvzvdmksfpo6g6xxdwbp3rshwaydph2nzdwwtmjwbrxq
+- valory/http_server_data:0.1.0:bafybeig4lljk6e23ygjm2nsyq37jmuuiw6v4cvathe6w4fuhe4odp2dbpm
+- valory/oracle_abci:0.1.0:bafybeiaiopg5izlzgsvubfwix2qn4nsg7j2gmy6pqvymsxpamfbhbwnx3q
 - valory/oracle_deployment_abci:0.1.0:bafybeiemqem3uaufa7jtr24oqbjphdjftnsowaoc72evsjbhohazvau2qa
-- valory/price_estimation_abci:0.1.0:bafybeianok5uh32jsiwriz6zczgwmzg3r6el4brq6d2o3uormyx2skr5oe
+- valory/price_estimation_abci:0.1.0:bafybeib6wavsbvrdbxpu2rib67x7mpiftd7is3q7ck7w7ci72j5chi52x4
 - valory/registration_abci:0.1.0:bafybeidgoqi7fa2gb56hdfsf74bbunfii63zgeo4qhggb66ofver2n2gya
 - valory/reset_pause_abci:0.1.0:bafybeievxhu6u5r5wlpjfzcwuowlbanhfbi25saf25qit53jauv4kq6gne
 - valory/termination_abci:0.1.0:bafybeihpp4li6jw3co4c4jferrtzobq2ydoc3dcn67esqrg5ebvyoac66e
@@ -166,8 +166,8 @@ public_id: fetchai/http_server:0.22.0
 type: connection
 config:
   api_spec_path: null
-  host: 127.0.0.1
-  port: 8000
+  host: ${HTTP_SERVER_LISTEN_ADDRESS:str:0.0.0.0}
+  port: ${HTTP_SERVER_LISTEN_PORT:int:8000}
   ssl_cert: null
   ssl_key: null
   target_skill_id: valory/http_server_data:0.1.0
