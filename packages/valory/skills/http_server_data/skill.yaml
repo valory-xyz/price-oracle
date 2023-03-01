@@ -10,10 +10,10 @@ fingerprint:
   __init__.py: bafybeihhknecthujtf4njxdzyteu6vm65lwbhhb6bhefqsmcynjbuhfcli
   behaviours.py: bafybeihmfoxzeb5hfapcwfkgdowd4a6iyby72ssldwavgdgnf5bfosm7ju
   dialogues.py: bafybeibggve3jy72w3a5effyobh7dgldeag5ikbhbw4tziuk5h2mpf7cc4
-  handlers.py: bafybeiexmzr3afb6vvrpibtlzl3qrs43zzliuuovkcycwvithepq2jdvpa
+  handlers.py: bafybeiawwkngrb6tpyyi7zqnwcc34oc3xnuz22lg7ovuuwdmv3ogey7tfa
   models.py: bafybeibl2of7324fi5aiw6m2h6ayrlq2epl35gy7b4wr6slaiuenrh7sa4
   tests/__init__.py: bafybeidelfxp25fciaqlf3dx7iombmx5b2kax3yenze3x7jdumeraaljiy
-  tests/test_handlers.py: bafybeifrpafjwduducg4da4m23wa27upgkdq5o6zgr2joplpgwvjdf4v7m
+  tests/test_handlers.py: bafybeifpvtcsta22cpjryrifdfhduvzboq7buup747psw7grhjljqsshju
 fingerprint_ignore_patterns: []
 connections:
 - fetchai/http_server:0.22.0:bafybeihaax5od5zo5jk2l62hv4jwuwtxloh5mijozudpsjombqc4ncmi6i
@@ -22,7 +22,7 @@ protocols:
 - valory/http:1.0.0:bafybeifyoio7nlh5zzyn5yz7krkou56l22to3cwg7gw5v5o3vxwklibhty
 skills:
 - valory/abstract_round_abci:0.1.0:bafybeib2jw7hjccou42wis35orckwycb2dgjk7yw46anuqysf2h7su3fi4
-- valory/price_estimation_abci:0.1.0:bafybeib6wavsbvrdbxpu2rib67x7mpiftd7is3q7ck7w7ci72j5chi52x4
+- valory/price_estimation_abci:0.1.0:bafybeid6cquykmehgix74cssleqke6qxrpnigepjhcteckiw3tu543qova
 behaviours: {}
 handlers:
   http_server_handler:

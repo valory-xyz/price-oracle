@@ -35,6 +35,10 @@ from packages.fetchai.connections.http_server.connection import (
 from packages.valory.protocols.http.message import HttpMessage
 from packages.valory.skills.http_server_data.dialogues import HttpDialogues
 from packages.valory.skills.http_server_data.handlers import HttpServerHandler
+from packages.valory.skills.price_estimation_abci.models import (
+    SHARED_STATE_SERVICE_DATA_BYTES_KEY_NAME,
+    SHARED_STATE_SIGNATURES_KEY_NAME,
+)
 
 
 PACKAGE_DIR = Path(__file__).parent.parent
@@ -139,7 +143,7 @@ class TestHttpHandler(BaseSkillTestCase):
             f"Received invalid http message={incoming_message}, unidentified dialogue.",
         )
 
-    def test_handle_request_get(self) -> None:
+    def test_handle_request_get_data_not_ready(self) -> None:
         """Test the _handle_request method of the handler where method is get."""
         # setup
         incoming_message = cast(
@@ -155,6 +159,13 @@ class TestHttpHandler(BaseSkillTestCase):
                 headers=self.headers,
                 body="",
             ),
+        )
+
+        self.http_handler.context.shared_state.pop(
+            SHARED_STATE_SERVICE_DATA_BYTES_KEY_NAME, None
+        )
+        self.http_handler.context.shared_state.pop(
+            SHARED_STATE_SIGNATURES_KEY_NAME, None
         )
 
         # operation
@@ -185,12 +196,77 @@ class TestHttpHandler(BaseSkillTestCase):
             to=incoming_message.sender,
             sender=incoming_message.to,
             version=incoming_message.version,
-            status_code=200,
-            status_text="Success",
+            status_code=503,
             headers="Content-Type: application/json\n",
         )
         assert has_attributes, error_str
-        assert message.body == b'{"payload": "", "signatures": {}}'
+        assert message.body == b"Data not ready"
+
+        mock_logger.assert_any_call(
+            logging.INFO,
+            f"Responding with: {message}",
+        )
+
+    def test_handle_request_get_data_ready(self) -> None:
+        """Test the _handle_request method of the handler where method is get."""
+        # setup
+        incoming_message = cast(
+            HttpMessage,
+            self.build_incoming_message(
+                message_type=HttpMessage,
+                performative=HttpMessage.Performative.REQUEST,
+                to=self.skill_id,
+                sender=self.sender,
+                method="get",
+                url="http://localhost:8000/",
+                version=self.version,
+                headers=self.headers,
+                body="",
+            ),
+        )
+        payload = b"some payload"
+        self.http_handler.context.shared_state[
+            SHARED_STATE_SERVICE_DATA_BYTES_KEY_NAME
+        ] = payload
+        self.http_handler.context.shared_state[SHARED_STATE_SIGNATURES_KEY_NAME] = {
+            "addr": "sig"
+        }
+        # operation
+        with patch.object(self.logger, "log") as mock_logger:
+            mock_now_time = datetime.datetime(2022, 1, 1)
+            datetime_mock = Mock(wraps=datetime.datetime)
+            datetime_mock.now.return_value = mock_now_time
+
+            with patch("datetime.datetime", new=datetime_mock):
+                self.http_handler.handle(incoming_message)
+
+        # after
+        self.assert_quantity_in_outbox(1)
+
+        mock_logger.assert_any_call(
+            logging.INFO,
+            "Received http request with method={}, url={} and body={!r}".format(
+                incoming_message.method, incoming_message.url, incoming_message.body
+            ),
+        )
+
+        # _handle_get
+        message = self.get_message_from_outbox()
+        has_attributes, error_str = self.message_has_attributes(
+            actual_message=message,
+            message_type=HttpMessage,
+            performative=HttpMessage.Performative.RESPONSE,
+            to=incoming_message.sender,
+            sender=incoming_message.to,
+            version=incoming_message.version,
+            status_code=200,
+            headers="Content-Type: application/json\n",
+        )
+        assert has_attributes, error_str
+        assert (
+            message.body
+            == b'{"payload": "some payload", "signatures": {"addr": "sig"}}'
+        )
 
         mock_logger.assert_any_call(
             logging.INFO,

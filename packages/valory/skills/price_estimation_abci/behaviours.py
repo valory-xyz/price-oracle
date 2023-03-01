@@ -18,7 +18,7 @@
 # ------------------------------------------------------------------------------
 
 """This module contains the behaviours for the 'abci' skill."""
-
+import copy
 import hashlib
 import json
 import statistics
@@ -435,7 +435,14 @@ class SignServiceDataHashBehaviour(PriceEstimationBaseBehaviour):
 
     def get_data_signature(self, data: Dict) -> Generator[None, None, str]:
         """Get signature for the data."""
+        data = copy.deepcopy(data)
+
+        data.pop("agent_address", None)  # agent address is unique, need to remove it
+        data.pop("data_source", None)  # data_source can be unique, need to remove it
+
         data_bytes = json.dumps(data, sort_keys=True).encode("ascii")
+
+        # store data to share with http handler
         self.context.shared_state[SHARED_STATE_SERVICE_DATA_BYTES_KEY_NAME] = data_bytes
 
         hash_bytes = hashlib.sha256(data_bytes).digest()
@@ -462,6 +469,7 @@ class DataHashSignatureStoreBehaviour(PriceEstimationBaseBehaviour):
         - Get signatures from synchronized_data
           Store signatures into shared state
         """
+        # store signatures to be used bu http server handler
         self.context.shared_state[SHARED_STATE_SIGNATURES_KEY_NAME] = {
             k.lower(): v
             for k, v in self.synchronized_data.service_data_signatures.items()

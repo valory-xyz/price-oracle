@@ -650,14 +650,14 @@ class TestSignServiceDataHashBehaviour(PriceEstimationFSMBehaviourBaseCase):
             == SignServiceDataHashBehaviour.auto_behaviour_id()
         )
 
-        service_data = "some data"
+        service_data = {"some": "data"}
         self.behaviour.context.shared_state[
             SHARED_STATE_SERVICE_DATA_KEY_NAME
         ] = service_data
         called = False
-        orig = self.behaviour.current_behaviour.get_signature
+        orig = self.behaviour.current_behaviour.get_signature  # type: ignore
 
-        def dummy(*args, **kwagrs):
+        def dummy(*args, **kwagrs):  # type: ignore
             nonlocal called, self
             if not called:
                 called = True

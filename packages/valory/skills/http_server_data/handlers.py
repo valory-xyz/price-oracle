@@ -95,13 +95,13 @@ class HttpServerHandler(BaseHttpHandler):
             )
         )
 
-        code, data_bytes = self.get_data()
+        code, status_text, data_bytes = self.get_data()
         http_response = http_dialogue.reply(
             performative=HttpMessage.Performative.RESPONSE,
             target_message=http_msg,
             version=http_msg.version,
             status_code=code,
-            status_text="Success",
+            status_text=status_text,
             headers=f"{self.json_content_header}",
             body=data_bytes,
         )
@@ -110,16 +110,22 @@ class HttpServerHandler(BaseHttpHandler):
         self.context.logger.info("Responding with: {}".format(http_response))
         self.context.outbox.put_message(message=http_response)
 
-    def get_data(self) -> Tuple[int, bytes]:
+    def get_data(self) -> Tuple[int, str, bytes]:
         """Get data and status code for resonse."""
+        payload = self.context.shared_state.get(
+            SHARED_STATE_SERVICE_DATA_BYTES_KEY_NAME, b""
+        )
+
+        if not payload:
+            return 503, "Data not ready", b"Data not ready"
+
         data = {
-            "payload": self.context.shared_state.get(
-                SHARED_STATE_SERVICE_DATA_BYTES_KEY_NAME, b""
-            ).decode("utf-8"),
+            "payload": payload.decode("utf-8"),
             "signatures": self.context.shared_state.get(
                 SHARED_STATE_SIGNATURES_KEY_NAME,
                 {},
             ),
         }
+
         data_bytes = json.dumps(data).encode("utf-8")
-        return 200, data_bytes
+        return 200, "Success", data_bytes

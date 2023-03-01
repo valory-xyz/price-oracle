@@ -22,7 +22,7 @@
 # pylint: skip-file
 
 import logging  # noqa: F401
-from typing import Dict, FrozenSet, Optional
+from typing import Any, Dict, FrozenSet, Optional
 
 from packages.valory.skills.abstract_round_abci.base import AbciAppDB
 from packages.valory.skills.abstract_round_abci.base import (
@@ -166,7 +166,7 @@ def get_participant_to_tx_hash(
 
 def get_data_hash_signatures_payloads(
     participants: FrozenSet[str], signature: str = "signature"
-) -> Dict[str, TransactionHashPayload]:
+) -> Dict[str, SignaturePayload]:
     """participant_to_tx_hash"""
     return {
         participant: SignaturePayload(sender=participant, signature=signature)
@@ -482,10 +482,12 @@ class TestDataHashSignRound(BaseCollectDifferentUntilAllRoundTest):
 
         signature = "signature"
 
-        def check_synchronized_data(data: PriceEstimationSynchronizedSata):
+        def check_synchronized_data(data: PriceEstimationSynchronizedSata) -> Dict:
             return data.service_data_signatures
 
-        def update_data(data: PriceEstimationSynchronizedSata, _):
+        def update_data(
+            data: PriceEstimationSynchronizedSata, _: Any
+        ) -> SynchronizedData:
             nonlocal self, signature
             data.update(
                 **{
@@ -505,7 +507,7 @@ class TestDataHashSignRound(BaseCollectDifferentUntilAllRoundTest):
         self._complete_run(
             self._test_round(
                 test_round=test_round,
-                round_payloads=payloads,
+                round_payloads=payloads,  # type: ignore
                 synchronized_data_update_fn=update_data,
                 synchronized_data_attr_checks=[check_synchronized_data],
                 exit_event=self._event_class.DONE,
