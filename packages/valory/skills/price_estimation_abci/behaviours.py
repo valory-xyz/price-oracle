@@ -319,6 +319,8 @@ class TransactionHashBehaviour(PriceEstimationBaseBehaviour):
         :param data_for_server: dict
         :yield: the http response
         """
+        # going to be modified, have to copy
+        data_for_server = copy.deepcopy(data_for_server)
 
         self.context.logger.info("Attempting broadcast")
 
