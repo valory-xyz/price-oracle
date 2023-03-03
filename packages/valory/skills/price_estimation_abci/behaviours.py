@@ -44,7 +44,6 @@ from packages.valory.skills.price_estimation_abci.models import (
     SHARED_STATE_SIGNATURES_KEY_NAME,
 )
 from packages.valory.skills.price_estimation_abci.payloads import (
-    EmptyPayload,
     EstimatePayload,
     ObservationPayload,
     SignaturePayload,
@@ -476,9 +475,6 @@ class DataHashSignatureStoreBehaviour(PriceEstimationBaseBehaviour):
             k.lower(): v
             for k, v in self.synchronized_data.service_data_signatures.items()
         }
-
-        payload = EmptyPayload(self.context.agent_address)
-        yield from self.send_a2a_transaction(payload)
         yield from self.wait_until_round_end()
         self.set_done()
 

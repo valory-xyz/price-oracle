@@ -169,7 +169,9 @@ def get_data_hash_signatures_payloads(
 ) -> Dict[str, SignaturePayload]:
     """participant_to_tx_hash"""
     return {
-        participant: SignaturePayload(sender=participant, signature=signature)
+        participant: SignaturePayload(
+            sender=participant, signature=f"signature_{participant}"
+        )
         for participant in participants
     }
 
@@ -492,7 +494,7 @@ class TestDataHashSignRound(BaseCollectDifferentUntilAllRoundTest):
             data.update(
                 **{
                     "service_data_signatures": {
-                        agent: signature for agent in self.participants
+                        agent: f"signature_{agent}" for agent in self.participants
                     }
                 },
                 synchronized_data_class=SynchronizedData,

@@ -34,7 +34,7 @@ In order to run a local demo of the Price Oracle service with a Hardhat node:
 2. Fetch the Price Oracle service (Hardhat flavour).
 
 	```bash
-	autonomy fetch valory/oracle_hardhat:0.1.0:bafybeihf2sz4v7cev26vzwf6czg5rjxlpbzcjvier5y4agxcwjbopaaaau --service
+	autonomy fetch valory/oracle_hardhat:0.1.0:bafybeieohqd3gbhdikyvyjep2ixae5t3zbb5xgfvfcl24e2jrmrtcyubdm --service
 	```
 
 3. Build the Docker image of the service agents

@@ -605,7 +605,6 @@ class TestDataHashSignatureStoreBehaviour(PriceEstimationFSMBehaviourBaseCase):
             SHARED_STATE_SIGNATURES_KEY_NAME not in self.behaviour.context.shared_state
         )
         self.behaviour.act_wrapper()
-        self.mock_a2a_transaction()
         self._test_done_flag_set()
         self.end_round(Event.DONE)
 

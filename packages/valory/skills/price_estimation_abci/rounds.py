@@ -28,18 +28,15 @@ from packages.valory.skills.abstract_round_abci.base import (
     AbstractRound,
     AppState,
     BaseSynchronizedData,
-    BaseTxPayload,
     CollectDifferentUntilAllRound,
     CollectDifferentUntilThresholdRound,
     CollectSameUntilThresholdRound,
     CollectionRound,
     DegenerateRound,
     DeserializedCollection,
-    TransactionNotValidError,
     get_name,
 )
 from packages.valory.skills.price_estimation_abci.payloads import (
-    EmptyPayload,
     EstimatePayload,
     ObservationPayload,
     SignaturePayload,
@@ -165,18 +162,6 @@ class DataHashSignRound(CollectDifferentUntilAllRound):
     no_majority_event = Event.NO_MAJORITY
     collection_key = get_name(SynchronizedData.service_data_signatures)
 
-    def check_payload(self, payload: BaseTxPayload) -> None:
-        """Check Payload"""
-        if payload.round_count != self.synchronized_data.round_count:
-            raise TransactionNotValidError(
-                f"Expected round count {self.synchronized_data.round_count} and got {payload.round_count}."
-            )
-
-        if payload.sender in self.collection:
-            raise TransactionNotValidError(
-                f"sender {payload.sender} has already sent value for round: {self.round_id}"
-            )
-
     def end_block(self) -> Optional[Tuple[BaseSynchronizedData, Event]]:
         """Process the end of the block."""
         if self.collection_threshold_reached:
@@ -197,7 +182,7 @@ class DataHashSignRound(CollectDifferentUntilAllRound):
 class DataHashSignaturesStoreRound(CollectionRound):
     """A round in which agents store signatures collected in the DataHashSignRound."""
 
-    payload_class = EmptyPayload
+    payload_class = SignaturePayload
     payload_attribute = "signature"
     synchronized_data_class = SynchronizedData
 
