@@ -166,8 +166,8 @@ public_id: fetchai/http_server:0.22.0
 type: connection
 config:
   api_spec_path: null
-  host: ${HTTP_SERVER_LISTEN_ADDRESS:str:0.0.0.0}
-  port: ${HTTP_SERVER_LISTEN_PORT:int:8000}
+  host: 0.0.0.0
+  port: 8000
   ssl_cert: null
   ssl_key: null
   target_skill_id: valory/http_server_data:0.1.0
