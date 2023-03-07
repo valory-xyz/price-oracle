@@ -29,14 +29,9 @@ from packages.valory.skills.abstract_round_abci.base import BaseTxPayload
 class TransactionHashPayload(BaseTxPayload):
     """Represent a transaction payload of type 'tx_hash'."""
 
+    signature: Optional[str]
+    data_hex: Optional[str]
     tx_hash: Optional[str]
-
-
-@dataclass(frozen=True)
-class SignaturePayload(BaseTxPayload):
-    """Represent a transaction payload of type 'signature'."""
-
-    signature: str
 
 
 @dataclass(frozen=True)

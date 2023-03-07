@@ -24,7 +24,7 @@ import logging
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Dict, cast
-from unittest.mock import Mock, patch
+from unittest.mock import MagicMock, Mock, patch
 
 from aea.protocols.dialogue.base import DialogueMessage
 from aea.test_tools.test_skill import BaseSkillTestCase
@@ -35,10 +35,6 @@ from packages.fetchai.connections.http_server.connection import (
 from packages.valory.protocols.http.message import HttpMessage
 from packages.valory.skills.http_server_data.dialogues import HttpDialogues
 from packages.valory.skills.http_server_data.handlers import HttpServerHandler
-from packages.valory.skills.price_estimation_abci.models import (
-    SHARED_STATE_SERVICE_DATA_BYTES_KEY_NAME,
-    SHARED_STATE_SIGNATURES_KEY_NAME,
-)
 
 
 PACKAGE_DIR = Path(__file__).parent.parent
@@ -72,6 +68,7 @@ class TestHttpHandler(BaseSkillTestCase):
     def setup_class(cls, **kwargs: Any) -> None:
         """Setup the test class."""
         super().setup_class(**kwargs)
+        cls._skill.skill_context.state = MagicMock()
         cls.http_handler = cast(
             HttpServerHandler, cls._skill.skill_context.handlers.http_server_handler
         )
@@ -161,13 +158,6 @@ class TestHttpHandler(BaseSkillTestCase):
             ),
         )
 
-        self.http_handler.context.shared_state.pop(
-            SHARED_STATE_SERVICE_DATA_BYTES_KEY_NAME, None
-        )
-        self.http_handler.context.shared_state.pop(
-            SHARED_STATE_SIGNATURES_KEY_NAME, None
-        )
-
         # operation
         with patch.object(self.logger, "log") as mock_logger:
             mock_now_time = datetime.datetime(2022, 1, 1)
@@ -175,6 +165,9 @@ class TestHttpHandler(BaseSkillTestCase):
             datetime_mock.now.return_value = mock_now_time
 
             with patch("datetime.datetime", new=datetime_mock):
+                self.http_handler.context.state.synchronized_data = MagicMock(
+                    data_bytes=b"", participant_to_signatures={}
+                )
                 self.http_handler.handle(incoming_message)
 
         # after
@@ -224,13 +217,7 @@ class TestHttpHandler(BaseSkillTestCase):
                 body="",
             ),
         )
-        payload = b"some payload"
-        self.http_handler.context.shared_state[
-            SHARED_STATE_SERVICE_DATA_BYTES_KEY_NAME
-        ] = payload
-        self.http_handler.context.shared_state[SHARED_STATE_SIGNATURES_KEY_NAME] = {
-            "addr": "sig"
-        }
+
         # operation
         with patch.object(self.logger, "log") as mock_logger:
             mock_now_time = datetime.datetime(2022, 1, 1)
@@ -238,6 +225,10 @@ class TestHttpHandler(BaseSkillTestCase):
             datetime_mock.now.return_value = mock_now_time
 
             with patch("datetime.datetime", new=datetime_mock):
+                self.http_handler.context.state.synchronized_data = MagicMock(
+                    data_bytes=b"some payload",
+                    participant_to_signatures={"addr": "sig"},
+                )
                 self.http_handler.handle(incoming_message)
 
         # after

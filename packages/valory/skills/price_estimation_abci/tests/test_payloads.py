@@ -49,7 +49,11 @@ def test_estimate_payload() -> None:
 def test_transaction_hash_payload() -> None:
     """Test `TransactionHashPayload`."""
 
-    payload = TransactionHashPayload(sender="sender", tx_hash="hash")
+    payload = TransactionHashPayload(
+        sender="sender", signature="sig", data_hex="data", tx_hash="hash"
+    )
 
+    assert payload.signature == "sig"
+    assert payload.data_hex == "data"
     assert payload.tx_hash == "hash"
-    assert payload.data == {"tx_hash": "hash"}
+    assert payload.data == {"signature": "sig", "data_hex": "data", "tx_hash": "hash"}

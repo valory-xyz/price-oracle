@@ -212,17 +212,26 @@ class TransactionSettlementIntegrationBaseCase(
 
     def gen_safe_tx_hash(self) -> None:
         """Generate safe's transaction hash."""
-        cycles_enter = 3
-        handlers_enter: HandlersType = [self.contract_handler] * cycles_enter
+        cycles_enter = 4
+        handlers_enter: HandlersType = [
+            self.contract_handler,
+            self.contract_handler,
+            self.contract_handler,
+            self.signing_handler,
+        ]
         expected_content_enter: ExpectedContentType = [
-            {"performative": ContractApiMessage.Performative.RAW_TRANSACTION}
-        ] * cycles_enter
+            {"performative": ContractApiMessage.Performative.RAW_TRANSACTION},
+            {"performative": ContractApiMessage.Performative.RAW_TRANSACTION},
+            {"performative": ContractApiMessage.Performative.RAW_TRANSACTION},
+            {"performative": SigningMessage.Performative.SIGNED_MESSAGE},
+        ]
         expected_types_enter: ExpectedTypesType = [
-            {
-                "raw_transaction": RawTransaction,
-            }
-        ] * cycles_enter
-        _, msg_a, msg_b = self.process_n_messages(
+            {"raw_transaction": RawTransaction},
+            {"raw_transaction": RawTransaction},
+            {"raw_transaction": RawTransaction},
+            {"signed_message": SignedMessage},
+        ]
+        _, msg_a, msg_b, _ = self.process_n_messages(
             cycles_enter,
             self.price_estimation_synchronized_data,
             TransactionHashBehaviour.auto_behaviour_id(),

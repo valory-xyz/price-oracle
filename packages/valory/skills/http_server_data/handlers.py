@@ -16,7 +16,9 @@
 #   limitations under the License.
 #
 # ------------------------------------------------------------------------------
+
 """This module contains the handlers for `http server data` skill."""
+
 import json
 from typing import Tuple, cast
 
@@ -33,10 +35,8 @@ from packages.valory.skills.abstract_round_abci.dialogues import (
 from packages.valory.skills.abstract_round_abci.handlers import (
     HttpHandler as BaseHttpHandler,
 )
-from packages.valory.skills.price_estimation_abci.models import (
-    SHARED_STATE_SERVICE_DATA_BYTES_KEY_NAME,
-    SHARED_STATE_SIGNATURES_KEY_NAME,
-)
+from packages.valory.skills.price_estimation_abci.models import SharedState
+from packages.valory.skills.price_estimation_abci.rounds import SynchronizedData
 
 
 class HttpServerHandler(BaseHttpHandler):
@@ -45,6 +45,13 @@ class HttpServerHandler(BaseHttpHandler):
     SUPPORTED_PROTOCOL = HttpMessage.protocol_id
     allowed_response_performatives = frozenset({HttpMessage.Performative.REQUEST})
     json_content_header = "Content-Type: application/json\n"
+
+    @property
+    def synchronized_data(self) -> SynchronizedData:
+        """Get the price oracle skill's `SynchronizedData`."""
+        return cast(
+            SynchronizedData, cast(SharedState, self.context.state).synchronized_data
+        )
 
     def handle(self, message: Message) -> None:
         """Handle incoming http request."""
@@ -112,19 +119,12 @@ class HttpServerHandler(BaseHttpHandler):
 
     def get_data(self) -> Tuple[int, str, bytes]:
         """Get data and status code for resonse."""
-        payload = self.context.shared_state.get(
-            SHARED_STATE_SERVICE_DATA_BYTES_KEY_NAME, b""
-        )
-
-        if not payload:
+        if not self.synchronized_data.data_bytes:
             return 503, "Data not ready", b"Data not ready"
 
         data = {
-            "payload": payload.decode("utf-8"),
-            "signatures": self.context.shared_state.get(
-                SHARED_STATE_SIGNATURES_KEY_NAME,
-                {},
-            ),
+            "payload": self.synchronized_data.data_bytes.decode("utf-8"),
+            "signatures": self.synchronized_data.participant_to_signatures,
         }
 
         data_bytes = json.dumps(data).encode("utf-8")

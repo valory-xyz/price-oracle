@@ -36,9 +36,6 @@ from packages.valory.skills.transaction_settlement_abci.models import Transactio
 
 MARGIN = 5
 MULTIPLIER = 2
-SHARED_STATE_SERVICE_DATA_KEY_NAME = "service_data"
-SHARED_STATE_SERVICE_DATA_BYTES_KEY_NAME = "service_data_bytes"
-SHARED_STATE_SIGNATURES_KEY_NAME = "service_data_bytes_signatures"
 
 Requests = BaseRequests
 BenchmarkTool = BaseBenchmarkTool
