@@ -32,7 +32,6 @@ protocols:
 skills:
 - valory/abstract_abci:0.1.0:bafybeihkrunmigvlcze7uxhafj2h3kvpf2kifggq7zqj42n2we4mcwuvou
 - valory/abstract_round_abci:0.1.0:bafybeib2jw7hjccou42wis35orckwycb2dgjk7yw46anuqysf2h7su3fi4
-- valory/http_server_data:0.1.0:bafybeibqvhcdv27f4ioxxs5rguqk2sibup7ohziipn76ai2xjaae7rrpqa
 - valory/oracle_abci:0.1.0:bafybeib4xlnj2tf4hpe5j4dkoeyd6fmueui4ekjlwg36fvxy7qtgc4dkba
 - valory/oracle_deployment_abci:0.1.0:bafybeiemqem3uaufa7jtr24oqbjphdjftnsowaoc72evsjbhohazvau2qa
 - valory/price_estimation_abci:0.1.0:bafybeignob3newkzcjtgp5cnlulo3my63hoe5us633wrus3t5hsay6mofq
@@ -170,4 +169,4 @@ config:
   port: 8000
   ssl_cert: null
   ssl_key: null
-  target_skill_id: valory/http_server_data:0.1.0
+  target_skill_id: valory/oracle_abci:0.1.0

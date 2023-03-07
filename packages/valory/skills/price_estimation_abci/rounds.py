@@ -19,7 +19,6 @@
 
 """This module contains the data classes for the price estimation ABCI application."""
 
-import hashlib
 from enum import Enum
 from typing import Dict, List, Mapping, Optional, Set, Type, cast
 
@@ -123,11 +122,9 @@ class SynchronizedData(BaseSynchronizedData):
         return str(self.db.get("signature", {}))
 
     @property
-    def data_bytes(self) -> bytes:
-        """Get the participant_to_sign"""
-        data_hex = str(self.db.get("data_bytes", ""))
-        hash_ = hashlib.sha256(bytes.fromhex(data_hex))
-        return hash_.digest()
+    def data_hex(self) -> str:
+        """Get the data hex"""
+        return str(self.db.get("data_hex", ""))
 
 
 class CollectObservationRound(CollectDifferentUntilThresholdRound):
@@ -163,7 +160,7 @@ class TxHashRound(CollectSameUntilThresholdRound):
     collection_key = get_name(SynchronizedData.participant_to_signatures)
     selection_key = (
         get_name(SynchronizedData.signature),
-        get_name(SynchronizedData.data_bytes),
+        get_name(SynchronizedData.data_hex),
         get_name(SynchronizedData.most_voted_tx_hash),
     )
 
