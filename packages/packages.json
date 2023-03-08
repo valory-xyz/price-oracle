@@ -2,14 +2,14 @@
     "dev": {
         "contract/valory/offchain_aggregator/0.1.0": "bafybeiggz7egdsjcumckomecmzfw3vf7yrqb3we3mwlxelzcshpowvv5zq",
         "skill/valory/oracle_deployment_abci/0.1.0": "bafybeiemqem3uaufa7jtr24oqbjphdjftnsowaoc72evsjbhohazvau2qa",
-        "skill/valory/price_estimation_abci/0.1.0": "bafybeibb67qr5eygv3ptvovypef27l7cwplwy26wflrsrdz3mwrzzclrfy",
-        "skill/valory/oracle_abci/0.1.0": "bafybeieuiklrhx5wwp3nhscknbb2diyyrypwkdzt3wq3xsuz3ppogcec7u",
-        "agent/valory/oracle/0.1.0": "bafybeigjj6w6s2b636h3hpqugs5tr3yfdko6ca3dfvueh6eqzywxotfqaa",
-        "service/valory/oracle_goerli/0.1.0": "bafybeiag7o42pgrjpfa2rk25363qwo734sweeupjfz2ahz6yjcyyq3iqfu",
-        "service/valory/oracle_hardhat/0.1.0": "bafybeiashr3ckgv7vqo53ufbh2mf6dvkwzirr7zlowlbfvtqwftadsuofe",
-        "service/valory/oracle_polygon/0.1.0": "bafybeidukqi2usjdhzl2pni3kfgigjno2xh6ncdfo527pdfdkgqouhynqi",
-        "service/valory/oracle_ropsten/0.1.0": "bafybeicy2nzsosysnqhi6vnocwpsl4f3rbwn427d2yy5cltbkml4aws2ma",
-        "service/valory/oracle_ropsten_cluster/0.1.0": "bafybeiejp2clowp7txzcjjg3ezigeywnwdwhx555qlfmzsdfrthsnhysga"
+        "skill/valory/price_estimation_abci/0.1.0": "bafybeidw4v2k7uhiomgk2aibvjrlbyarh3v46dyi7c3rdlwmj5eek6xz3m",
+        "skill/valory/oracle_abci/0.1.0": "bafybeickdu4fah45wmovkz5ss3cnmor3ba53hfsqys2oo7fjqrybau5264",
+        "agent/valory/oracle/0.1.0": "bafybeid6yutaznv7bracdnoj5x2uh2gl33a5mlmm3rpmoqxoidqvcfe5ry",
+        "service/valory/oracle_goerli/0.1.0": "bafybeic5ueeijzsdow6lustpme3tapllmawp32duvf7vdiod4taz6xgrvy",
+        "service/valory/oracle_hardhat/0.1.0": "bafybeicdsudrsujyeskbvg2stoxgepf3bq47a4vypi6wwy6ooq6xcu3sha",
+        "service/valory/oracle_polygon/0.1.0": "bafybeieuqjozbhxobnjqi4to7wcfliqjl5k3orpffo3tg3fduux434scia",
+        "service/valory/oracle_ropsten/0.1.0": "bafybeig4d777y5vkg4e26fjaady2rqrex4a2k33he7iet7sr22ysgdokrm",
+        "service/valory/oracle_ropsten_cluster/0.1.0": "bafybeicy5mcjwp7hhccd4r7zzspzk5hjn7ub6asrescp4pqhl7xxfylfie"
     },
     "third_party": {
         "connection/valory/ipfs/0.1.0": "bafybeia7kzgw4tmkl6k2vjbnss4egvhcf4fmt7cnmpjjjbjogz2bu2j3fu",

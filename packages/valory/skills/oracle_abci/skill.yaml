@@ -12,14 +12,14 @@ fingerprint:
   behaviours.py: bafybeig3klyi5thvogwcdrqqzswaad3c3xihq5wa4op6dnkrtxfpedlorq
   composition.py: bafybeie67y75ajuijisina4pm6l557vx2wu5tftr6a62d6mctgg3mh2r4q
   dialogues.py: bafybeigabhaykiyzbluu4mk6bbrmqhzld2kyp32pg24bvjmzrrb74einwm
-  fsm_specification.yaml: bafybeif37redof4spsla55v2iawsnp76wxzj2rugsmeqr25a2bzjggystu
-  handlers.py: bafybeiebt5nhczwngfwzcudhjm3t7eh6ddulq3n2u3znqd6xny4md2bdlm
+  fsm_specification.yaml: bafybeic62iv4ys6hlbrqc4oupqhzvdltemc7avd7kleox5jpx5j6bjowca
+  handlers.py: bafybeieied5iol2p7t4rgpkxlonfuc6jhtjdaktpkpgobsfc3xyawptuwa
   models.py: bafybeifd4cfs3lzccvygkf5zpv4k47kumbjng4npd6iaa4khe45oa73iye
   tests/__init__.py: bafybeihlgffzmngu3ydky57kchhrdsfakmvpbq5mcmyrsdnolfnimftktm
   tests/test_behaviours.py: bafybeibvh43inrplfd62hbhmryxy6zjdptz2ekfdkgoo37neahbldoekju
   tests/test_dialogues.py: bafybeiecwwsjclbhje3bg5bbrias453yuztlg23fbj3a3y4sjyuh2sg62i
   tests/test_handlers.py: bafybeigffxznt27ujgxdko5bhco2z5bmipiauzkrtwwx6dpdj773rtj2om
-  tests/test_integration.py: bafybeibb766wkvajvz7dwj5btkac3zjafhwjdbwaytr57hy34aewfq7sae
+  tests/test_integration.py: bafybeigrwinh4e3ylwad3ovwxf7aajyia7nmhmmcp7wofbtgkq3tsyccaa
   tests/test_models.py: bafybeibqcmwyunbxdoyhorypukrt3bxgvvm3yff7prdkbaenysxoix4e3u
 fingerprint_ignore_patterns: []
 connections:
@@ -32,7 +32,7 @@ protocols:
 skills:
 - valory/abstract_round_abci:0.1.0:bafybeib2jw7hjccou42wis35orckwycb2dgjk7yw46anuqysf2h7su3fi4
 - valory/oracle_deployment_abci:0.1.0:bafybeiemqem3uaufa7jtr24oqbjphdjftnsowaoc72evsjbhohazvau2qa
-- valory/price_estimation_abci:0.1.0:bafybeignob3newkzcjtgp5cnlulo3my63hoe5us633wrus3t5hsay6mofq
+- valory/price_estimation_abci:0.1.0:bafybeidw4v2k7uhiomgk2aibvjrlbyarh3v46dyi7c3rdlwmj5eek6xz3m
 - valory/registration_abci:0.1.0:bafybeidgoqi7fa2gb56hdfsf74bbunfii63zgeo4qhggb66ofver2n2gya
 - valory/reset_pause_abci:0.1.0:bafybeievxhu6u5r5wlpjfzcwuowlbanhfbi25saf25qit53jauv4kq6gne
 - valory/termination_abci:0.1.0:bafybeihpp4li6jw3co4c4jferrtzobq2ydoc3dcn67esqrg5ebvyoac66e

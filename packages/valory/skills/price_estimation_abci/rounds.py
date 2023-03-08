@@ -244,14 +244,7 @@ class PriceAggregationAbciApp(AbciApp[Event]):
             - none: 0.
             - round timeout: 0.
             - no majority: 0.
-        3. DataHashSignRound
-            - done: 4.
-            - none: 0.
-            - round timeout: 0.
-            - no majority: 0.
-        4. DataHashSignaturesStoreRound
-            - done: 5.
-        5. FinishedPriceAggregationRound
+        3. FinishedPriceAggregationRound
 
     Final states: {FinishedPriceAggregationRound}
 
