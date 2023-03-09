@@ -37,7 +37,7 @@ class TransactionHashPayload(BaseTxPayload):
     """Represent a transaction payload of type 'tx_hash'."""
 
     signature: Optional[str]
-    data_hex: Optional[str]
+    data_json: Optional[str]
     tx_hash: Optional[str]
 
 

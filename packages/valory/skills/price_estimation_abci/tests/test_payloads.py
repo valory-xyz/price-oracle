@@ -50,10 +50,10 @@ def test_transaction_hash_payload() -> None:
     """Test `TransactionHashPayload`."""
 
     payload = TransactionHashPayload(
-        sender="sender", signature="sig", data_hex="data", tx_hash="hash"
+        sender="sender", signature="sig", data_json="data", tx_hash="hash"
     )
 
     assert payload.signature == "sig"
-    assert payload.data_hex == "data"
+    assert payload.data_json == "data"
     assert payload.tx_hash == "hash"
-    assert payload.data == {"signature": "sig", "data_hex": "data", "tx_hash": "hash"}
+    assert payload.data == {"signature": "sig", "data_json": "data", "tx_hash": "hash"}

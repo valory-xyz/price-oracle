@@ -141,11 +141,11 @@ class HttpServerHandler(BaseHttpHandler):
 
     def get_data(self) -> Tuple[int, str, bytes]:
         """Get data and status code for response."""
-        if not self.synchronized_data.data_hex:
+        if not self.synchronized_data.data_json:
             return 503, "Data not ready", b"Data not ready"
 
         data = {
-            "payload": self.synchronized_data.data_hex,
+            "payload": self.synchronized_data.data_json,
             "signatures": self.synchronized_data.participant_to_signatures,
         }
 

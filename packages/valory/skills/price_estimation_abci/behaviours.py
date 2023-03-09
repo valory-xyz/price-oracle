@@ -243,13 +243,13 @@ class TransactionHashBehaviour(PriceEstimationBaseBehaviour):
         """
 
         with self.context.benchmark_tool.measure(self.behaviour_id).local():
-            signature = data_hex = None
+            signature = data_json = None
             payload_string = yield from self._get_safe_tx_hash()
             service_data = self.get_service_data()
             if payload_string is not None:
-                signature, data_hex = yield from self.get_data_signature(service_data)
+                signature, data_json = yield from self.get_data_signature(service_data)
             payload = TransactionHashPayload(
-                self.context.agent_address, signature, data_hex, payload_string
+                self.context.agent_address, signature, data_json, payload_string
             )
 
         with self.context.benchmark_tool.measure(self.behaviour_id).consensus():
@@ -306,7 +306,8 @@ class TransactionHashBehaviour(PriceEstimationBaseBehaviour):
         data.pop("agent_address", None)  # agent address is unique, need to remove it
         data.pop("data_source", None)  # data_source can be unique, need to remove it
 
-        data_bytes = json.dumps(data, sort_keys=True).encode("ascii")
+        data_json = json.dumps(data, sort_keys=True)
+        data_bytes = data_json.encode("ascii")
         hash_bytes = hashlib.sha256(data_bytes).digest()
 
         signature_hex = yield from self.get_signature(
@@ -315,7 +316,7 @@ class TransactionHashBehaviour(PriceEstimationBaseBehaviour):
         # remove the leading '0x'
         signature_hex = signature_hex[2:]
         self.context.logger.info(f"Data signature: {signature_hex}")
-        return signature_hex, data_bytes.hex()
+        return signature_hex, data_json
 
     def send_to_server(
         self, data_for_server: Dict

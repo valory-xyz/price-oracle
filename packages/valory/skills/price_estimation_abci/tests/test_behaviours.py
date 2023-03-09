@@ -396,7 +396,11 @@ class TestTransactionHashBehaviour(PriceEstimationFSMBehaviourBaseCase):
                 AbciAppDB(
                     setup_data=dict(
                         most_voted_estimate=[1.0],
-                        participant_to_observations=[{}],
+                        participant_to_observations=[
+                            CollectionRound.serialize_collection(
+                                {"agent1": ObservationPayload("agent1", 0.0)}
+                            )
+                        ],
                         safe_contract_address=["safe_contract_address"],
                         oracle_contract_address=[
                             "0x77E9b2EF921253A171Fa0CB9ba80558648Ff7215"
@@ -451,7 +455,7 @@ class TestTransactionHashBehaviour(PriceEstimationFSMBehaviourBaseCase):
                 "participant_to_signatures": CollectionRound.serialize_collection(
                     {
                         "agent1": TransactionHashPayload(
-                            "agent1", "signature", "data_hex", "tx_hash"
+                            "agent1", "signature", "data_json", "tx_hash"
                         )
                     }
                 ),

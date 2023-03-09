@@ -127,9 +127,9 @@ class SynchronizedData(BaseSynchronizedData):
         return str(self.db.get("signature", {}))
 
     @property
-    def data_hex(self) -> str:
-        """Get the data hex"""
-        return str(self.db.get("data_hex", ""))
+    def data_json(self) -> str:
+        """Get the data json."""
+        return str(self.db.get("data_json", ""))
 
 
 class CollectObservationRound(CollectDifferentUntilThresholdRound):
@@ -170,7 +170,7 @@ class TxHashRound(CollectSameUntilThresholdRound):
     collection_key = get_name(SynchronizedData.participant_to_signatures)
     selection_key = (
         get_name(SynchronizedData.signature),
-        get_name(SynchronizedData.data_hex),
+        get_name(SynchronizedData.data_json),
         get_name(SynchronizedData.most_voted_tx_hash),
     )
 
