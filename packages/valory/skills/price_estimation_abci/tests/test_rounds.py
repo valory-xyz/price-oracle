@@ -22,7 +22,7 @@
 # pylint: skip-file
 
 import logging  # noqa: F401
-from typing import Any, Dict, FrozenSet, Optional
+from typing import Dict, FrozenSet, Optional
 
 from packages.valory.skills.abstract_round_abci.base import AbciAppDB
 from packages.valory.skills.abstract_round_abci.base import (
@@ -30,7 +30,6 @@ from packages.valory.skills.abstract_round_abci.base import (
 )
 from packages.valory.skills.abstract_round_abci.base import CollectionRound, MAX_INT_256
 from packages.valory.skills.abstract_round_abci.test_tools.rounds import (
-    BaseCollectDifferentUntilAllRoundTest,
     BaseCollectDifferentUntilThresholdRoundTest,
     BaseCollectSameUntilThresholdRoundTest,
 )
@@ -41,7 +40,6 @@ from packages.valory.skills.oracle_deployment_abci.payloads import (
 from packages.valory.skills.price_estimation_abci.payloads import (
     EstimatePayload,
     ObservationPayload,
-    SignaturePayload,
     TransactionHashPayload,
 )
 from packages.valory.skills.price_estimation_abci.rounds import (
@@ -49,7 +47,6 @@ from packages.valory.skills.price_estimation_abci.rounds import (
 )
 from packages.valory.skills.price_estimation_abci.rounds import (
     CollectObservationRound,
-    DataHashSignRound,
     EstimateConsensusRound,
 )
 from packages.valory.skills.price_estimation_abci.rounds import (
@@ -154,23 +151,19 @@ def get_most_voted_estimate() -> float:
     return 1.0
 
 
-def get_participant_to_tx_hash(
-    participants: FrozenSet[str], hash_: Optional[str] = "tx_hash"
+def get_participant_to_signatures(
+    participants: FrozenSet[str],
+    signature: Optional[str] = "signature",
+    data_json: Optional[str] = "data",
+    hash_: Optional[str] = "tx_hash",
 ) -> Dict[str, TransactionHashPayload]:
-    """participant_to_tx_hash"""
+    """participant_to_signatures"""
     return {
-        participant: TransactionHashPayload(sender=participant, tx_hash=hash_)
-        for participant in participants
-    }
-
-
-def get_data_hash_signatures_payloads(
-    participants: FrozenSet[str], signature: str = "signature"
-) -> Dict[str, SignaturePayload]:
-    """participant_to_tx_hash"""
-    return {
-        participant: SignaturePayload(
-            sender=participant, signature=f"signature_{participant}"
+        participant: TransactionHashPayload(
+            sender=participant,
+            signature=signature,
+            data_json=data_json,
+            tx_hash=hash_,
         )
         for participant in participants
     }
@@ -323,14 +316,32 @@ class TestTxHashRound(BaseCollectSameUntilThresholdRoundTest):
             synchronized_data=self.synchronized_data,
         )
 
+        signature = "sig"
+        data_json = "data"
         hash_ = "tx_hash"
         self._complete_run(
             self._test_round(
                 test_round=test_round,
-                round_payloads=get_participant_to_tx_hash(self.participants, hash_),
-                synchronized_data_update_fn=lambda _synchronized_data, _test_round: _synchronized_data,
-                synchronized_data_attr_checks=[],
-                most_voted_payload=hash_,
+                round_payloads=get_participant_to_signatures(
+                    self.participants, signature, data_json, hash_
+                ),
+                synchronized_data_update_fn=lambda _synchronized_data, _test_round: _synchronized_data.update(
+                    participant_to_signatures=CollectionRound.serialize_collection(
+                        get_participant_to_signatures(
+                            self.participants, signature, data_json, hash_
+                        )
+                    ),
+                    signature=signature,
+                    data_json=data_json,
+                    most_voted_tx_hash=hash_,
+                ),
+                synchronized_data_attr_checks=[
+                    lambda _synchronized_data: _synchronized_data.participant_to_signatures,
+                    lambda _synchronized_data: _synchronized_data.signature,
+                    lambda _synchronized_data: _synchronized_data.data_json,
+                    lambda _synchronized_data: _synchronized_data.most_voted_tx_hash,
+                ],
+                most_voted_payload=signature,
                 exit_event=self._event_class.DONE,
             )
         )
@@ -344,11 +355,13 @@ class TestTxHashRound(BaseCollectSameUntilThresholdRoundTest):
             synchronized_data=self.synchronized_data,
         )
 
-        hash_ = None
+        signature = data = hash_ = None
         self._complete_run(
             self._test_round(
                 test_round=test_round,
-                round_payloads=get_participant_to_tx_hash(self.participants, hash_),
+                round_payloads=get_participant_to_signatures(
+                    self.participants, signature, data, hash_
+                ),
                 synchronized_data_update_fn=lambda _synchronized_data, _test_round: _synchronized_data,
                 synchronized_data_attr_checks=[],
                 most_voted_payload=hash_,
@@ -465,53 +478,3 @@ def test_synchronized_data() -> None:
     assert price_synchronized_data.observations == [
         value.observation for value in participant_to_observations.values()
     ]
-
-
-class TestDataHashSignRound(BaseCollectDifferentUntilAllRoundTest):
-    """Test DataHashSignRound."""
-
-    _synchronized_data_class = PriceEstimationSynchronizedSata
-    _event_class = PriceEstimationEvent
-
-    def test_run(
-        self,
-    ) -> None:
-        """Runs test."""
-
-        test_round = DataHashSignRound(
-            synchronized_data=self.synchronized_data,
-        )
-
-        signature = "signature"
-
-        def check_synchronized_data(data: PriceEstimationSynchronizedSata) -> Dict:
-            return data.service_data_signatures
-
-        def update_data(
-            data: PriceEstimationSynchronizedSata, _: Any
-        ) -> SynchronizedData:
-            nonlocal self, signature
-            data.update(
-                **{
-                    "service_data_signatures": {
-                        agent: f"signature_{agent}" for agent in self.participants
-                    }
-                },
-                synchronized_data_class=SynchronizedData,
-            )
-            return data
-
-        payloads = list(
-            get_data_hash_signatures_payloads(
-                self.participants, signature=signature
-            ).values()
-        )
-        self._complete_run(
-            self._test_round(
-                test_round=test_round,
-                round_payloads=payloads,  # type: ignore
-                synchronized_data_update_fn=update_data,
-                synchronized_data_attr_checks=[check_synchronized_data],
-                exit_event=self._event_class.DONE,
-            )
-        )

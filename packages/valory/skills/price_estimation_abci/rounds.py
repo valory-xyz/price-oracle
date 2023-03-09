@@ -19,16 +19,19 @@
 
 """This module contains the data classes for the price estimation ABCI application."""
 
+from collections import Counter
 from enum import Enum
-from typing import Dict, List, Mapping, Optional, Set, Tuple, Type, cast
+from typing import Any, Dict, List, Mapping, Optional, Set, Tuple, Type, cast
 
 from packages.valory.skills.abstract_round_abci.base import (
+    ABCIAppException,
+    ABCIAppInternalError,
     AbciApp,
     AbciAppTransitionFunction,
     AbstractRound,
     AppState,
     BaseSynchronizedData,
-    CollectDifferentUntilAllRound,
+    BaseTxPayload,
     CollectDifferentUntilThresholdRound,
     CollectSameUntilThresholdRound,
     CollectionRound,
@@ -39,8 +42,8 @@ from packages.valory.skills.abstract_round_abci.base import (
 from packages.valory.skills.price_estimation_abci.payloads import (
     EstimatePayload,
     ObservationPayload,
-    SignaturePayload,
     TransactionHashPayload,
+    TransactionHashSamePayload,
 )
 
 
@@ -107,14 +110,26 @@ class SynchronizedData(BaseSynchronizedData):
         return self._get_deserialized("participant_to_estimate")
 
     @property
-    def participant_to_tx_hash(self) -> DeserializedCollection:
-        """Get the participant_to_tx_hash."""
-        return self._get_deserialized("participant_to_tx_hash")
+    def participant_to_signatures(self) -> Dict[str, Optional[str]]:
+        """Get the `participant_to_signatures`."""
+        participant_to_payload = cast(
+            Mapping[str, TransactionHashPayload],
+            self._get_deserialized("participant_to_signatures"),
+        )
+        return {
+            agent_address: payload.signature
+            for agent_address, payload in participant_to_payload.items()
+        }
 
     @property
-    def service_data_signatures(self) -> Dict:
-        """Get the participant_to_sign"""
-        return cast(Dict, self.db.get_strict("service_data_signatures"))
+    def signature(self) -> str:
+        """Get the current agent's signature."""
+        return str(self.db.get("signature", {}))
+
+    @property
+    def data_json(self) -> str:
+        """Get the data json."""
+        return str(self.db.get("data_json", ""))
 
 
 class CollectObservationRound(CollectDifferentUntilThresholdRound):
@@ -140,58 +155,67 @@ class EstimateConsensusRound(CollectSameUntilThresholdRound):
 
 
 class TxHashRound(CollectSameUntilThresholdRound):
-    """A round in which agents compute the transaction hash"""
+    """
+    A round in which agents compute the transaction hash.
+
+    This is a special kind of round. It is a mix of collect same and collect different.
+    In essence, it collects the same values for the tx hash and different values for the signatures and the data.
+    """
 
     payload_class = TransactionHashPayload
     synchronized_data_class = SynchronizedData
     done_event = Event.DONE
     none_event = Event.NONE
     no_majority_event = Event.NO_MAJORITY
-    collection_key = get_name(SynchronizedData.participant_to_tx_hash)
-    selection_key = get_name(SynchronizedData.most_voted_tx_hash)
+    collection_key = get_name(SynchronizedData.participant_to_signatures)
+    selection_key = (
+        get_name(SynchronizedData.signature),
+        get_name(SynchronizedData.data_json),
+        get_name(SynchronizedData.most_voted_tx_hash),
+    )
 
+    @property
+    def payload_values_count(self) -> Counter:
+        """Get count of payload values."""
+        return Counter(map(lambda p: (p.values[2],), self.payloads))
 
-class DataHashSignRound(CollectDifferentUntilAllRound):
-    """A round in which agents sign the data hash"""
+    @property
+    def most_voted_payload_values(
+        self,
+    ) -> Tuple[Any, ...]:
+        """Get the most voted payload values."""
+        _, max_votes = self.payload_values_count.most_common()[0]
+        if max_votes < self.synchronized_data.consensus_threshold:
+            raise ABCIAppInternalError("not enough votes")
 
-    payload_class = SignaturePayload
-    payload_attribute = "signature"
-    synchronized_data_class = SynchronizedData
-    done_event = Event.DONE
-    none_event = Event.NONE
-    no_majority_event = Event.NO_MAJORITY
-    collection_key = get_name(SynchronizedData.service_data_signatures)
+        all_payload_values_count = Counter(map(lambda p: p.values, self.payloads))
+        most_voted_payload_values, _ = all_payload_values_count.most_common()[0]
+        return most_voted_payload_values
 
-    def end_block(self) -> Optional[Tuple[BaseSynchronizedData, Event]]:
-        """Process the end of the block."""
-        if self.collection_threshold_reached:
-            signatures = {
-                addr: payload.signature
-                for addr, payload in cast(
-                    Dict[str, SignaturePayload], self.collection
-                ).items()
-            }
-            synchronized_data = self.synchronized_data.update(
-                **{self.collection_key: signatures},
-                synchronized_data_class=SynchronizedData,
+    def check_majority_possible(
+        self,
+        votes_by_participant: Dict[str, BaseTxPayload],
+        nb_participants: int,
+        exception_cls: Type[ABCIAppException] = ABCIAppException,
+    ) -> None:
+        """
+        Overrides the check to only account for the tx hash which should be the same.
+
+        The rest attributes have to be different.
+
+        :param votes_by_participant: a mapping from a participant to its vote
+        :param nb_participants: the total number of participants
+        :param exception_cls: the class of the exception to raise in case the check fails
+        """
+        votes_by_participant = {
+            participant: TransactionHashSamePayload(
+                payload.sender, cast(TransactionHashSamePayload, payload).tx_hash
             )
-            return synchronized_data, Event.DONE
-        return None
-
-
-class DataHashSignaturesStoreRound(CollectionRound):
-    """A round in which agents store signatures collected in the DataHashSignRound."""
-
-    payload_class = SignaturePayload
-    payload_attribute = "signature"
-    synchronized_data_class = SynchronizedData
-
-    def end_block(self) -> Optional[Tuple[BaseSynchronizedData, Event]]:
-        """Process the end of the block."""
-        return (
-            self.synchronized_data,
-            Event.DONE,
-        )  # pragma: nocover  # nothing to check here
+            for participant, payload in votes_by_participant.items()
+        }
+        super().check_majority_possible(
+            votes_by_participant, nb_participants, exception_cls
+        )
 
 
 class FinishedPriceAggregationRound(DegenerateRound):
@@ -220,14 +244,7 @@ class PriceAggregationAbciApp(AbciApp[Event]):
             - none: 0.
             - round timeout: 0.
             - no majority: 0.
-        3. DataHashSignRound
-            - done: 4.
-            - none: 0.
-            - round timeout: 0.
-            - no majority: 0.
-        4. DataHashSignaturesStoreRound
-            - done: 5.
-        5. FinishedPriceAggregationRound
+        3. FinishedPriceAggregationRound
 
     Final states: {FinishedPriceAggregationRound}
 
@@ -249,19 +266,10 @@ class PriceAggregationAbciApp(AbciApp[Event]):
             Event.NO_MAJORITY: CollectObservationRound,
         },
         TxHashRound: {
-            Event.DONE: DataHashSignRound,
-            Event.NONE: CollectObservationRound,
-            Event.ROUND_TIMEOUT: CollectObservationRound,
-            Event.NO_MAJORITY: CollectObservationRound,
-        },
-        DataHashSignRound: {
-            Event.DONE: DataHashSignaturesStoreRound,
-            Event.NONE: CollectObservationRound,
-            Event.ROUND_TIMEOUT: CollectObservationRound,
-            Event.NO_MAJORITY: CollectObservationRound,
-        },
-        DataHashSignaturesStoreRound: {
             Event.DONE: FinishedPriceAggregationRound,
+            Event.NONE: CollectObservationRound,
+            Event.ROUND_TIMEOUT: CollectObservationRound,
+            Event.NO_MAJORITY: CollectObservationRound,
         },
         FinishedPriceAggregationRound: {},
     }

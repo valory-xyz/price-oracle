@@ -19,14 +19,14 @@
 
 """Integration tests for the valory/oracle_abci skill."""
 
+# pylint: skip-file
+
 import json
 from copy import deepcopy
 from pathlib import Path
 from typing import Tuple
 
 import pytest
-
-# pylint: skip-file
 import requests
 from aea.configurations.data_types import PublicId
 from aea_test_autonomy.base_test_classes.agents import (
@@ -171,8 +171,9 @@ class ABCIPriceEstimationTest(
         # we need to set the correct key pairs, since the 5th agent is registered for the service with 1 agent instance.
         self.key_pairs = self.key_pairs_override
         super().prepare_and_launch(nb_nodes)
-    
+
     def prepare(self, nb_nodes: int) -> None:
+        """Set up the agents."""
         super().prepare(nb_nodes)
         
         for i in range(nb_nodes):
@@ -298,15 +299,15 @@ class TestTendermintResetInterruptNoRejoin(TestTendermintResetInterrupt):
     exclude_from_checks = [3]
 
 
-
 @pytest.mark.e2e
-@pytest.mark.parametrize("nb_nodes", (1,))
-class TestABCIPriceEstimationSingleAgentHTTPServer(ABCIPriceEstimationTest):
+class TestABCIPriceEstimationSingleAgentHTTPServer(TestABCIPriceEstimationSingleAgent):
     """Test the ABCI oracle skill with only one agent with data share over http server connection."""
 
-    multisig = SERVICE_MULTISIG_2
-    key_pairs_override = [KEY_PAIRS[4]]
-    
+    happy_path = (
+        RoundChecks(TxHashRound.auto_round_id(), n_periods=1),
+    )
+    strict_check_strings = ()
+
     def check_aea_messages(self) -> None:
         """
         Check that *each* AEA prints these messages.
@@ -319,7 +320,13 @@ class TestABCIPriceEstimationSingleAgentHTTPServer(ABCIPriceEstimationTest):
     def check_data_exposed(self):
         """Check http data."""
         resp = requests.get(f"http://127.0.0.1:{self.BASE_PORT}")
-        assert resp.json().get("payload")
-        assert isinstance(resp.json().get("signatures"), dict)
-        assert resp.json().get("signatures")
-        assert self.key_pairs_override[0][0] in resp.json().get("signatures")
+        assert resp.status_code == 200
+        json_resp = resp.json()
+        assert json_resp.get("payload")
+        signatures = json_resp.get("signatures")
+        assert signatures
+        assert isinstance(signatures, dict)
+        assert len(signatures) == 1
+        signer_address = tuple(signatures.keys())[0]
+        expected_address = self.key_pairs_override[0][0]
+        assert expected_address.lower() == signer_address.lower()

@@ -14,8 +14,6 @@ states:
 - EstimateConsensusRound
 - FinishedPriceAggregationRound
 - TxHashRound
-- DataHashSignRound
-- DataHashSignaturesStoreRound
 transition_func:
     (CollectObservationRound, DONE): EstimateConsensusRound
     (CollectObservationRound, NO_MAJORITY): CollectObservationRound
@@ -24,12 +22,7 @@ transition_func:
     (EstimateConsensusRound, NONE): CollectObservationRound
     (EstimateConsensusRound, NO_MAJORITY): CollectObservationRound
     (EstimateConsensusRound, ROUND_TIMEOUT): CollectObservationRound
-    (TxHashRound, DONE): DataHashSignRound
+    (TxHashRound, DONE): FinishedPriceAggregationRound
     (TxHashRound, NONE): CollectObservationRound
     (TxHashRound, NO_MAJORITY): CollectObservationRound
     (TxHashRound, ROUND_TIMEOUT): CollectObservationRound
-    (DataHashSignRound, DONE): DataHashSignaturesStoreRound
-    (DataHashSignRound, NONE): CollectObservationRound
-    (DataHashSignRound, NO_MAJORITY): CollectObservationRound
-    (DataHashSignRound, ROUND_TIMEOUT): CollectObservationRound
-    (DataHashSignaturesStoreRound, DONE): FinishedPriceAggregationRound
