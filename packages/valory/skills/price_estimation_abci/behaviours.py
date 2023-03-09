@@ -276,13 +276,11 @@ class TransactionHashBehaviour(PriceEstimationBaseBehaviour):
             prev_tx_hash = previous_data.get("final_tx_hash", "")
 
         # select relevant data
-        agents = self.synchronized_data.db.get_strict("participants")
         payloads = self.synchronized_data.db.get_strict("participant_to_observations")
         estimate = self.synchronized_data.db.get_strict("most_voted_estimate")
 
         observations = {
-            agent: getattr(payloads.get(agent), "observation", NO_OBSERVATION)
-            for agent in agents
+            address: payload["observation"] for address, payload in payloads.items()
         }
 
         price_api = self.context.price_api
