@@ -299,11 +299,6 @@ class TransactionHashBehaviour(PriceEstimationBaseBehaviour):
 
     def get_data_signature(self, data: Dict) -> Generator[None, None, Tuple[str, str]]:
         """Get signature for the data."""
-        data = copy.deepcopy(data)
-
-        data.pop("agent_address", None)  # agent address is unique, need to remove it
-        data.pop("data_source", None)  # data_source can be unique, need to remove it
-
         data_json = json.dumps(data, sort_keys=True)
         data_bytes = data_json.encode("ascii")
         hash_bytes = hashlib.sha256(data_bytes).digest()
