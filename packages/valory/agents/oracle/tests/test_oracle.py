@@ -300,8 +300,8 @@ class TestTendermintResetInterruptNoRejoin(TestTendermintResetInterrupt):
 
 
 @pytest.mark.e2e
-class TestABCIPriceEstimationSingleAgentHTTPServer(TestABCIPriceEstimationSingleAgent):
-    """Test the ABCI oracle skill with only one agent with data share over http server connection."""
+class TestABCIPriceEstimationFourAgentHTTPServer(TestABCIPriceEstimationFourAgents):
+    """Test the ABCI oracle skill with 4 agents with data share over http server connection."""
 
     happy_path = (
         RoundChecks(TxHashRound.auto_round_id(), n_periods=1),
@@ -316,17 +316,18 @@ class TestABCIPriceEstimationSingleAgentHTTPServer(TestABCIPriceEstimationSingle
         """
         super().check_aea_messages()
         self.check_data_exposed()
-        
+
     def check_data_exposed(self):
         """Check http data."""
-        resp = requests.get(f"http://127.0.0.1:{self.BASE_PORT}")
-        assert resp.status_code == 200
-        json_resp = resp.json()
-        assert json_resp.get("payload")
-        signatures = json_resp.get("signatures")
-        assert signatures
-        assert isinstance(signatures, dict)
-        assert len(signatures) == 1
-        signer_address = tuple(signatures.keys())[0]
-        expected_address = self.key_pairs_override[0][0]
-        assert expected_address.lower() == signer_address.lower()
+        responses = [requests.get(f"http://127.0.0.1:{port}") for port in range(self.BASE_PORT, self.BASE_PORT + 4)]
+        assert all(resp.status_code == 200 for resp in responses)
+        json_responses = [resp.json() for resp in responses]
+        assert all(json_resp.get("payload") for json_resp in json_responses)
+        all_signatures = [json_resp.get("signatures") for json_resp in json_responses]
+        assert all(signatures for signatures in all_signatures)
+        assert all(isinstance(signatures, dict) for signatures in all_signatures)
+        assert all(len(signatures) == 4 for signatures in all_signatures)
+        assert all(signatures == all_signatures[0] for signatures in all_signatures)
+        signer_addresses = {signature.lower() for signature in all_signatures[0]}
+        expected_addresses = {key.lower() for key, _ in self.key_pairs_override[:4]}
+        assert expected_addresses == signer_addresses
