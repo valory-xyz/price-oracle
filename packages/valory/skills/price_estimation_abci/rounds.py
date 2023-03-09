@@ -19,15 +19,19 @@
 
 """This module contains the data classes for the price estimation ABCI application."""
 
+from collections import Counter
 from enum import Enum
-from typing import Dict, List, Mapping, Set, Type, cast
+from typing import Any, Dict, List, Mapping, Optional, Set, Tuple, Type, cast
 
 from packages.valory.skills.abstract_round_abci.base import (
+    ABCIAppException,
+    ABCIAppInternalError,
     AbciApp,
     AbciAppTransitionFunction,
     AbstractRound,
     AppState,
     BaseSynchronizedData,
+    BaseTxPayload,
     CollectDifferentUntilThresholdRound,
     CollectSameUntilThresholdRound,
     CollectionRound,
@@ -39,6 +43,7 @@ from packages.valory.skills.price_estimation_abci.payloads import (
     EstimatePayload,
     ObservationPayload,
     TransactionHashPayload,
+    TransactionHashSamePayload,
 )
 
 
@@ -105,9 +110,26 @@ class SynchronizedData(BaseSynchronizedData):
         return self._get_deserialized("participant_to_estimate")
 
     @property
-    def participant_to_tx_hash(self) -> DeserializedCollection:
-        """Get the participant_to_tx_hash."""
-        return self._get_deserialized("participant_to_tx_hash")
+    def participant_to_signatures(self) -> Dict[str, Optional[str]]:
+        """Get the `participant_to_signatures`."""
+        participant_to_payload = cast(
+            Mapping[str, TransactionHashPayload],
+            self._get_deserialized("participant_to_signatures"),
+        )
+        return {
+            agent_address: payload.signature
+            for agent_address, payload in participant_to_payload.items()
+        }
+
+    @property
+    def signature(self) -> str:
+        """Get the current agent's signature."""
+        return str(self.db.get("signature", {}))
+
+    @property
+    def data_json(self) -> str:
+        """Get the data json."""
+        return str(self.db.get("data_json", ""))
 
 
 class CollectObservationRound(CollectDifferentUntilThresholdRound):
@@ -133,15 +155,67 @@ class EstimateConsensusRound(CollectSameUntilThresholdRound):
 
 
 class TxHashRound(CollectSameUntilThresholdRound):
-    """A round in which agents compute the transaction hash"""
+    """
+    A round in which agents compute the transaction hash.
+
+    This is a special kind of round. It is a mix of collect same and collect different.
+    In essence, it collects the same values for the tx hash and different values for the signatures and the data.
+    """
 
     payload_class = TransactionHashPayload
     synchronized_data_class = SynchronizedData
     done_event = Event.DONE
     none_event = Event.NONE
     no_majority_event = Event.NO_MAJORITY
-    collection_key = get_name(SynchronizedData.participant_to_tx_hash)
-    selection_key = get_name(SynchronizedData.most_voted_tx_hash)
+    collection_key = get_name(SynchronizedData.participant_to_signatures)
+    selection_key = (
+        get_name(SynchronizedData.signature),
+        get_name(SynchronizedData.data_json),
+        get_name(SynchronizedData.most_voted_tx_hash),
+    )
+
+    @property
+    def payload_values_count(self) -> Counter:
+        """Get count of payload values."""
+        return Counter(map(lambda p: (p.values[2],), self.payloads))
+
+    @property
+    def most_voted_payload_values(
+        self,
+    ) -> Tuple[Any, ...]:
+        """Get the most voted payload values."""
+        _, max_votes = self.payload_values_count.most_common()[0]
+        if max_votes < self.synchronized_data.consensus_threshold:
+            raise ABCIAppInternalError("not enough votes")
+
+        all_payload_values_count = Counter(map(lambda p: p.values, self.payloads))
+        most_voted_payload_values, _ = all_payload_values_count.most_common()[0]
+        return most_voted_payload_values
+
+    def check_majority_possible(
+        self,
+        votes_by_participant: Dict[str, BaseTxPayload],
+        nb_participants: int,
+        exception_cls: Type[ABCIAppException] = ABCIAppException,
+    ) -> None:
+        """
+        Overrides the check to only account for the tx hash which should be the same.
+
+        The rest attributes have to be different.
+
+        :param votes_by_participant: a mapping from a participant to its vote
+        :param nb_participants: the total number of participants
+        :param exception_cls: the class of the exception to raise in case the check fails
+        """
+        votes_by_participant = {
+            participant: TransactionHashSamePayload(
+                payload.sender, cast(TransactionHashSamePayload, payload).tx_hash
+            )
+            for participant, payload in votes_by_participant.items()
+        }
+        super().check_majority_possible(
+            votes_by_participant, nb_participants, exception_cls
+        )
 
 
 class FinishedPriceAggregationRound(DegenerateRound):

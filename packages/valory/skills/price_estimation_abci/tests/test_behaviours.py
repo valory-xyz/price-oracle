@@ -59,7 +59,10 @@ from packages.valory.skills.price_estimation_abci.behaviours import (
     TransactionHashBehaviour,
     pack_for_server,
 )
-from packages.valory.skills.price_estimation_abci.payloads import ObservationPayload
+from packages.valory.skills.price_estimation_abci.payloads import (
+    ObservationPayload,
+    TransactionHashPayload,
+)
 from packages.valory.skills.price_estimation_abci.rounds import (
     Event,
     FinishedPriceAggregationRound,
@@ -393,6 +396,11 @@ class TestTransactionHashBehaviour(PriceEstimationFSMBehaviourBaseCase):
                 AbciAppDB(
                     setup_data=dict(
                         most_voted_estimate=[1.0],
+                        participant_to_observations=[
+                            CollectionRound.serialize_collection(
+                                {"agent1": ObservationPayload("agent1", 0.0)}
+                            )
+                        ],
                         safe_contract_address=["safe_contract_address"],
                         oracle_contract_address=[
                             "0x77E9b2EF921253A171Fa0CB9ba80558648Ff7215"
@@ -408,7 +416,9 @@ class TestTransactionHashBehaviour(PriceEstimationFSMBehaviourBaseCase):
             ).auto_behaviour_id()
             == TransactionHashBehaviour.auto_behaviour_id()
         )
+
         self.behaviour.act_wrapper()
+
         self.mock_contract_api_request(
             request_kwargs=dict(
                 performative=ContractApiMessage.Performative.GET_RAW_TRANSACTION,
@@ -442,7 +452,13 @@ class TestTransactionHashBehaviour(PriceEstimationFSMBehaviourBaseCase):
         period_data.update(
             {
                 "participants": ("agent1",),
-                "participant_to_observations": {"agent1": 1.0},
+                "participant_to_signatures": CollectionRound.serialize_collection(
+                    {
+                        "agent1": TransactionHashPayload(
+                            "agent1", "signature", "data_json", "tx_hash"
+                        )
+                    }
+                ),
                 "most_voted_estimate": 1.0,
                 "final_tx_hash": tx_hashes[1],
             }
@@ -474,6 +490,18 @@ class TestTransactionHashBehaviour(PriceEstimationFSMBehaviourBaseCase):
                     body={
                         "tx_hash": "0xb0e6add595e00477cf347d09797b156719dc5233283ac76e4efce2a674fe72d9"
                     },
+                ),
+            ),
+        )
+
+        self.mock_signing_request(
+            request_kwargs=dict(
+                performative=SigningMessage.Performative.SIGN_MESSAGE,
+            ),
+            response_kwargs=dict(
+                performative=SigningMessage.Performative.SIGNED_MESSAGE,
+                signed_message=SignedMessage(
+                    ledger_id="ethereum", body="stub_signature"
                 ),
             ),
         )

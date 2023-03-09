@@ -47,7 +47,11 @@ from packages.valory.protocols.ledger_api.custom_types import (
     TransactionDigest,
     TransactionReceipt,
 )
-from packages.valory.skills.abstract_round_abci.base import AbciAppDB, _MetaPayload
+from packages.valory.skills.abstract_round_abci.base import (
+    AbciAppDB,
+    CollectionRound,
+    _MetaPayload,
+)
 from packages.valory.skills.abstract_round_abci.test_tools.base import (
     FSMBehaviourBaseCase,
 )
@@ -68,6 +72,7 @@ from packages.valory.skills.price_estimation_abci.behaviours import (
     SAFE_TX_GAS,
     TransactionHashBehaviour,
 )
+from packages.valory.skills.price_estimation_abci.payloads import ObservationPayload
 from packages.valory.skills.price_estimation_abci.rounds import (
     SynchronizedData as PriceEstimationSynchronizedSata,
 )
@@ -133,6 +138,9 @@ class TransactionSettlementIntegrationBaseCase(
                         participants=participants,
                         keepers=keeper_initial_retries.to_bytes(32, "big").hex()
                         + cls.keeper_address,
+                        participant_to_observations=CollectionRound.serialize_collection(
+                            {i: ObservationPayload(i, 0.5) for i in participants}
+                        ),
                     )
                 ),
             )
@@ -147,6 +155,9 @@ class TransactionSettlementIntegrationBaseCase(
                         participants=participants,
                         most_voted_keeper_address=cls.keeper_address,
                         most_voted_estimate=1,
+                        participant_to_observations=CollectionRound.serialize_collection(
+                            {i: ObservationPayload(i, 0.5) for i in participants}
+                        ),
                     )
                 ),
             )
@@ -210,17 +221,26 @@ class TransactionSettlementIntegrationBaseCase(
 
     def gen_safe_tx_hash(self) -> None:
         """Generate safe's transaction hash."""
-        cycles_enter = 3
-        handlers_enter: HandlersType = [self.contract_handler] * cycles_enter
+        cycles_enter = 4
+        handlers_enter: HandlersType = [
+            self.contract_handler,
+            self.contract_handler,
+            self.contract_handler,
+            self.signing_handler,
+        ]
         expected_content_enter: ExpectedContentType = [
-            {"performative": ContractApiMessage.Performative.RAW_TRANSACTION}
-        ] * cycles_enter
+            {"performative": ContractApiMessage.Performative.RAW_TRANSACTION},
+            {"performative": ContractApiMessage.Performative.RAW_TRANSACTION},
+            {"performative": ContractApiMessage.Performative.RAW_TRANSACTION},
+            {"performative": SigningMessage.Performative.SIGNED_MESSAGE},
+        ]
         expected_types_enter: ExpectedTypesType = [
-            {
-                "raw_transaction": RawTransaction,
-            }
-        ] * cycles_enter
-        _, msg_a, msg_b = self.process_n_messages(
+            {"raw_transaction": RawTransaction},
+            {"raw_transaction": RawTransaction},
+            {"raw_transaction": RawTransaction},
+            {"signed_message": SignedMessage},
+        ]
+        _, msg_a, msg_b, _ = self.process_n_messages(
             cycles_enter,
             self.price_estimation_synchronized_data,
             TransactionHashBehaviour.auto_behaviour_id(),

@@ -8,9 +8,10 @@ fingerprint:
   README.md: bafybeia6rbpcaovvels4mn3ufkbbvwrsibury3x5g6eyo4lws4w2uk3x4q
   __init__.py: bafybeieja6fkcncllqarspvtzsnm25g6ttxkxfdk2jduuozvt5a3uin6t4
   tests/__init__.py: bafybeiddkyv7ohqiylizxurzs4ihom2o5rpqbwf5xufzkz3jpa7umpwgmm
-  tests/test_oracle.py: bafybeibz46iiimvooycrdnuiym3hju7tjcyo5rmyjlftztyecxhqusirzu
+  tests/test_oracle.py: bafybeicurylgscwo6ugawoxvcld6yafqclenmft7m2o2jgdotynix6uzra
 fingerprint_ignore_patterns: []
 connections:
+- fetchai/http_server:0.22.0:bafybeihaax5od5zo5jk2l62hv4jwuwtxloh5mijozudpsjombqc4ncmi6i
 - valory/abci:0.1.0:bafybeiedhipcrpx7sg7qwitwox6iqrbbb4vfnvqqyok2vc6wq6inrcszey
 - valory/http_client:0.23.0:bafybeidykl4elwbcjkqn32wt5h4h7tlpeqovrcq3c5bcplt6nhpznhgczi
 - valory/ledger:0.19.0:bafybeicxcypcg2lxmtktbmuhqcyluzmasfsdeljyk2pvaabzc3h2jmcsui
@@ -31,9 +32,9 @@ protocols:
 skills:
 - valory/abstract_abci:0.1.0:bafybeihkrunmigvlcze7uxhafj2h3kvpf2kifggq7zqj42n2we4mcwuvou
 - valory/abstract_round_abci:0.1.0:bafybeib2jw7hjccou42wis35orckwycb2dgjk7yw46anuqysf2h7su3fi4
-- valory/oracle_abci:0.1.0:bafybeibcpixrqdaucbefcmzgbx3jaoghuchhizic475o25mrjvarfzh4hu
+- valory/oracle_abci:0.1.0:bafybeiaondimo4qz3vubw2jqq5edchapbqhr5hk4iaiiamb7htxyqd4l2e
 - valory/oracle_deployment_abci:0.1.0:bafybeiemqem3uaufa7jtr24oqbjphdjftnsowaoc72evsjbhohazvau2qa
-- valory/price_estimation_abci:0.1.0:bafybeigzf7mzdyolf5gihakkuanvvnqhbxiaaybotpxihtfn5rvzklb4de
+- valory/price_estimation_abci:0.1.0:bafybeidjzewqrzyiuh5uqxuukasregmd72bnjkchjrb55xhll6m4267vwu
 - valory/registration_abci:0.1.0:bafybeidgoqi7fa2gb56hdfsf74bbunfii63zgeo4qhggb66ofver2n2gya
 - valory/reset_pause_abci:0.1.0:bafybeievxhu6u5r5wlpjfzcwuowlbanhfbi25saf25qit53jauv4kq6gne
 - valory/termination_abci:0.1.0:bafybeihpp4li6jw3co4c4jferrtzobq2ydoc3dcn67esqrg5ebvyoac66e
@@ -159,3 +160,13 @@ config:
       chain_id: ${CONNECTION_LEDGER_CONFIG_LEDGER_APIS_ETHEREUM_CHAIN_ID:int:31337}
       poa_chain: ${CONNECTION_LEDGER_CONFIG_LEDGER_APIS_ETHEREUM_POA_CHAIN:bool:false}
       default_gas_price_strategy: ${CONNECTION_LEDGER_CONFIG_LEDGER_APIS_ETHEREUM_DEFAULT_GAS_PRICE_STRATEGY:str:eip1559}
+---
+public_id: fetchai/http_server:0.22.0
+type: connection
+config:
+  api_spec_path: null
+  host: 0.0.0.0
+  port: 8000
+  ssl_cert: null
+  ssl_key: null
+  target_skill_id: valory/oracle_abci:0.1.0

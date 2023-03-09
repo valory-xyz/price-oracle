@@ -19,10 +19,13 @@
 
 """This module contains the behaviours for the 'abci' skill."""
 
+import copy
+import hashlib
+import json
 import statistics
 from abc import ABC
 from decimal import Decimal
-from typing import Dict, Generator, List, Optional, Sequence, Set, Type, cast
+from typing import Dict, Generator, List, Optional, Sequence, Set, Tuple, Type, cast
 
 from aea.exceptions import enforce
 
@@ -240,32 +243,26 @@ class TransactionHashBehaviour(PriceEstimationBaseBehaviour):
         """
 
         with self.context.benchmark_tool.measure(self.behaviour_id).local():
+            signature = data_json = None
             payload_string = yield from self._get_safe_tx_hash()
-            payload = TransactionHashPayload(self.context.agent_address, payload_string)
+            service_data = self.get_service_data()
+            if payload_string is not None:
+                signature, data_json = yield from self.get_data_signature(service_data)
+            payload = TransactionHashPayload(
+                self.context.agent_address, signature, data_json, payload_string
+            )
 
         with self.context.benchmark_tool.measure(self.behaviour_id).consensus():
             if self.params.is_broadcasting_to_server:
-                yield from self.send_to_server()
+                yield from self.send_to_server(service_data)
             yield from self.send_a2a_transaction(payload)
             yield from self.wait_until_round_end()
 
         self.set_done()
 
-    def send_to_server(self) -> Generator:  # pylint: disable-msg=too-many-locals
-        """
-        Send data to server.
-
-        We send current period data of the agents and the previous
-        cycle's on-chain settlement tx hash. The current cycle's tx hash
-        is not available at this stage yet, and the first iteration will
-        contain no tx hash since there has not been on-chain transaction
-        settlement yet.
-
-        :yield: the http response
-        """
-
+    def get_service_data(self) -> Dict:
+        """Get service data to expose."""
         period_count = self.synchronized_data.period_count
-
         self.context.logger.info("Attempting broadcast")
 
         prev_tx_hash = ""
@@ -279,20 +276,18 @@ class TransactionHashBehaviour(PriceEstimationBaseBehaviour):
             prev_tx_hash = previous_data.get("final_tx_hash", "")
 
         # select relevant data
-        agents = self.synchronized_data.db.get_strict("participants")
         payloads = self.synchronized_data.db.get_strict("participant_to_observations")
         estimate = self.synchronized_data.db.get_strict("most_voted_estimate")
 
         observations = {
-            agent: getattr(payloads.get(agent), "observation", NO_OBSERVATION)
-            for agent in agents
+            address: payload["observation"] for address, payload in payloads.items()
         }
 
         price_api = self.context.price_api
 
         # adding timestamp on server side when received
         # period and agent_address are used as `primary key`
-        data_for_server = {
+        return {
             "period_count": period_count,
             "agent_address": self.context.agent_address,
             "estimate": estimate,
@@ -301,6 +296,45 @@ class TransactionHashBehaviour(PriceEstimationBaseBehaviour):
             "data_source": price_api.api_id,
             "unit": f"{price_api.currency_id}:{price_api.convert_id}",
         }
+
+    def get_data_signature(self, data: Dict) -> Generator[None, None, Tuple[str, str]]:
+        """Get signature for the data."""
+        data = copy.deepcopy(data)
+
+        data.pop("agent_address", None)  # agent address is unique, need to remove it
+        data.pop("data_source", None)  # data_source can be unique, need to remove it
+
+        data_json = json.dumps(data, sort_keys=True)
+        data_bytes = data_json.encode("ascii")
+        hash_bytes = hashlib.sha256(data_bytes).digest()
+
+        signature_hex = yield from self.get_signature(
+            hash_bytes, is_deprecated_mode=True
+        )
+        # remove the leading '0x'
+        signature_hex = signature_hex[2:]
+        self.context.logger.info(f"Data signature: {signature_hex}")
+        return signature_hex, data_json
+
+    def send_to_server(
+        self, data_for_server: Dict
+    ) -> Generator:  # pylint: disable-msg=too-many-locals
+        """
+        Send data to server.
+
+        We send current period data of the agents and the previous
+        cycle's on-chain settlement tx hash. The current cycle's tx hash
+        is not available at this stage yet, and the first iteration will
+        contain no tx hash since there has not been on-chain transaction
+        settlement yet.
+
+        :param data_for_server: dict
+        :yield: the http response
+        """
+        # going to be modified, have to copy
+        data_for_server = copy.deepcopy(data_for_server)
+
+        self.context.logger.info("Attempting broadcast")
 
         # pack data
         participants = self.synchronized_data.sorted_participants

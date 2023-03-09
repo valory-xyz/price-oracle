@@ -151,12 +151,20 @@ def get_most_voted_estimate() -> float:
     return 1.0
 
 
-def get_participant_to_tx_hash(
-    participants: FrozenSet[str], hash_: Optional[str] = "tx_hash"
+def get_participant_to_signatures(
+    participants: FrozenSet[str],
+    signature: Optional[str] = "signature",
+    data_json: Optional[str] = "data",
+    hash_: Optional[str] = "tx_hash",
 ) -> Dict[str, TransactionHashPayload]:
-    """participant_to_tx_hash"""
+    """participant_to_signatures"""
     return {
-        participant: TransactionHashPayload(sender=participant, tx_hash=hash_)
+        participant: TransactionHashPayload(
+            sender=participant,
+            signature=signature,
+            data_json=data_json,
+            tx_hash=hash_,
+        )
         for participant in participants
     }
 
@@ -308,14 +316,32 @@ class TestTxHashRound(BaseCollectSameUntilThresholdRoundTest):
             synchronized_data=self.synchronized_data,
         )
 
+        signature = "sig"
+        data_json = "data"
         hash_ = "tx_hash"
         self._complete_run(
             self._test_round(
                 test_round=test_round,
-                round_payloads=get_participant_to_tx_hash(self.participants, hash_),
-                synchronized_data_update_fn=lambda _synchronized_data, _test_round: _synchronized_data,
-                synchronized_data_attr_checks=[],
-                most_voted_payload=hash_,
+                round_payloads=get_participant_to_signatures(
+                    self.participants, signature, data_json, hash_
+                ),
+                synchronized_data_update_fn=lambda _synchronized_data, _test_round: _synchronized_data.update(
+                    participant_to_signatures=CollectionRound.serialize_collection(
+                        get_participant_to_signatures(
+                            self.participants, signature, data_json, hash_
+                        )
+                    ),
+                    signature=signature,
+                    data_json=data_json,
+                    most_voted_tx_hash=hash_,
+                ),
+                synchronized_data_attr_checks=[
+                    lambda _synchronized_data: _synchronized_data.participant_to_signatures,
+                    lambda _synchronized_data: _synchronized_data.signature,
+                    lambda _synchronized_data: _synchronized_data.data_json,
+                    lambda _synchronized_data: _synchronized_data.most_voted_tx_hash,
+                ],
+                most_voted_payload=signature,
                 exit_event=self._event_class.DONE,
             )
         )
@@ -329,11 +355,13 @@ class TestTxHashRound(BaseCollectSameUntilThresholdRoundTest):
             synchronized_data=self.synchronized_data,
         )
 
-        hash_ = None
+        signature = data = hash_ = None
         self._complete_run(
             self._test_round(
                 test_round=test_round,
-                round_payloads=get_participant_to_tx_hash(self.participants, hash_),
+                round_payloads=get_participant_to_signatures(
+                    self.participants, signature, data, hash_
+                ),
                 synchronized_data_update_fn=lambda _synchronized_data, _test_round: _synchronized_data,
                 synchronized_data_attr_checks=[],
                 most_voted_payload=hash_,

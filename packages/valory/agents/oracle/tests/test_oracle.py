@@ -27,6 +27,7 @@ from pathlib import Path
 from typing import Tuple
 
 import pytest
+import requests
 from aea.configurations.data_types import PublicId
 from aea_test_autonomy.base_test_classes.agents import (
     BaseTestEnd2EndExecution,
@@ -126,6 +127,7 @@ def _generate_reset_happy_path(
 STRICT_CHECK_STRINGS = (
     "Finalized with transaction hash",
     "Signature:",
+    "Data signature:",
     "Got estimate of BTC price in USD:",
     "Got observation of BTC price in USD",
     "Period end",
@@ -149,6 +151,8 @@ class ABCIPriceEstimationTest(
     multisig = SERVICE_MULTISIG_1
     key_pairs_override = KEY_PAIRS[:4]
     _skill_name = PublicId.from_str(skill_package).name
+    
+    BASE_PORT = 18000
 
     @classmethod
     def setup_class(cls) -> None:
@@ -167,6 +171,16 @@ class ABCIPriceEstimationTest(
         # we need to set the correct key pairs, since the 5th agent is registered for the service with 1 agent instance.
         self.key_pairs = self.key_pairs_override
         super().prepare_and_launch(nb_nodes)
+
+    def prepare(self, nb_nodes: int) -> None:
+        """Set up the agents."""
+        super().prepare(nb_nodes)
+        
+        for i in range(nb_nodes):
+            agent_name = self._get_agent_name(i)
+            self.set_agent_context(agent_name)
+            port = self.BASE_PORT + i
+            self.set_config(dotted_path="vendor.fetchai.connections.http_server.config.port", value=port, type_="int")
 
 
 @pytest.mark.e2e
@@ -283,3 +297,37 @@ class TestTendermintResetInterruptNoRejoin(TestTendermintResetInterrupt):
     restart_after = wait_to_finish
     # check if we manage to reset with Tendermint `__n_resets_to_perform` times with the rest of the agents
     exclude_from_checks = [3]
+
+
+@pytest.mark.e2e
+class TestABCIPriceEstimationFourAgentHTTPServer(TestABCIPriceEstimationFourAgents):
+    """Test the ABCI oracle skill with 4 agents with data share over http server connection."""
+
+    happy_path = (
+        RoundChecks(TxHashRound.auto_round_id(), n_periods=1),
+    )
+    strict_check_strings = ()
+
+    def check_aea_messages(self) -> None:
+        """
+        Check that *each* AEA prints these messages.
+
+        First failing check will cause assertion error and test tear down.
+        """
+        super().check_aea_messages()
+        self.check_data_exposed()
+
+    def check_data_exposed(self):
+        """Check http data."""
+        responses = [requests.get(f"http://127.0.0.1:{port}") for port in range(self.BASE_PORT, self.BASE_PORT + 4)]
+        assert all(resp.status_code == 200 for resp in responses)
+        json_responses = [resp.json() for resp in responses]
+        assert all(json_resp.get("payload") for json_resp in json_responses)
+        all_signatures = [json_resp.get("signatures") for json_resp in json_responses]
+        assert all(signatures for signatures in all_signatures)
+        assert all(isinstance(signatures, dict) for signatures in all_signatures)
+        assert all(len(signatures) == 4 for signatures in all_signatures)
+        assert all(signatures == all_signatures[0] for signatures in all_signatures)
+        signer_addresses = {signature.lower() for signature in all_signatures[0]}
+        expected_addresses = {key.lower() for key, _ in self.key_pairs_override[:4]}
+        assert expected_addresses == signer_addresses
