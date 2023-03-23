@@ -11,23 +11,20 @@ name = "pypi"
 ### package deps
 aiohttp = "==3.7.4.post0"
 asn1crypto = "==1.4.0"
-# we pin this as the range specified in open-aea-ledger-cosmos is wide
-cosmpy = "==0.3.1"
 grpcio = "==1.43.0"
 hypothesis = "==6.21.6"
-open-aea = {version = "==1.29.0", extras = ["all"]}
-open-aea-ledger-ethereum = "==1.29.0"
-open-aea-ledger-cosmos = "==1.29.0"
-open-aea-cli-ipfs = "==1.29.0"
-open-aea-test-autonomy = "==0.9.1"
-open-autonomy = {version = "==0.9.1", extras = [ "all"]}
-protobuf = "==3.19.4"
+open-aea = {version = "==1.31.0", extras = ["all"]}
+open-aea-ledger-ethereum = "==1.31.0"
+open-aea-ledger-cosmos = "==1.31.0"
+open-aea-cli-ipfs = "==1.31.0"
+open-aea-test-autonomy = "==0.10.0.post1"
+open-autonomy = {version = "==0.10.0.post1", extras = [ "all"]}
 pytz = "==2022.2.1"
 py-ecc = "==5.2.0"
 py-eth-sig-utils = "==0.4.0"
 ### tests deps
 mistune = "==2.0.3"
-tomte = {version = "==0.2.2", extras = ["tox", "tests"]}
+tomte = {version = "==0.2.4", extras = ["tox", "tests"]}
 # for http server connection
 openapi-core = "==0.13.2"
 openapi-spec-validator = "==0.2.8"
