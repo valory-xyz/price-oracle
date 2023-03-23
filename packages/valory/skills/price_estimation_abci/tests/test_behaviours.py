@@ -395,6 +395,7 @@ class TestTransactionHashBehaviour(PriceEstimationFSMBehaviourBaseCase):
             synchronized_data=PriceEstimationSynchronizedSata(
                 AbciAppDB(
                     setup_data=dict(
+                        all_participants=["agent1"],
                         most_voted_estimate=[1.0],
                         participant_to_observations=[
                             CollectionRound.serialize_collection(
@@ -405,6 +406,7 @@ class TestTransactionHashBehaviour(PriceEstimationFSMBehaviourBaseCase):
                         oracle_contract_address=[
                             "0x77E9b2EF921253A171Fa0CB9ba80558648Ff7215"
                         ],
+                        consensus_threshold=[None],
                     ),
                 )
             ),
@@ -473,9 +475,7 @@ class TestTransactionHashBehaviour(PriceEstimationFSMBehaviourBaseCase):
         )
 
         if this_period_count != 0:
-            synchronized_data.db.create(
-                **AbciAppDB.data_to_lists(next_period_data),
-            )
+            synchronized_data.db.create(**next_period_data)
 
         self.mock_contract_api_request(
             request_kwargs=dict(

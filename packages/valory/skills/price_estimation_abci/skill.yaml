@@ -120,7 +120,7 @@ models:
       max_attempts: 10
       max_healthcheck: 120
       observation_aggregator_function: median
-      observation_interval: 10
+      reset_pause_duration: 10
       on_chain_service_id: null
       oracle:
         min_answer: 1000000000000000000
@@ -137,9 +137,9 @@ models:
       service_registry_address: null
       setup:
         all_participants:
-        - - '0x0000000000000000000000000000000000000000'
-        oracle_contract_address: []
-        safe_contract_address: []
+        - '0x0000000000000000000000000000000000000000'
+        oracle_contract_address: '0x0000000000000000000000000000000000000000'
+        safe_contract_address: '0x0000000000000000000000000000000000000000'
       share_tm_config_on_startup: false
       sleep_time: 1
       tendermint_check_sleep_delay: 3
@@ -148,6 +148,7 @@ models:
       tendermint_p2p_url: localhost:26656
       tendermint_url: http://localhost:26657
       tx_timeout: 10.0
+      use_termination: false
       validate_timeout: 1205
     class_name: Params
   price_api:

@@ -255,7 +255,7 @@ class TestValidateOracleRound(BaseValidateRoundTest):
 
 
 class BaseSelectKeeperRoundTest(BaseCollectSameUntilThresholdRoundTest):
-    """Test SelectKeeperTransactionSubmissionRoundA"""
+    """Test SelectKeeperTransactionSubmissionARound"""
 
     test_class: Type[CollectSameUntilThresholdRound]
     test_payload: Type[BaseTxPayload]
