@@ -7,9 +7,7 @@
         "agent/valory/oracle/0.1.0": "bafybeigtxage6dvvpers2q4sq3b53csy2obgwzy5rbooxygfcrd2p5yy5m",
         "service/valory/oracle_goerli/0.1.0": "bafybeidbvno73f4skhbrwu44vognciorqx4kr26n6ntqinyi35o7o4ddaq",
         "service/valory/oracle_hardhat/0.1.0": "bafybeibxalu642nacqlczkipcejfcqndidy53ezecnuhhmrxujz2s3uczy",
-        "service/valory/oracle_polygon/0.1.0": "bafybeihlpfdvgpv5ue6h7xstgmgkclp3nzfzqctweh7vyosrpk6g426gj4",
-        "service/valory/oracle_ropsten/0.1.0": "bafybeifmunicszyf4w7qee6twuziymdiwo5rcq2wuwvweukq36b7243xiu",
-        "service/valory/oracle_ropsten_cluster/0.1.0": "bafybeie6s7qvn5ka2azz5iv3y4tzvjooae7q6bs7xyfbzvxq3s6woz5nw4"
+        "service/valory/oracle_polygon/0.1.0": "bafybeihlpfdvgpv5ue6h7xstgmgkclp3nzfzqctweh7vyosrpk6g426gj4"
     },
     "third_party": {
         "connection/valory/ipfs/0.1.0": "bafybeie46fu7mv64q72dwzoxg77zbiv3pzsigzjk3rehjpm47cf3y77mha",
