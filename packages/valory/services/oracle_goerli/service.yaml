@@ -32,6 +32,7 @@ extra:
         - '0x7E07817939c1dBAaBea9Dc56220549539DE1aFC6'
         safe_contract_address: '0x623cE6087190B53520f00609d41d79e5B71B881F'
         oracle_contract_address: '0xA2b06beb69b5e454759976ABa7555e2639c0522f'
+        consensus_threshold: null
   valory_monitoring_backend:
     args: &id002
       url: https://oracle-server.staging.autonolas.tech/deposit
