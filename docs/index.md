@@ -105,7 +105,7 @@ To understand the deployment process better, follow the deployment guide [here](
 Querying autonomous services can become very simple by using the 
 [Open Autonomy Client SDK](https://github.com/valory-xyz/open-autonomy-client).
 This is a library that helps to query multi-agent systems built with the Open Autonomy framework 
-It allows one to simply perform a request to a service as if it were a single endpoint. 
+It provides a simplified approach for making requests to a service as if it were a single endpoint.
 The SDK queries multiple agents in the background to retrieve information and returns a result that is presumed to be reached by consensus among the agents.
 
 Let's take a look at a simple example, using the SDK. First of all we need to make sure 
