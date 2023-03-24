@@ -104,10 +104,9 @@ To understand the deployment process better, follow the deployment guide [here](
 
 Querying autonomous services can become very simple by using the 
 [Open Autonomy Client SDK](https://github.com/valory-xyz/open-autonomy-client).
-This is a library that helps to query multi-agent systems built with the open-autonomy framework. 
+This is a library that helps to query multi-agent systems built with the Open Autonomy framework 
 It allows one to simply perform a request to a service as if it were a single endpoint. 
-The SDK in the background requests the information from multiple agents in order to return a result for which 
-it is safe to assume that the agents have reached consensus on.
+The SDK queries multiple agents in the background to retrieve information and returns a result that is presumed to be reached by consensus among the agents.
 
 Let's take a look at a simple example, using the SDK. First of all we need to make sure 
 that we have the necessary requirements installed:
@@ -144,6 +143,7 @@ if __name__ == '__main__':
 ```
 
 Let's take a look at this script step by step:
+
 1. We import the `asyncio` library, because the Client SDK queries the agents in an asynchronous way 
    in order to save time. The `json` library is not necessary, but helps us format the data before printing them 
    for this demo. The `open_autonomy_client` is the SDK, and the `Client` is the class that we are going to use 
