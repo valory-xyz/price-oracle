@@ -4,10 +4,10 @@
         "skill/valory/oracle_deployment_abci/0.1.0": "bafybeiddxmevuiytckl2kasirn2baoe2mjutls7l2i7w4xqz2b3kpkjnca",
         "skill/valory/price_estimation_abci/0.1.0": "bafybeiggyffr3tsnj7uaevbg62zyq366fiuysqcxtqszt376h2ggm7ceda",
         "skill/valory/oracle_abci/0.1.0": "bafybeifjebaiqnd5f5cuo7y5qlj7sn47gdlabxujduuaz6loshcgykjgqa",
-        "agent/valory/oracle/0.1.0": "bafybeidu4bgoquxchaxwp5me2ct4mt6vlwhz62jms6t4ejmj35crojzkrq",
-        "service/valory/oracle_goerli/0.1.0": "bafybeibll7qobpe7xi5rgazynsymgl54t2uf2nan2znwwqlqp6om5sfeby",
-        "service/valory/oracle_hardhat/0.1.0": "bafybeidpp5f6cycsioocxaawslolbjdhhtw4cztiscftznyzpeqm22yrp4",
-        "service/valory/oracle_polygon/0.1.0": "bafybeiggwnerag6vz7hwogosqlicbrcrcsgwpv4mpqbsfwjkqe5jke6sla"
+        "agent/valory/oracle/0.1.0": "bafybeifgg3qibd6ep6cc5v5fwarzaqjfmxwoki3hlowmub5erffckb2jka",
+        "service/valory/oracle_goerli/0.1.0": "bafybeifmyl2ftiqtqylushlyfjeia6kzurrje3fq6jsf3t2vfd46v3xdzm",
+        "service/valory/oracle_hardhat/0.1.0": "bafybeiflzviayurvp6ebcuiqgkpnjar4lzmbkfhheydpki6qqrh6vgz62m",
+        "service/valory/oracle_polygon/0.1.0": "bafybeidqv2ulimyqteeqaj2jwcfe5rv3oywpf6anptlq76q2fvjf4ujavi"
     },
     "third_party": {
         "connection/valory/ipfs/0.1.0": "bafybeie46fu7mv64q72dwzoxg77zbiv3pzsigzjk3rehjpm47cf3y77mha",
