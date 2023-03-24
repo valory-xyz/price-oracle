@@ -85,7 +85,7 @@ config:
   target_skill_id: valory/oracle_abci:0.1.0
   host: ${str:localhost}
   port: ${int:26658}
-  use_tendermint: ${ABCI_USE_TENDERMINT:bool:false}
+  use_tendermint: ${bool:false}
 ---
 public_id: valory/p2p_libp2p_client:0.1.0
 type: connection
@@ -108,23 +108,23 @@ type: skill
 models:
   benchmark_tool:
     args:
-      log_dir: ${SKILL_ORACLE_ABCI_MODELS_BENCHMARK_TOOL_ARGS_LOG_DIR:str:/benchmarks}
+      log_dir: ${str:/benchmarks}
   price_api:
     args:
-      url: ${SKILL_ORACLE_ABCI_MODELS_PRICE_API_ARGS_URL:str:https://api.coinbase.com/v2/prices/BTC-USD/buy}
-      api_id: ${SKILL_ORACLE_ABCI_MODELS_PRICE_API_ARGS_API_ID:str:coinbase}
+      url: ${str:https://api.coinbase.com/v2/prices/BTC-USD/buy}
+      api_id: ${str:coinbase}
       parameters:
         ids: ${str:null}
         vs_currencies: ${str:null}
         pair: ${str:null}
         symbol: ${str:null}
-      response_key: ${SKILL_ORACLE_ABCI_MODELS_PRICE_API_ARGS_RESPONSE_KEY:str:data:amount}
-      response_index: ${SKILL_ORACLE_ABCI_MODELS_PRICE_API_ARGS_RESPONSE_INDEX:int:null}
-      headers: ${SKILL_ORACLE_ABCI_MODELS_PRICE_API_ARGS_HEADERS:dict:{}}
+      response_key: ${str:data:amount}
+      response_index: ${int:null}
+      headers: ${dict:{}}
   randomness_api:
     args:
-      url: ${SKILL_ORACLE_ABCI_MODELS_RANDOMNESS_API_ARGS_URL:str:https://drand.cloudflare.com/public/latest}
-      api_id: ${SKILL_ORACLE_ABCI_MODELS_RANDOMNESS_API_ARGS_API_ID:str:cloudflare}
+      url: ${str:https://drand.cloudflare.com/public/latest}
+      api_id: ${str:cloudflare}
   params:
     args:
       setup:
@@ -132,35 +132,35 @@ models:
         safe_contract_address: ${str:null}
         oracle_contract_address: ${str:null}
         consensus_threshold: ${int:null}
-      round_timeout_seconds: ${ORACLE_PARAMS_ROUND_TIMEOUT_SECONDS:float:35.0}
-      tendermint_url: ${TENDERMINT_URL:str:http://localhost:26657}
-      tendermint_com_url: ${TENDERMINT_COM_URL:str:http://localhost:8080}
-      reset_tendermint_after: ${SKILL_ORACLE_ABCI_MODELS_PARAMS_ARGS_RESET_TENDERMINT_AFTER:int:10}
+      round_timeout_seconds: ${float:35.0}
+      tendermint_url: ${str:http://localhost:26657}
+      tendermint_com_url: ${str:http://localhost:8080}
+      reset_tendermint_after: ${int:10}
       reset_pause_duration: ${int:300}
-      max_healthcheck: ${SKILL_ORACLE_ABCI_MODELS_PARAMS_ARGS_MAX_HEALTHCHECK:int:1200}
+      max_healthcheck: ${int:1200}
       multisend_address: ${str:'0x0000000000000000000000000000000000000000'}
-      broadcast_to_server: ${SKILL_ORACLE_ABCI_MODELS_PARAMS_ARGS_BROADCAST_TO_SERVER:bool:false}
-      validate_timeout: ${SKILL_ORACLE_ABCI_MODELS_PARAMS_ARGS_VALIDATE_TIMEOUT:int:1205}
-      service_registry_address: ${SKILL_ORACLE_ABCI_MODELS_PARAMS_ARGS_SERVICE_REGISTRY_ADDRESS:str:none}
+      broadcast_to_server: ${bool:false}
+      validate_timeout: ${int:1205}
+      service_registry_address: ${str:none}
       tendermint_p2p_url: ${str:localhost:26656}
       termination_sleep: ${int:900}
-      share_tm_config_on_startup: ${SKILL_ORACLE_ABCI_MODELS_PARAMS_ARGS_SHARE_TM_CONFIG_ON_STARTUP:bool:false}
-      on_chain_service_id: ${SKILL_ORACLE_ABCI_MODELS_PARAMS_ARGS_ON_CHAIN_SERVICE_ID:int:none}
-      init_fallback_gas: ${SKILL_ORACLE_ABCI_MODELS_PARAMS_ARGS_INIT_FALLBACK_GAS:int:270000}
+      share_tm_config_on_startup: ${bool:false}
+      on_chain_service_id: ${int:none}
+      init_fallback_gas: ${int:270000}
       use_termination: ${bool:false}
   server_api:
     args:
-      url: ${SKILL_ORACLE_ABCI_MODELS_SERVER_API_ARGS_URL:str:http://192.168.2.17:9999/deposit}
+      url: ${str:http://192.168.2.17:9999/deposit}
 ---
 public_id: valory/ledger:0.19.0
 type: connection
 config:
   ledger_apis:
     ethereum:
-      address: ${CONNECTION_LEDGER_CONFIG_LEDGER_APIS_ETHEREUM_ADDRESS:str:http://localhost:8545}
-      chain_id: ${CONNECTION_LEDGER_CONFIG_LEDGER_APIS_ETHEREUM_CHAIN_ID:int:31337}
-      poa_chain: ${CONNECTION_LEDGER_CONFIG_LEDGER_APIS_ETHEREUM_POA_CHAIN:bool:false}
-      default_gas_price_strategy: ${CONNECTION_LEDGER_CONFIG_LEDGER_APIS_ETHEREUM_DEFAULT_GAS_PRICE_STRATEGY:str:eip1559}
+      address: ${str:http://localhost:8545}
+      chain_id: ${int:31337}
+      poa_chain: ${bool:false}
+      default_gas_price_strategy: ${str:eip1559}
 ---
 public_id: fetchai/http_server:0.22.0
 type: connection
