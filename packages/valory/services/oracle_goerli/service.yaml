@@ -62,7 +62,7 @@ type: skill
         reset_pause_duration: 3000
         broadcast_to_server: true
         share_tm_config_on_startup: ${USE_ACN:bool:false}
-        on_chain_service_id: ${ON_CHAIN_SERVICE_ID:int:none}
+        on_chain_service_id: ${ON_CHAIN_SERVICE_ID:int:null}
         service_registry_address: '0x1cEe30D08943EB58EFF84DD1AB44a6ee6FEff63a'
     server_api:
       args: *id002
@@ -89,7 +89,7 @@ type: skill
         reset_pause_duration: 3000
         broadcast_to_server: true
         share_tm_config_on_startup: ${USE_ACN:bool:false}
-        on_chain_service_id: ${ON_CHAIN_SERVICE_ID:int:none}
+        on_chain_service_id: ${ON_CHAIN_SERVICE_ID:int:null}
         service_registry_address: '0x1cEe30D08943EB58EFF84DD1AB44a6ee6FEff63a'
     server_api:
       args: *id002
@@ -115,7 +115,7 @@ type: skill
         reset_pause_duration: 3000
         broadcast_to_server: true
         share_tm_config_on_startup: ${USE_ACN:bool:false}
-        on_chain_service_id: ${ON_CHAIN_SERVICE_ID:int:none}
+        on_chain_service_id: ${ON_CHAIN_SERVICE_ID:int:null}
         service_registry_address: '0x1cEe30D08943EB58EFF84DD1AB44a6ee6FEff63a'
     server_api:
       args: *id002
@@ -142,7 +142,7 @@ type: skill
         reset_pause_duration: 3000
         broadcast_to_server: true
         share_tm_config_on_startup: ${USE_ACN:bool:false}
-        on_chain_service_id: ${ON_CHAIN_SERVICE_ID:int:none}
+        on_chain_service_id: ${ON_CHAIN_SERVICE_ID:int:null}
         service_registry_address: '0x1cEe30D08943EB58EFF84DD1AB44a6ee6FEff63a'
     server_api:
       args: *id002

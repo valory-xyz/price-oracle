@@ -141,11 +141,11 @@ models:
       multisend_address: ${str:'0x0000000000000000000000000000000000000000'}
       broadcast_to_server: ${bool:false}
       validate_timeout: ${int:1205}
-      service_registry_address: ${str:none}
+      service_registry_address: ${str:null}
       tendermint_p2p_url: ${str:localhost:26656}
       termination_sleep: ${int:900}
       share_tm_config_on_startup: ${bool:false}
-      on_chain_service_id: ${int:none}
+      on_chain_service_id: ${int:null}
       init_fallback_gas: ${int:270000}
       use_termination: ${bool:false}
   server_api:

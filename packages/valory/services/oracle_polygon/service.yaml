@@ -37,8 +37,8 @@ extra:
       reset_pause_duration: 3000
       broadcast_to_server: true
       share_tm_config_on_startup: ${USE_ACN:bool:false}
-      on_chain_service_id: ${ON_CHAIN_SERVICE_ID:int:none}
-      service_registry_address: ${SERVICE_REGISTRY:str:none}
+      on_chain_service_id: ${ON_CHAIN_SERVICE_ID:int:null}
+      service_registry_address: ${SERVICE_REGISTRY:str:null}
       validate_timeout: 300
   valory_monitoring_backend:
     args: &id002
