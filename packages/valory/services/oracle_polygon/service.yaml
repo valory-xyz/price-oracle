@@ -7,27 +7,38 @@ license: Apache-2.0
 fingerprint:
   README.md: bafybeifqnvekc6s44wsczofdhofiozxekstjau2bk5yqfqvjuv4wzoopku
 fingerprint_ignore_patterns: []
-agent: valory/oracle:0.1.0:bafybeigtxage6dvvpers2q4sq3b53csy2obgwzy5rbooxygfcrd2p5yy5m
+agent: valory/oracle:0.1.0:bafybeic6jjtpspjgqc47eqwrciyfirurtpmstlujxh6wokrsnjqghsrodu
 number_of_agents: 4
+deployment:
+  agent:
+    ports:
+      0:
+        8000: 8000
+      1:
+        8001: 8000
+      2:
+        8002: 8000
+      3:
+        8003: 8000
 ---
 extra:
   params_args:
     args: &id001
       setup:
         all_participants:
-        - - '0xe6b7e278a184b1183f743380D9Ef12167cDe37c6'
-          - '0x4b23D773D0e9469d1f92DC8B0eC8A8B19Cfa1771'
-          - '0xAD56A50628D4915E841b7C2eCE13b33793b365d0'
-          - '0x5eF6567079c6c26d8ebf61AC0716163367E9B3cf'
-        safe_contract_address:
-        - '0x37ba5291A5bE8cbE44717a0673fe2c5a45B4B6A8'
-        oracle_contract_address:
-        - '0x3d9e92B0FE7673ddA3d7C33B9ff302768A03de19'
-        consensus_threshold:
-        - null
+        - '0xe6b7e278a184b1183f743380D9Ef12167cDe37c6'
+        - '0x4b23D773D0e9469d1f92DC8B0eC8A8B19Cfa1771'
+        - '0xAD56A50628D4915E841b7C2eCE13b33793b365d0'
+        - '0x5eF6567079c6c26d8ebf61AC0716163367E9B3cf'
+        safe_contract_address: '0x37ba5291A5bE8cbE44717a0673fe2c5a45B4B6A8'
+        oracle_contract_address: '0x3d9e92B0FE7673ddA3d7C33B9ff302768A03de19'
+        consensus_threshold: null
       max_healthcheck: 43200
-      observation_interval: 3000
+      reset_pause_duration: 3000
       broadcast_to_server: true
+      share_tm_config_on_startup: ${USE_ACN:bool:false}
+      on_chain_service_id: ${ON_CHAIN_SERVICE_ID:int:null}
+      service_registry_address: ${SERVICE_REGISTRY:str:null}
       validate_timeout: 300
   valory_monitoring_backend:
     args: &id002

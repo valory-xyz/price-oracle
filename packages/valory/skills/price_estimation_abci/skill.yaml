@@ -22,7 +22,7 @@ fingerprint:
   tests/helpers/data/mock_apis_json_server/mock_data.json: bafybeiebnsrujxhdqq5flsqawtcr4ey3ngdminoxalcnlokpyaql2tjecq
   tests/helpers/docker.py: bafybeiep32dj3ikedeflxo6gqjxl5fguvyxpbzqww3vishweex5nflqklq
   tests/test_apis.py: bafybeib3w4tlsxmolmfouv37lhle6hqkxdkt6vfi4e57drouua4a7rd5ga
-  tests/test_behaviours.py: bafybeie57lie7vi4jmdp3q4mfo5rhvits7hpwqwk6pagdptkn6gzogntze
+  tests/test_behaviours.py: bafybeicne2qpq2sfobsrxwtfa5jt5ughyvxnxqvfzxoriixpxkoyslz75m
   tests/test_dialogues.py: bafybeigmz5coi27zy7sgwnlhsvk7hg5auxexzbtdsw6uie375x3zjhzd4e
   tests/test_handlers.py: bafybeigqkwusmopwdt6lzmgg7xokzl2ytskpktzd3wxie4etjxdfxjf6q4
   tests/test_models.py: bafybeifjn64lb2xo5blgpynfc5t6jrgwi6belth4gt3nel6lm4snv4ctoa
@@ -33,16 +33,16 @@ fingerprint_ignore_patterns: []
 connections:
 - fetchai/http_server:0.22.0:bafybeihaax5od5zo5jk2l62hv4jwuwtxloh5mijozudpsjombqc4ncmi6i
 contracts:
-- valory/gnosis_safe:0.1.0:bafybeibzfhpib5fw3wady6dhq5bfgo37o437bi4s3hthbvvit7byvbalg4
-- valory/offchain_aggregator:0.1.0:bafybeiggz7egdsjcumckomecmzfw3vf7yrqb3we3mwlxelzcshpowvv5zq
+- valory/gnosis_safe:0.1.0:bafybeicwzsjalj4puagecus525fbdusaljccn4fi62nmr4zp5fhim6oyr4
+- valory/offchain_aggregator:0.1.0:bafybeib5zabg6dj53fdbgqjc7gyu56oymhzln2s6a6yh4ifctkuxcxvc7q
 protocols:
 - open_aea/signing:1.0.0:bafybeibqlfmikg5hk4phzak6gqzhpkt6akckx7xppbp53mvwt6r73h7tk4
 - valory/contract_api:1.0.0:bafybeidv6wxpjyb2sdyibnmmum45et4zcla6tl63bnol6ztyoqvpl4spmy
 - valory/http:1.0.0:bafybeifyoio7nlh5zzyn5yz7krkou56l22to3cwg7gw5v5o3vxwklibhty
 skills:
-- valory/abstract_round_abci:0.1.0:bafybeib2jw7hjccou42wis35orckwycb2dgjk7yw46anuqysf2h7su3fi4
-- valory/oracle_deployment_abci:0.1.0:bafybeiemqem3uaufa7jtr24oqbjphdjftnsowaoc72evsjbhohazvau2qa
-- valory/transaction_settlement_abci:0.1.0:bafybeiftbgfzp36bknbwus3fx2equmhgmboy4qd5myex76xfc4ze6o7b54
+- valory/abstract_round_abci:0.1.0:bafybeicn5utwviq46ubguok5rl5go4hb7oxluj7t6bja2ut4epjw2hevei
+- valory/oracle_deployment_abci:0.1.0:bafybeiddxmevuiytckl2kasirn2baoe2mjutls7l2i7w4xqz2b3kpkjnca
+- valory/transaction_settlement_abci:0.1.0:bafybeie3324jr6cxizx4z6yw3i7mnyymjxdovwhu2bxha7brkxubcy5iym
 behaviours:
   main:
     args: {}
@@ -120,7 +120,6 @@ models:
       max_attempts: 10
       max_healthcheck: 120
       observation_aggregator_function: median
-      observation_interval: 10
       on_chain_service_id: null
       oracle:
         min_answer: 1000000000000000000
@@ -129,6 +128,7 @@ models:
         description: BTC
       request_retry_delay: 1.0
       request_timeout: 10.0
+      reset_pause_duration: 10
       reset_tendermint_after: 2
       retry_attempts: 400
       retry_timeout: 3
@@ -137,9 +137,9 @@ models:
       service_registry_address: null
       setup:
         all_participants:
-        - - '0x0000000000000000000000000000000000000000'
-        oracle_contract_address: []
-        safe_contract_address: []
+        - '0x0000000000000000000000000000000000000000'
+        oracle_contract_address: '0x0000000000000000000000000000000000000000'
+        safe_contract_address: '0x0000000000000000000000000000000000000000'
       share_tm_config_on_startup: false
       sleep_time: 1
       tendermint_check_sleep_delay: 3
@@ -148,6 +148,7 @@ models:
       tendermint_p2p_url: localhost:26656
       tendermint_url: http://localhost:26657
       tx_timeout: 10.0
+      use_termination: false
       validate_timeout: 1205
     class_name: Params
   price_api:
@@ -205,5 +206,5 @@ models:
     class_name: TendermintDialogues
 dependencies:
   open-aea-test-autonomy:
-    version: ==0.9.1
+    version: ==0.10.0.post1
 is_abstract: true

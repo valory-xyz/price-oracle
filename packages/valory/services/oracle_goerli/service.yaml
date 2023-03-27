@@ -7,22 +7,32 @@ license: Apache-2.0
 fingerprint:
   README.md: bafybeig4wu7inb6ibwfgged3djyc7emopcg5n7d7gwrlotne53pp3jfgq4
 fingerprint_ignore_patterns: []
-agent: valory/oracle:0.1.0:bafybeigtxage6dvvpers2q4sq3b53csy2obgwzy5rbooxygfcrd2p5yy5m
+agent: valory/oracle:0.1.0:bafybeic6jjtpspjgqc47eqwrciyfirurtpmstlujxh6wokrsnjqghsrodu
 number_of_agents: 4
+deployment:
+  agent:
+    ports:
+      0:
+        8000: 8000
+      1:
+        8001: 8000
+      2:
+        8002: 8000
+      3:
+        8003: 8000
 ---
 extra:
   params_args:
     args:
       setup: &id001
         all_participants:
-        - - '0xB51D93A8A1E67c3Db8f9dE5ff89BB2d6525c6aD0'
-          - '0x77E9b2EF921253A171Fa0CB9ba80558648Ff7215'
-          - '0x91B22F6957fE459e471C52Cdaba1D3c8eC95d2d3'
-          - '0x7E07817939c1dBAaBea9Dc56220549539DE1aFC6'
-        safe_contract_address:
-        - '0x623cE6087190B53520f00609d41d79e5B71B881F'
-        oracle_contract_address:
-        - '0xA2b06beb69b5e454759976ABa7555e2639c0522f'
+        - '0xB51D93A8A1E67c3Db8f9dE5ff89BB2d6525c6aD0'
+        - '0x77E9b2EF921253A171Fa0CB9ba80558648Ff7215'
+        - '0x91B22F6957fE459e471C52Cdaba1D3c8eC95d2d3'
+        - '0x7E07817939c1dBAaBea9Dc56220549539DE1aFC6'
+        safe_contract_address: '0x623cE6087190B53520f00609d41d79e5B71B881F'
+        oracle_contract_address: '0xA2b06beb69b5e454759976ABa7555e2639c0522f'
+        consensus_threshold: null
   valory_monitoring_backend:
     args: &id002
       url: https://oracle-server.staging.autonolas.tech/deposit
@@ -49,10 +59,10 @@ type: skill
         max_healthcheck: 43200
         multisend_address: '0xA238CBeb142c10Ef7Ad8442C6D1f9E89e07e7761'
         tendermint_p2p_url: ${TM_P2P_ENDPOINT_NODE_0:str:node0:26656}
-        observation_interval: 3000
+        reset_pause_duration: 3000
         broadcast_to_server: true
         share_tm_config_on_startup: ${USE_ACN:bool:false}
-        on_chain_service_id: ${ON_CHAIN_SERVICE_ID:int:none}
+        on_chain_service_id: ${ON_CHAIN_SERVICE_ID:int:null}
         service_registry_address: '0x1cEe30D08943EB58EFF84DD1AB44a6ee6FEff63a'
     server_api:
       args: *id002
@@ -76,10 +86,10 @@ type: skill
         max_healthcheck: 43200
         multisend_address: '0xA238CBeb142c10Ef7Ad8442C6D1f9E89e07e7761'
         tendermint_p2p_url: ${TM_P2P_ENDPOINT_NODE_1:str:node1:26666}
-        observation_interval: 3000
+        reset_pause_duration: 3000
         broadcast_to_server: true
         share_tm_config_on_startup: ${USE_ACN:bool:false}
-        on_chain_service_id: ${ON_CHAIN_SERVICE_ID:int:none}
+        on_chain_service_id: ${ON_CHAIN_SERVICE_ID:int:null}
         service_registry_address: '0x1cEe30D08943EB58EFF84DD1AB44a6ee6FEff63a'
     server_api:
       args: *id002
@@ -102,10 +112,10 @@ type: skill
         max_healthcheck: 43200
         multisend_address: '0xA238CBeb142c10Ef7Ad8442C6D1f9E89e07e7761'
         tendermint_p2p_url: ${TM_P2P_ENDPOINT_NODE_2:str:node2:26676}
-        observation_interval: 3000
+        reset_pause_duration: 3000
         broadcast_to_server: true
         share_tm_config_on_startup: ${USE_ACN:bool:false}
-        on_chain_service_id: ${ON_CHAIN_SERVICE_ID:int:none}
+        on_chain_service_id: ${ON_CHAIN_SERVICE_ID:int:null}
         service_registry_address: '0x1cEe30D08943EB58EFF84DD1AB44a6ee6FEff63a'
     server_api:
       args: *id002
@@ -129,10 +139,10 @@ type: skill
         max_healthcheck: 43200
         multisend_address: '0xA238CBeb142c10Ef7Ad8442C6D1f9E89e07e7761'
         tendermint_p2p_url: ${TM_P2P_ENDPOINT_NODE_3:str:node3:26686}
-        observation_interval: 3000
+        reset_pause_duration: 3000
         broadcast_to_server: true
         share_tm_config_on_startup: ${USE_ACN:bool:false}
-        on_chain_service_id: ${ON_CHAIN_SERVICE_ID:int:none}
+        on_chain_service_id: ${ON_CHAIN_SERVICE_ID:int:null}
         service_registry_address: '0x1cEe30D08943EB58EFF84DD1AB44a6ee6FEff63a'
     server_api:
       args: *id002

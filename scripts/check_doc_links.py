@@ -49,6 +49,7 @@ DEFAULT_REQUEST_TIMEOUT = 5  # seconds
 HTTP_SKIPS = [
     "http://www.fipa.org/repository/ips.php3",
     "http://host.docker.internal:8545",
+    "http://127.0.0.1:{i}",
 ]
 
 # Special links that are allowed to respond with an error status
@@ -57,6 +58,7 @@ URL_SKIPS = [
     "https://gateway.autonolas.tech/ipfs/<hash>,",  # non link (400)
     "https://github.com/valory-xyz/open-autonomy/trunk/infrastructure",  # svn link (404)
     "http://host.docker.internal:8545",  # internal (ERR_NAME_NOT_RESOLVED)
+    "http://127.0.0.1:{i}",  # localhost for the Client SDK demo
 ]
 
 # Define here custom timeouts for some edge cases

@@ -217,10 +217,12 @@ class OracleDeploymentAbciApp(AbciApp[Event]):
         Event.VALIDATE_TIMEOUT: 30.0,
         Event.DEPLOY_TIMEOUT: 30.0,
     }
-    cross_period_persisted_keys = {
-        get_name(SynchronizedData.safe_contract_address),
-        get_name(SynchronizedData.oracle_contract_address),
-    }
+    cross_period_persisted_keys = frozenset(
+        {
+            get_name(SynchronizedData.safe_contract_address),
+            get_name(SynchronizedData.oracle_contract_address),
+        }
+    )
     db_pre_conditions: Dict[AppState, Set[str]] = {SetupCheckRound: set()}
     db_post_conditions: Dict[AppState, Set[str]] = {
         FinishedOracleRound: {get_name(SynchronizedData.oracle_contract_address)}

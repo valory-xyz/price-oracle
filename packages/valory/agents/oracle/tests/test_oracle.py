@@ -21,7 +21,6 @@
 
 # pylint: skip-file
 
-import json
 from copy import deepcopy
 from pathlib import Path
 from typing import Tuple
@@ -78,7 +77,7 @@ from packages.valory.skills.transaction_settlement_abci.rounds import (
     CollectSignatureRound,
     FinalizationRound,
     RandomnessTransactionSubmissionRound,
-    SelectKeeperTransactionSubmissionRoundA,
+    SelectKeeperTransactionSubmissionARound,
     ValidateTransactionRound,
 )
 
@@ -92,7 +91,7 @@ HAPPY_PATH: Tuple[RoundChecks, ...] = (
     RoundChecks(EstimateConsensusRound.auto_round_id(), n_periods=2),
     RoundChecks(TxHashRound.auto_round_id(), n_periods=2),
     RoundChecks(RandomnessTransactionSubmissionRound.auto_round_id(), n_periods=2),
-    RoundChecks(SelectKeeperTransactionSubmissionRoundA.auto_round_id(), n_periods=2),
+    RoundChecks(SelectKeeperTransactionSubmissionARound.auto_round_id(), n_periods=2),
     RoundChecks(CollectSignatureRound.auto_round_id(), n_periods=2),
     RoundChecks(FinalizationRound.auto_round_id(), n_periods=2),
     RoundChecks(ValidateTransactionRound.auto_round_id(), n_periods=2),
@@ -111,7 +110,7 @@ def _generate_reset_happy_path(
             EstimateConsensusRound.auto_round_id(),
             TxHashRound.auto_round_id(),
             RandomnessTransactionSubmissionRound.auto_round_id(),
-            SelectKeeperTransactionSubmissionRoundA.auto_round_id(),
+            SelectKeeperTransactionSubmissionARound.auto_round_id(),
             CollectSignatureRound.auto_round_id(),
             FinalizationRound.auto_round_id(),
             ValidateTransactionRound.auto_round_id(),
@@ -161,8 +160,7 @@ class ABCIPriceEstimationTest(
         cls.extra_configs = [
             {
                 "dotted_path": f"vendor.valory.skills.{cls._skill_name}.models.params.args.setup.safe_contract_address",
-                "value": json.dumps([cls.multisig]),
-                "type_": "list",
+                "value": cls.multisig,
             },
         ]
 
@@ -244,7 +242,7 @@ class TestTendermintReset(TestABCIPriceEstimationFourAgents):
             "value": __reset_tendermint_every,
         },
         {
-            "dotted_path": f"{__args_prefix}.observation_interval",
+            "dotted_path": f"{__args_prefix}.reset_pause_duration",
             "value": 15,
         },
     ]
@@ -276,7 +274,7 @@ class TestTendermintResetInterrupt(TestAgentCatchup):
             "value": __reset_tendermint_every,
         },
         {
-            "dotted_path": f"{__args_prefix}.observation_interval",
+            "dotted_path": f"{__args_prefix}.reset_pause_duration",
             "value": 15,
         },
     ]
