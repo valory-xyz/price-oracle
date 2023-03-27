@@ -1,6 +1,14 @@
 # Release History - `price-oracle`
 
 
+## 0.10.0 (2023-03-27)
+
+- Bumps `open-aea` and `open-autonomy` frameworks to `v1.31.0` and `v0.10.0.post1` correspondingly, and tomte to `0.2.4` #57
+- Adds licence check #56
+- Fixes the release workflow #53
+- Exposes service data over http server #54 && #51
+
+
 ## 0.9.1 (2023-02-24)
 
 - Makes set up step explicit in the demo instructions e45cfc9b05f40ec0b708a1e7bc594196edfeef7b
