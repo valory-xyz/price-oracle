@@ -33,16 +33,16 @@ fingerprint_ignore_patterns: []
 connections:
 - fetchai/http_server:0.22.0:bafybeihaax5od5zo5jk2l62hv4jwuwtxloh5mijozudpsjombqc4ncmi6i
 contracts:
-- valory/gnosis_safe:0.1.0:bafybeicwzsjalj4puagecus525fbdusaljccn4fi62nmr4zp5fhim6oyr4
-- valory/offchain_aggregator:0.1.0:bafybeib5zabg6dj53fdbgqjc7gyu56oymhzln2s6a6yh4ifctkuxcxvc7q
+- valory/gnosis_safe:0.1.0:bafybeidxabihujlxvmnbf3tztjbwybyr5rlwjeniihnr5edfi6bpyjnevi
+- valory/offchain_aggregator:0.1.0:bafybeibvw3yetpw3quwlv2cxjrpsqvt7fxailmcw2qlxih5xlcpns52oee
 protocols:
 - open_aea/signing:1.0.0:bafybeibqlfmikg5hk4phzak6gqzhpkt6akckx7xppbp53mvwt6r73h7tk4
 - valory/contract_api:1.0.0:bafybeidv6wxpjyb2sdyibnmmum45et4zcla6tl63bnol6ztyoqvpl4spmy
 - valory/http:1.0.0:bafybeifyoio7nlh5zzyn5yz7krkou56l22to3cwg7gw5v5o3vxwklibhty
 skills:
-- valory/abstract_round_abci:0.1.0:bafybeicn5utwviq46ubguok5rl5go4hb7oxluj7t6bja2ut4epjw2hevei
-- valory/oracle_deployment_abci:0.1.0:bafybeiddxmevuiytckl2kasirn2baoe2mjutls7l2i7w4xqz2b3kpkjnca
-- valory/transaction_settlement_abci:0.1.0:bafybeie3324jr6cxizx4z6yw3i7mnyymjxdovwhu2bxha7brkxubcy5iym
+- valory/abstract_round_abci:0.1.0:bafybeib7q4t5jh6gic3i2pzuzlk7q2xmnueyxjpftm4gl56vnnz4vs4f7a
+- valory/oracle_deployment_abci:0.1.0:bafybeievfz36jezwa77furejwmkf74eslswedbachjwnaq7mmqxivrg6hy
+- valory/transaction_settlement_abci:0.1.0:bafybeihdgnqsiauhuuazmpnt7tawzxm3jnidfytifmb6yjbb6i3cqnafvy
 behaviours:
   main:
     args: {}
@@ -206,5 +206,5 @@ models:
     class_name: TendermintDialogues
 dependencies:
   open-aea-test-autonomy:
-    version: ==0.10.0.post1
+    version: ==0.10.0.post2
 is_abstract: true
