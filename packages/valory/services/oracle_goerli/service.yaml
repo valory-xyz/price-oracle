@@ -60,7 +60,7 @@ type: skill
         reset_pause_duration: 3000
         broadcast_to_server: true
         service_registry_address: ${SERVICE_REGISTRY_ADDRESS:str:0x1cEe30D08943EB58EFF84DD1AB44a6ee6FEff63a}
-        share_tm_config_on_startup: ${SHARE_TM_CONFIG_ON_STARTUP:bool:false}
+        share_tm_config_on_startup: ${SHARE_TM_CONFIG_ON_STARTUP:bool:true}
         on_chain_service_id: ${ON_CHAIN_SERVICE_ID:int:null}
     server_api:
       args: *id002
@@ -87,7 +87,7 @@ type: skill
         reset_pause_duration: 3000
         broadcast_to_server: true
         service_registry_address: ${SERVICE_REGISTRY_ADDRESS:str:0x1cEe30D08943EB58EFF84DD1AB44a6ee6FEff63a}
-        share_tm_config_on_startup: ${SHARE_TM_CONFIG_ON_STARTUP:bool:false}
+        share_tm_config_on_startup: ${SHARE_TM_CONFIG_ON_STARTUP:bool:true}
         on_chain_service_id: ${ON_CHAIN_SERVICE_ID:int:null}
     server_api:
       args: *id002
@@ -113,7 +113,7 @@ type: skill
         reset_pause_duration: 3000
         broadcast_to_server: true
         service_registry_address: ${SERVICE_REGISTRY_ADDRESS:str:0x1cEe30D08943EB58EFF84DD1AB44a6ee6FEff63a}
-        share_tm_config_on_startup: ${SHARE_TM_CONFIG_ON_STARTUP:bool:false}
+        share_tm_config_on_startup: ${SHARE_TM_CONFIG_ON_STARTUP:bool:true}
         on_chain_service_id: ${ON_CHAIN_SERVICE_ID:int:null}
     server_api:
       args: *id002
@@ -140,7 +140,7 @@ type: skill
         reset_pause_duration: 3000
         broadcast_to_server: true
         service_registry_address: ${SERVICE_REGISTRY_ADDRESS:str:0x1cEe30D08943EB58EFF84DD1AB44a6ee6FEff63a}
-        share_tm_config_on_startup: ${SHARE_TM_CONFIG_ON_STARTUP:bool:false}
+        share_tm_config_on_startup: ${SHARE_TM_CONFIG_ON_STARTUP:bool:true}
         on_chain_service_id: ${ON_CHAIN_SERVICE_ID:int:null}
     server_api:
       args: *id002
