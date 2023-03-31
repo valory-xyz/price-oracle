@@ -6,6 +6,7 @@ aea_version: '>=1.0.0, <2.0.0'
 license: Apache-2.0
 fingerprint:
   README.md: bafybeifqnvekc6s44wsczofdhofiozxekstjau2bk5yqfqvjuv4wzoopku
+  abci_build/docker-compose.yaml: bafybeici7v63uszhb3fywm35atxg5b5kawr7tcpaywd24grqdg53z5oza4
 fingerprint_ignore_patterns: []
 agent: valory/oracle:0.1.0:bafybeid3ygbhybgt44qpmx3fdlsfrh7b4hr3lw5sifiwzmoo4kr4tzc2dq
 number_of_agents: 4
@@ -23,8 +24,8 @@ deployment:
 ---
 extra:
   params_args:
-    args: &id001
-      setup:
+    args:
+      setup: &id001
         all_participants:
         - '0xe6b7e278a184b1183f743380D9Ef12167cDe37c6'
         - '0x4b23D773D0e9469d1f92DC8B0eC8A8B19Cfa1771'
@@ -33,13 +34,6 @@ extra:
         safe_contract_address: '0x37ba5291A5bE8cbE44717a0673fe2c5a45B4B6A8'
         oracle_contract_address: '0x3d9e92B0FE7673ddA3d7C33B9ff302768A03de19'
         consensus_threshold: null
-      max_healthcheck: 43200
-      reset_pause_duration: 3000
-      broadcast_to_server: true
-      share_tm_config_on_startup: ${USE_ACN:bool:false}
-      on_chain_service_id: ${ON_CHAIN_SERVICE_ID:int:null}
-      service_registry_address: ${SERVICE_REGISTRY:str:null}
-      validate_timeout: 300
   valory_monitoring_backend:
     args: &id002
       url: https://oracle-server.autonolas.tech/deposit
@@ -60,7 +54,16 @@ type: skill
         url: https://drand.cloudflare.com/public/latest
         api_id: cloudflare
     params:
-      args: *id001
+      args:
+        setup: *id001
+        max_healthcheck: 43200
+        reset_pause_duration: 3000
+        broadcast_to_server: true
+        share_tm_config_on_startup: ${USE_ACN:bool:false}
+        on_chain_service_id: ${ON_CHAIN_SERVICE_ID:int:null}
+        service_registry_address: ${SERVICE_REGISTRY:str:null}
+        validate_timeout: 300
+        tendermint_p2p_url: ${TM_P2P_ENDPOINT_NODE_0:str:node0:26656}
     server_api:
       args: *id002
 1:
@@ -78,7 +81,16 @@ type: skill
         url: https://api.drand.sh/public/latest
         api_id: protocollabs1
     params:
-      args: *id001
+      args:
+        setup: *id001
+        max_healthcheck: 43200
+        reset_pause_duration: 3000
+        broadcast_to_server: true
+        share_tm_config_on_startup: ${USE_ACN:bool:false}
+        on_chain_service_id: ${ON_CHAIN_SERVICE_ID:int:null}
+        service_registry_address: ${SERVICE_REGISTRY:str:null}
+        validate_timeout: 300
+        tendermint_p2p_url: ${TM_P2P_ENDPOINT_NODE_1:str:node1:26656}
     server_api:
       args: *id002
 2:
@@ -93,7 +105,16 @@ type: skill
         url: https://api2.drand.sh/public/latest
         api_id: protocollabs2
     params:
-      args: *id001
+      args:
+        setup: *id001
+        max_healthcheck: 43200
+        reset_pause_duration: 3000
+        broadcast_to_server: true
+        share_tm_config_on_startup: ${USE_ACN:bool:false}
+        on_chain_service_id: ${ON_CHAIN_SERVICE_ID:int:null}
+        service_registry_address: ${SERVICE_REGISTRY:str:null}
+        validate_timeout: 300
+        tendermint_p2p_url: ${TM_P2P_ENDPOINT_NODE_2:str:node2:26656}
     server_api:
       args: *id002
 3:
@@ -110,7 +131,16 @@ type: skill
         url: https://api3.drand.sh/public/latest
         api_id: protocollabs2
     params:
-      args: *id001
+      args:
+        setup: *id001
+        max_healthcheck: 43200
+        reset_pause_duration: 3000
+        broadcast_to_server: true
+        share_tm_config_on_startup: ${USE_ACN:bool:false}
+        on_chain_service_id: ${ON_CHAIN_SERVICE_ID:int:null}
+        service_registry_address: ${SERVICE_REGISTRY:str:null}
+        validate_timeout: 300
+        tendermint_p2p_url: ${TM_P2P_ENDPOINT_NODE_3:str:node3:26656}
     server_api:
       args: *id002
 ---
