@@ -4,7 +4,7 @@
 ## 0.10.0.post1 (2023-03-31)
 
 - Bumps `open-autonomy` framework to `v0.10.0.post2` #59
-- Sets the `p2p_libp2p_client` as none abstract to enable `ACN` #59
+- Sets the `p2p_libp2p_client` as non abstract to enable `ACN` #59
 
 ## 0.10.0 (2023-03-27)
 
