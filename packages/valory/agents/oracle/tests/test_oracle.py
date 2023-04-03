@@ -150,7 +150,7 @@ class ABCIPriceEstimationTest(
     multisig = SERVICE_MULTISIG_1
     key_pairs_override = KEY_PAIRS[:4]
     _skill_name = PublicId.from_str(skill_package).name
-    
+
     BASE_PORT = 18000
 
     @classmethod
@@ -161,6 +161,10 @@ class ABCIPriceEstimationTest(
             {
                 "dotted_path": f"vendor.valory.skills.{cls._skill_name}.models.params.args.setup.safe_contract_address",
                 "value": cls.multisig,
+            },
+            {
+                "dotted_path": f"vendor.valory.connections.p2p_libp2p_client.is_abstract",
+                "value": True,
             },
         ]
 
@@ -173,12 +177,16 @@ class ABCIPriceEstimationTest(
     def prepare(self, nb_nodes: int) -> None:
         """Set up the agents."""
         super().prepare(nb_nodes)
-        
+
         for i in range(nb_nodes):
             agent_name = self._get_agent_name(i)
             self.set_agent_context(agent_name)
             port = self.BASE_PORT + i
-            self.set_config(dotted_path="vendor.fetchai.connections.http_server.config.port", value=port, type_="int")
+            self.set_config(
+                dotted_path="vendor.fetchai.connections.http_server.config.port",
+                value=port,
+                type_="int",
+            )
 
 
 @pytest.mark.e2e
@@ -301,9 +309,7 @@ class TestTendermintResetInterruptNoRejoin(TestTendermintResetInterrupt):
 class TestABCIPriceEstimationFourAgentHTTPServer(TestABCIPriceEstimationFourAgents):
     """Test the ABCI oracle skill with 4 agents with data share over http server connection."""
 
-    happy_path = (
-        RoundChecks(TxHashRound.auto_round_id(), n_periods=1),
-    )
+    happy_path = (RoundChecks(TxHashRound.auto_round_id(), n_periods=1),)
     strict_check_strings = ()
 
     def check_aea_messages(self) -> None:
@@ -317,7 +323,10 @@ class TestABCIPriceEstimationFourAgentHTTPServer(TestABCIPriceEstimationFourAgen
 
     def check_data_exposed(self):
         """Check http data."""
-        responses = [requests.get(f"http://127.0.0.1:{port}") for port in range(self.BASE_PORT, self.BASE_PORT + 4)]
+        responses = [
+            requests.get(f"http://127.0.0.1:{port}")
+            for port in range(self.BASE_PORT, self.BASE_PORT + 4)
+        ]
         assert all(resp.status_code == 200 for resp in responses)
         json_responses = [resp.json() for resp in responses]
         assert all(json_resp.get("payload") for json_resp in json_responses)

@@ -8,7 +8,7 @@ fingerprint:
   README.md: bafybeia6rbpcaovvels4mn3ufkbbvwrsibury3x5g6eyo4lws4w2uk3x4q
   __init__.py: bafybeieja6fkcncllqarspvtzsnm25g6ttxkxfdk2jduuozvt5a3uin6t4
   tests/__init__.py: bafybeiddkyv7ohqiylizxurzs4ihom2o5rpqbwf5xufzkz3jpa7umpwgmm
-  tests/test_oracle.py: bafybeih3mymomihjar2cnq4beqglpsd5egddza2zof2kyzpmplu2r7ukty
+  tests/test_oracle.py: bafybeidkhguqtwdm46mwybyrsergajqfyqu262ikfqwu7vxfzsox5bli5i
 fingerprint_ignore_patterns: []
 connections:
 - fetchai/http_server:0.22.0:bafybeihaax5od5zo5jk2l62hv4jwuwtxloh5mijozudpsjombqc4ncmi6i
