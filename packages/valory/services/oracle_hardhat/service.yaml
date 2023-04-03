@@ -7,7 +7,7 @@ license: Apache-2.0
 fingerprint:
   README.md: bafybeieqpbuzrxtfo5hz3gsb64aumnfbxad4tpxp4s46jxj7byb3zxx34y
 fingerprint_ignore_patterns: []
-agent: valory/oracle:0.1.0:bafybeic6jjtpspjgqc47eqwrciyfirurtpmstlujxh6wokrsnjqghsrodu
+agent: valory/oracle:0.1.0:bafybeihzckrxiwbtodlkjyb3xabmzbyigjgd2uo55txerjyov7tslnxnxi
 number_of_agents: 4
 deployment:
   agent:
@@ -25,18 +25,15 @@ extra:
   setup_args:
     args: &id001
       setup:
-        all_participants:
-        - '0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266'
-        - '0x70997970C51812dc3A010C7d01b50e0d17dc79C8'
-        - '0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC'
-        - '0x90F79bf6EB2c4f870365E785982E1f101E93b906'
-        safe_contract_address: '0xD8dE647170163a981bb3Fdb2063583eAcF7D55AC'
+        all_participants: ${ALL_PARTICIPANTS:list:["0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266","0x70997970C51812dc3A010C7d01b50e0d17dc79C8"
+          ,"0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC" ,"0x90F79bf6EB2c4f870365E785982E1f101E93b906"]}
+        safe_contract_address: ${SAFE_CONTRACT_ADDRESS:str:0xD8dE647170163a981bb3Fdb2063583eAcF7D55AC}
         consensus_threshold: null
       reset_pause_duration: 30
       broadcast_to_server: false
-      service_registry_address: '0x998abeb3E57409262aE5b751f60747921B33613E'
-      on_chain_service_id: 1
-      share_tm_config_on_startup: false
+      service_registry_address: ${SERVICE_REGISTRY_ADDRESS:str:0x998abeb3E57409262aE5b751f60747921B33613E}
+      share_tm_config_on_startup: ${SHARE_TM_CONFIG_ON_STARTUP:bool:false}
+      on_chain_service_id: ${ON_CHAIN_SERVICE_ID:int:1}
   benchmark_persistence_params:
     args: &id003
       log_dir: /benchmarks

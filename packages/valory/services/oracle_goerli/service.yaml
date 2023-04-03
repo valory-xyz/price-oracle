@@ -7,7 +7,7 @@ license: Apache-2.0
 fingerprint:
   README.md: bafybeig4wu7inb6ibwfgged3djyc7emopcg5n7d7gwrlotne53pp3jfgq4
 fingerprint_ignore_patterns: []
-agent: valory/oracle:0.1.0:bafybeic6jjtpspjgqc47eqwrciyfirurtpmstlujxh6wokrsnjqghsrodu
+agent: valory/oracle:0.1.0:bafybeihzckrxiwbtodlkjyb3xabmzbyigjgd2uo55txerjyov7tslnxnxi
 number_of_agents: 4
 deployment:
   agent:
@@ -25,12 +25,10 @@ extra:
   params_args:
     args:
       setup: &id001
-        all_participants:
-        - '0xB51D93A8A1E67c3Db8f9dE5ff89BB2d6525c6aD0'
-        - '0x77E9b2EF921253A171Fa0CB9ba80558648Ff7215'
-        - '0x91B22F6957fE459e471C52Cdaba1D3c8eC95d2d3'
-        - '0x7E07817939c1dBAaBea9Dc56220549539DE1aFC6'
-        safe_contract_address: '0x623cE6087190B53520f00609d41d79e5B71B881F'
+        all_participants: ${ALL_PARTICIPANTS:list:["0xB51D93A8A1E67c3Db8f9dE5ff89BB2d6525c6aD0",
+          "0x77E9b2EF921253A171Fa0CB9ba80558648Ff7215", "0x91B22F6957fE459e471C52Cdaba1D3c8eC95d2d3",
+          "0x7E07817939c1dBAaBea9Dc56220549539DE1aFC6"]}
+        safe_contract_address: ${SAFE_CONTRACT_ADDRESS:str:0x623cE6087190B53520f00609d41d79e5B71B881F}
         oracle_contract_address: '0xA2b06beb69b5e454759976ABa7555e2639c0522f'
         consensus_threshold: null
   valory_monitoring_backend:
@@ -61,9 +59,9 @@ type: skill
         tendermint_p2p_url: ${TM_P2P_ENDPOINT_NODE_0:str:node0:26656}
         reset_pause_duration: 3000
         broadcast_to_server: true
-        share_tm_config_on_startup: ${USE_ACN:bool:false}
+        service_registry_address: ${SERVICE_REGISTRY_ADDRESS:str:0x1cEe30D08943EB58EFF84DD1AB44a6ee6FEff63a}
+        share_tm_config_on_startup: ${SHARE_TM_CONFIG_ON_STARTUP:bool:true}
         on_chain_service_id: ${ON_CHAIN_SERVICE_ID:int:null}
-        service_registry_address: '0x1cEe30D08943EB58EFF84DD1AB44a6ee6FEff63a'
     server_api:
       args: *id002
 1:
@@ -88,9 +86,9 @@ type: skill
         tendermint_p2p_url: ${TM_P2P_ENDPOINT_NODE_1:str:node1:26666}
         reset_pause_duration: 3000
         broadcast_to_server: true
-        share_tm_config_on_startup: ${USE_ACN:bool:false}
+        service_registry_address: ${SERVICE_REGISTRY_ADDRESS:str:0x1cEe30D08943EB58EFF84DD1AB44a6ee6FEff63a}
+        share_tm_config_on_startup: ${SHARE_TM_CONFIG_ON_STARTUP:bool:true}
         on_chain_service_id: ${ON_CHAIN_SERVICE_ID:int:null}
-        service_registry_address: '0x1cEe30D08943EB58EFF84DD1AB44a6ee6FEff63a'
     server_api:
       args: *id002
 2:
@@ -114,9 +112,9 @@ type: skill
         tendermint_p2p_url: ${TM_P2P_ENDPOINT_NODE_2:str:node2:26676}
         reset_pause_duration: 3000
         broadcast_to_server: true
-        share_tm_config_on_startup: ${USE_ACN:bool:false}
+        service_registry_address: ${SERVICE_REGISTRY_ADDRESS:str:0x1cEe30D08943EB58EFF84DD1AB44a6ee6FEff63a}
+        share_tm_config_on_startup: ${SHARE_TM_CONFIG_ON_STARTUP:bool:true}
         on_chain_service_id: ${ON_CHAIN_SERVICE_ID:int:null}
-        service_registry_address: '0x1cEe30D08943EB58EFF84DD1AB44a6ee6FEff63a'
     server_api:
       args: *id002
 3:
@@ -141,9 +139,9 @@ type: skill
         tendermint_p2p_url: ${TM_P2P_ENDPOINT_NODE_3:str:node3:26686}
         reset_pause_duration: 3000
         broadcast_to_server: true
-        share_tm_config_on_startup: ${USE_ACN:bool:false}
+        service_registry_address: ${SERVICE_REGISTRY_ADDRESS:str:0x1cEe30D08943EB58EFF84DD1AB44a6ee6FEff63a}
+        share_tm_config_on_startup: ${SHARE_TM_CONFIG_ON_STARTUP:bool:true}
         on_chain_service_id: ${ON_CHAIN_SERVICE_ID:int:null}
-        service_registry_address: '0x1cEe30D08943EB58EFF84DD1AB44a6ee6FEff63a'
     server_api:
       args: *id002
 ---
