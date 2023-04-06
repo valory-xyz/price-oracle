@@ -100,7 +100,7 @@ In order to run a local demo of the Price Oracle service with a Hardhat node:
 
 To understand the deployment process better, follow the deployment guide [here](https://docs.autonolas.network/open-autonomy/guides/deploy_service/).
 
-## Querying the service
+### Querying the service
 
 Querying autonomous services can become very simple by using the 
 [Open Autonomy Client SDK](https://github.com/valory-xyz/open-autonomy-client).
