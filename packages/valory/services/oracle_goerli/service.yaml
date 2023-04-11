@@ -29,7 +29,7 @@ extra:
           "0x77E9b2EF921253A171Fa0CB9ba80558648Ff7215", "0x91B22F6957fE459e471C52Cdaba1D3c8eC95d2d3",
           "0x7E07817939c1dBAaBea9Dc56220549539DE1aFC6"]}
         safe_contract_address: ${SAFE_CONTRACT_ADDRESS:str:0x623cE6087190B53520f00609d41d79e5B71B881F}
-        oracle_contract_address: '0xA2b06beb69b5e454759976ABa7555e2639c0522f'
+        oracle_contract_address: ${ORACLE_CONTRACT_ADDRESS:str:0xD4Ba4d3033b7e983412D3554EB80374179901a87}
         consensus_threshold: null
   valory_monitoring_backend:
     args: &id002
