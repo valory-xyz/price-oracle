@@ -1,7 +1,7 @@
 # Release History - `price-oracle`
 
 
-## 0.10.1 (2023-03-31)
+## 0.10.1 (2023-04-11)
 
 - Parametrizes and merges all the services into a single one #62
 - Renames a variable on Client SDK's demo script #61
