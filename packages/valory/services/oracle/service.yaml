@@ -1,11 +1,11 @@
-name: oracle_goerli
+name: oracle
 author: valory
 version: 0.1.0
 description: A set of agents implementing a price oracle
 aea_version: '>=1.0.0, <2.0.0'
 license: Apache-2.0
 fingerprint:
-  README.md: bafybeig4wu7inb6ibwfgged3djyc7emopcg5n7d7gwrlotne53pp3jfgq4
+  README.md: bafybeidfvq6yso3dpxgglq7fvviy42xjf3s7bn5thmi7ogv2j6pag3rene
 fingerprint_ignore_patterns: []
 agent: valory/oracle:0.1.0:bafybeihzckrxiwbtodlkjyb3xabmzbyigjgd2uo55txerjyov7tslnxnxi
 number_of_agents: 4
@@ -21,19 +21,6 @@ deployment:
       3:
         8003: 8000
 ---
-extra:
-  params_args:
-    args:
-      setup: &id001
-        all_participants: ${ALL_PARTICIPANTS:list:["0xB51D93A8A1E67c3Db8f9dE5ff89BB2d6525c6aD0",
-          "0x77E9b2EF921253A171Fa0CB9ba80558648Ff7215", "0x91B22F6957fE459e471C52Cdaba1D3c8eC95d2d3",
-          "0x7E07817939c1dBAaBea9Dc56220549539DE1aFC6"]}
-        safe_contract_address: ${SAFE_CONTRACT_ADDRESS:str:0x623cE6087190B53520f00609d41d79e5B71B881F}
-        oracle_contract_address: '0xA2b06beb69b5e454759976ABa7555e2639c0522f'
-        consensus_threshold: null
-  valory_monitoring_backend:
-    args: &id002
-      url: https://oracle-server.staging.autonolas.tech/deposit
 public_id: valory/oracle_abci:0.1.0
 type: skill
 0:
@@ -53,17 +40,27 @@ type: skill
         api_id: cloudflare
     params:
       args:
-        setup: *id001
+        setup: &id001
+          all_participants: ${ALL_PARTICIPANTS:list:["0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266","0x70997970C51812dc3A010C7d01b50e0d17dc79C8",
+            "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC", "0x90F79bf6EB2c4f870365E785982E1f101E93b906"]}
+          safe_contract_address: ${SAFE_CONTRACT_ADDRESS:str:0xD8dE647170163a981bb3Fdb2063583eAcF7D55AC}
+          oracle_contract_address: ${ORACLE_CONTRACT_ADDRESS:str:null}
+          consensus_threshold: null
         max_healthcheck: 43200
         multisend_address: '0xA238CBeb142c10Ef7Ad8442C6D1f9E89e07e7761'
         tendermint_p2p_url: ${TM_P2P_ENDPOINT_NODE_0:str:node0:26656}
-        reset_pause_duration: 3000
-        broadcast_to_server: true
-        service_registry_address: ${SERVICE_REGISTRY_ADDRESS:str:0x1cEe30D08943EB58EFF84DD1AB44a6ee6FEff63a}
-        share_tm_config_on_startup: ${SHARE_TM_CONFIG_ON_STARTUP:bool:true}
+        reset_pause_duration: ${RESET_PAUSE_DURATION:int:3000}
+        broadcast_to_server: ${BROADCAST_TO_SERVER:bool:false}
+        service_registry_address: ${SERVICE_REGISTRY_ADDRESS:str:0x998abeb3E57409262aE5b751f60747921B33613E}
+        share_tm_config_on_startup: ${USE_ACN:bool:false}
         on_chain_service_id: ${ON_CHAIN_SERVICE_ID:int:null}
+        validate_timeout: ${VALIDATE_TIMEOUT:int:1205}
     server_api:
-      args: *id002
+      args: &id002
+        url: ${SERVER_API:str:http://localhost:8060/deposit}
+    benchmark_tool:
+      args: &id003
+        log_dir: /benchmarks
 1:
   models:
     price_api:
@@ -84,13 +81,16 @@ type: skill
         max_healthcheck: 43200
         multisend_address: '0xA238CBeb142c10Ef7Ad8442C6D1f9E89e07e7761'
         tendermint_p2p_url: ${TM_P2P_ENDPOINT_NODE_1:str:node1:26666}
-        reset_pause_duration: 3000
-        broadcast_to_server: true
-        service_registry_address: ${SERVICE_REGISTRY_ADDRESS:str:0x1cEe30D08943EB58EFF84DD1AB44a6ee6FEff63a}
-        share_tm_config_on_startup: ${SHARE_TM_CONFIG_ON_STARTUP:bool:true}
+        reset_pause_duration: ${RESET_PAUSE_DURATION:int:3000}
+        broadcast_to_server: ${BROADCAST_TO_SERVER:bool:false}
+        service_registry_address: ${SERVICE_REGISTRY_ADDRESS:str:0x998abeb3E57409262aE5b751f60747921B33613E}
+        share_tm_config_on_startup: ${USE_ACN:bool:false}
         on_chain_service_id: ${ON_CHAIN_SERVICE_ID:int:null}
+        validate_timeout: ${VALIDATE_TIMEOUT:int:1205}
     server_api:
       args: *id002
+    benchmark_tool:
+      args: *id003
 2:
   models:
     price_api:
@@ -110,13 +110,16 @@ type: skill
         max_healthcheck: 43200
         multisend_address: '0xA238CBeb142c10Ef7Ad8442C6D1f9E89e07e7761'
         tendermint_p2p_url: ${TM_P2P_ENDPOINT_NODE_2:str:node2:26676}
-        reset_pause_duration: 3000
-        broadcast_to_server: true
-        service_registry_address: ${SERVICE_REGISTRY_ADDRESS:str:0x1cEe30D08943EB58EFF84DD1AB44a6ee6FEff63a}
-        share_tm_config_on_startup: ${SHARE_TM_CONFIG_ON_STARTUP:bool:true}
+        reset_pause_duration: ${RESET_PAUSE_DURATION:int:3000}
+        broadcast_to_server: ${BROADCAST_TO_SERVER:bool:false}
+        service_registry_address: ${SERVICE_REGISTRY_ADDRESS:str:0x998abeb3E57409262aE5b751f60747921B33613E}
+        share_tm_config_on_startup: ${USE_ACN:bool:false}
         on_chain_service_id: ${ON_CHAIN_SERVICE_ID:int:null}
+        validate_timeout: ${VALIDATE_TIMEOUT:int:1205}
     server_api:
       args: *id002
+    benchmark_tool:
+      args: *id003
 3:
   models:
     price_api:
@@ -130,20 +133,23 @@ type: skill
     randomness_api:
       args:
         url: https://api3.drand.sh/public/latest
-        api_id: protocollabs2
+        api_id: protocollabs3
     params:
       args:
         setup: *id001
         max_healthcheck: 43200
         multisend_address: '0xA238CBeb142c10Ef7Ad8442C6D1f9E89e07e7761'
         tendermint_p2p_url: ${TM_P2P_ENDPOINT_NODE_3:str:node3:26686}
-        reset_pause_duration: 3000
-        broadcast_to_server: true
-        service_registry_address: ${SERVICE_REGISTRY_ADDRESS:str:0x1cEe30D08943EB58EFF84DD1AB44a6ee6FEff63a}
-        share_tm_config_on_startup: ${SHARE_TM_CONFIG_ON_STARTUP:bool:true}
+        reset_pause_duration: ${RESET_PAUSE_DURATION:int:3000}
+        broadcast_to_server: ${BROADCAST_TO_SERVER:bool:false}
+        service_registry_address: ${SERVICE_REGISTRY_ADDRESS:str:0x998abeb3E57409262aE5b751f60747921B33613E}
+        share_tm_config_on_startup: ${USE_ACN:bool:false}
         on_chain_service_id: ${ON_CHAIN_SERVICE_ID:int:null}
+        validate_timeout: ${VALIDATE_TIMEOUT:int:1205}
     server_api:
       args: *id002
+    benchmark_tool:
+      args: *id003
 ---
 public_id: valory/ledger:0.19.0
 type: connection
@@ -151,31 +157,31 @@ type: connection
   config:
     ledger_apis:
       ethereum:
-        address: ${SERVICE_ORACLE_GOERLI_RPC_0:str:http://127.0.0.1:8545}
-        chain_id: 5
-        poa_chain: true
-        default_gas_price_strategy: eip1559
+        address: ${SERVICE_ORACLE_RPC_0:str:http://hardhat:8545}
+        chain_id: ${CHAIN_ID:int:31337}
+        poa_chain: ${POA_CHAIN:bool:false}
+        default_gas_price_strategy: ${DEFAULT_GAS_PRICE_STRATEGY:str:eip1559}
 1:
   config:
     ledger_apis:
       ethereum:
-        address: ${SERVICE_ORACLE_GOERLI_RPC_1:str:http://127.0.0.1:8545}
-        chain_id: 5
-        poa_chain: true
-        default_gas_price_strategy: eip1559
+        address: ${SERVICE_ORACLE_RPC_1:str:http://hardhat:8545}
+        chain_id: ${CHAIN_ID:int:31337}
+        poa_chain: ${POA_CHAIN:bool:false}
+        default_gas_price_strategy: ${DEFAULT_GAS_PRICE_STRATEGY:str:eip1559}
 2:
   config:
     ledger_apis:
       ethereum:
-        address: ${SERVICE_ORACLE_GOERLI_RPC_2:str:http://127.0.0.1:8545}
-        chain_id: 5
-        poa_chain: true
-        default_gas_price_strategy: eip1559
+        address: ${SERVICE_ORACLE_RPC_2:str:http://hardhat:8545}
+        chain_id: ${CHAIN_ID:int:31337}
+        poa_chain: ${POA_CHAIN:bool:false}
+        default_gas_price_strategy: ${DEFAULT_GAS_PRICE_STRATEGY:str:eip1559}
 3:
   config:
     ledger_apis:
       ethereum:
-        address: ${SERVICE_ORACLE_GOERLI_RPC_3:str:http://127.0.0.1:8545}
-        chain_id: 5
-        poa_chain: true
-        default_gas_price_strategy: eip1559
+        address: ${SERVICE_ORACLE_RPC_3:str:http://hardhat:8545}
+        chain_id: ${CHAIN_ID:int:31337}
+        poa_chain: ${POA_CHAIN:bool:false}
+        default_gas_price_strategy: ${DEFAULT_GAS_PRICE_STRATEGY:str:eip1559}

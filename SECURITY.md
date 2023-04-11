@@ -8,8 +8,8 @@ The following table shows which versions of `price-oracle` are currently being s
 
 | Version     | Supported          |
 |-------------| ------------------ |
-| `v0.10.0.post1`   | :white_check_mark: |
-| `< v0.10.0.post1` | :x:                |
+| `v0.10.1`   | :white_check_mark: |
+| `< v0.10.1` | :x:                |
 
 ## Reporting a Vulnerability
 

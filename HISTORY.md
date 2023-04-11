@@ -1,10 +1,17 @@
 # Release History - `price-oracle`
 
 
+## 0.10.1 (2023-04-11)
+
+- Parametrizes and merges all the services into a single one #62
+- Renames a variable on Client SDK's demo script #61
+
+
 ## 0.10.0.post1 (2023-03-31)
 
 - Bumps `open-autonomy` framework to `v0.10.0.post2` #59
 - Sets the `p2p_libp2p_client` as non abstract to enable `ACN` #59
+
 
 ## 0.10.0 (2023-03-27)
 
@@ -40,6 +47,7 @@
 - Adds release workflow #35
 - Bumps `open-aea` and `open-autonomy` frameworks #33
 - Adds documentation #32 and #34
+
 
 ## 0.7.0 (2023-01-18)
 
