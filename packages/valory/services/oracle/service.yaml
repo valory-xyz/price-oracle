@@ -55,6 +55,7 @@ type: skill
         share_tm_config_on_startup: ${USE_ACN:bool:false}
         on_chain_service_id: ${ON_CHAIN_SERVICE_ID:int:null}
         validate_timeout: ${VALIDATE_TIMEOUT:int:1205}
+        use_termination: ${USE_TERMINATION:bool:false}
     server_api:
       args: &id002
         url: ${SERVER_API:str:http://localhost:8060/deposit}
@@ -87,6 +88,7 @@ type: skill
         share_tm_config_on_startup: ${USE_ACN:bool:false}
         on_chain_service_id: ${ON_CHAIN_SERVICE_ID:int:null}
         validate_timeout: ${VALIDATE_TIMEOUT:int:1205}
+        use_termination: ${USE_TERMINATION:bool:false}
     server_api:
       args: *id002
     benchmark_tool:
@@ -116,6 +118,7 @@ type: skill
         share_tm_config_on_startup: ${USE_ACN:bool:false}
         on_chain_service_id: ${ON_CHAIN_SERVICE_ID:int:null}
         validate_timeout: ${VALIDATE_TIMEOUT:int:1205}
+        use_termination: ${USE_TERMINATION:bool:false}
     server_api:
       args: *id002
     benchmark_tool:
@@ -146,6 +149,7 @@ type: skill
         share_tm_config_on_startup: ${USE_ACN:bool:false}
         on_chain_service_id: ${ON_CHAIN_SERVICE_ID:int:null}
         validate_timeout: ${VALIDATE_TIMEOUT:int:1205}
+        use_termination: ${USE_TERMINATION:bool:false}
     server_api:
       args: *id002
     benchmark_tool:
