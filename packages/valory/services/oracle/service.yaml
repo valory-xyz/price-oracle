@@ -7,7 +7,7 @@ license: Apache-2.0
 fingerprint:
   README.md: bafybeidfvq6yso3dpxgglq7fvviy42xjf3s7bn5thmi7ogv2j6pag3rene
 fingerprint_ignore_patterns: []
-agent: valory/oracle:0.1.0:bafybeihzckrxiwbtodlkjyb3xabmzbyigjgd2uo55txerjyov7tslnxnxi
+agent: valory/oracle:0.1.0:bafybeidequj6snn565zoqz2i7kkflzm3enn52pdqfhjpybx6lh3xtpbqhu
 number_of_agents: 4
 deployment:
   agent:
@@ -55,6 +55,7 @@ type: skill
         share_tm_config_on_startup: ${USE_ACN:bool:false}
         on_chain_service_id: ${ON_CHAIN_SERVICE_ID:int:null}
         validate_timeout: ${VALIDATE_TIMEOUT:int:1205}
+        use_termination: ${USE_TERMINATION:bool:false}
     server_api:
       args: &id002
         url: ${SERVER_API:str:http://localhost:8060/deposit}
@@ -87,6 +88,7 @@ type: skill
         share_tm_config_on_startup: ${USE_ACN:bool:false}
         on_chain_service_id: ${ON_CHAIN_SERVICE_ID:int:null}
         validate_timeout: ${VALIDATE_TIMEOUT:int:1205}
+        use_termination: ${USE_TERMINATION:bool:false}
     server_api:
       args: *id002
     benchmark_tool:
@@ -116,6 +118,7 @@ type: skill
         share_tm_config_on_startup: ${USE_ACN:bool:false}
         on_chain_service_id: ${ON_CHAIN_SERVICE_ID:int:null}
         validate_timeout: ${VALIDATE_TIMEOUT:int:1205}
+        use_termination: ${USE_TERMINATION:bool:false}
     server_api:
       args: *id002
     benchmark_tool:
@@ -146,6 +149,7 @@ type: skill
         share_tm_config_on_startup: ${USE_ACN:bool:false}
         on_chain_service_id: ${ON_CHAIN_SERVICE_ID:int:null}
         validate_timeout: ${VALIDATE_TIMEOUT:int:1205}
+        use_termination: ${USE_TERMINATION:bool:false}
     server_api:
       args: *id002
     benchmark_tool:
