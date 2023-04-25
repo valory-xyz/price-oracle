@@ -3,8 +3,8 @@
 
 ## 0.10.2 (2023-04-14)
 
-- Bumps `open-aea` and `open-autonomy` frameworks to `v1.32.0` and `v0.10.1` correspondingly #62
-- Adds override for termination in the service config #62
+- Bumps `open-aea` and `open-autonomy` frameworks to `v1.32.0` and `v0.10.1` correspondingly #63
+- Adds override for termination in the service config #63
 
 
 ## 0.10.1 (2023-04-11)
