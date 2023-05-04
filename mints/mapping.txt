@@ -7,5 +7,5 @@ X-"skill/valory/oracle_abci/0.1.0" - 3, 5, 7, 10, 14, 16, 17, 22, 33, "skill/val
 token_id-"agent_id"
 X-"agent/valory/oracle/0.1.0" - 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 16, 17, 18, 19, 22, 33, 60, all four above
 ---
-token_id-"agent_id"
+token_id-"service_id"
 X-"service/valory/oracle/0.1.0" - "agent/valory/oracle/0.1.0"
