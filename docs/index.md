@@ -27,7 +27,7 @@ In order to run a local demo of the Price Oracle service with a Hardhat node:
     mkdir your_workspace && cd your_workspace
     touch Pipfile && pipenv --python 3.10 && pipenv shell
 
-    pipenv install open-autonomy[all]==0.10.2
+    pipenv install open-autonomy[all]==0.10.3
     autonomy init --remote --ipfs --reset --author=your_name
     ```
 

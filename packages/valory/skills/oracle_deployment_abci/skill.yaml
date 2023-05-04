@@ -158,5 +158,5 @@ models:
     class_name: TendermintDialogues
 dependencies:
   open-aea-ledger-ethereum:
-    version: ==1.32.0
+    version: ==1.33.0
 is_abstract: true
