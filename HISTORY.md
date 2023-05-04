@@ -1,6 +1,12 @@
 # Release History - `price-oracle`
 
 
+## 0.10.4 (2023-05-05)
+
+- Bumps `open-aea` and `open-autonomy` frameworks to `v1.33.0` and `v0.10.3` correspondingly #66
+- Adds mint data #65
+
+
 ## 0.10.3 (2023-04-25)
 
 - Bumps `open-autonomy` framework to `v0.10.2` #64
