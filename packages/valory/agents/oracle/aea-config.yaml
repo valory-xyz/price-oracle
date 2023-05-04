@@ -164,9 +164,9 @@ config:
 public_id: fetchai/http_server:0.22.0
 type: connection
 config:
-  api_spec_path: null
-  host: 0.0.0.0
-  port: 8000
-  ssl_cert: null
-  ssl_key: null
+  api_spec_path: ${str:null}
+  host: ${str:0.0.0.0}
+  port: ${int:8000}
+  ssl_cert: ${str:null}
+  ssl_key: ${str:null}
   target_skill_id: valory/oracle_abci:0.1.0
