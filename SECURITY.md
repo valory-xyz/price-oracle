@@ -7,9 +7,9 @@ This document outlines security procedures and general policies for the `price-o
 The following table shows which versions of `price-oracle` are currently being supported with security updates.
 
 | Version     | Supported          |
-|-------------| ------------------ |
-| `v0.10.2`   | :white_check_mark: |
-| `< v0.10.2` | :x:                |
+|-------------|--------------------|
+| `v0.10.3`   | :white_check_mark: |
+| `< v0.10.3` | :x:                |
 
 ## Reporting a Vulnerability
 

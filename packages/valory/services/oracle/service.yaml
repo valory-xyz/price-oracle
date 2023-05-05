@@ -7,7 +7,7 @@ license: Apache-2.0
 fingerprint:
   README.md: bafybeidfvq6yso3dpxgglq7fvviy42xjf3s7bn5thmi7ogv2j6pag3rene
 fingerprint_ignore_patterns: []
-agent: valory/oracle:0.1.0:bafybeifjtj4nmra6mcutrxeauniba3ncz253ihq67hy2kuezmhdzwcmctu
+agent: valory/oracle:0.1.0:bafybeihhep5lv6c5o7rozhg35jzn3hkr6qs7qcm3xfjua6wtuzv3wyxeiy
 number_of_agents: 4
 deployment:
   agent:
@@ -27,17 +27,17 @@ type: skill
   models:
     price_api:
       args:
-        url: https://api.coingecko.com/api/v3/simple/price
-        api_id: coingecko
+        url: ${PRICE_API_URL_0:str:https://api.coingecko.com/api/v3/simple/price}
+        api_id: ${PRICE_API_ID_0:str:coingecko}
         parameters:
-          ids: bitcoin
-          vs_currencies: usd
-        response_key: bitcoin:usd
+          ids: ${PRICE_API_IDS_0:str:bitcoin}
+          vs_currencies: ${PRICE_API_VS_CURRENCIES_0:str:usd}
+        response_key: ${PRICE_API_RESPONSE_KEY_0:str:bitcoin:usd}
         headers: {}
     randomness_api:
       args:
-        url: https://drand.cloudflare.com/public/latest
-        api_id: cloudflare
+        url: ${RANDOMNESS_API_URL_0:str:https://drand.cloudflare.com/public/latest}
+        api_id: ${RANDOMNESS_API_ID_0:str:cloudflare}
     params:
       args:
         setup: &id001
@@ -45,9 +45,9 @@ type: skill
             "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC", "0x90F79bf6EB2c4f870365E785982E1f101E93b906"]}
           safe_contract_address: ${SAFE_CONTRACT_ADDRESS:str:0xD8dE647170163a981bb3Fdb2063583eAcF7D55AC}
           oracle_contract_address: ${ORACLE_CONTRACT_ADDRESS:str:null}
-          consensus_threshold: null
-        max_healthcheck: 43200
-        multisend_address: '0xA238CBeb142c10Ef7Ad8442C6D1f9E89e07e7761'
+          consensus_threshold: ${CONSENSUS_THRESHOLD:int:null}
+        max_healthcheck: ${MAX_HEALTHCHECK:int:43200}
+        multisend_address: ${MULTISEND_ADDRESS:str:'0xA238CBeb142c10Ef7Ad8442C6D1f9E89e07e7761'}
         tendermint_p2p_url: ${TM_P2P_ENDPOINT_NODE_0:str:node0:26656}
         reset_pause_duration: ${RESET_PAUSE_DURATION:int:3000}
         broadcast_to_server: ${BROADCAST_TO_SERVER:bool:false}
@@ -61,26 +61,27 @@ type: skill
         url: ${SERVER_API:str:http://localhost:8060/deposit}
     benchmark_tool:
       args: &id003
-        log_dir: /benchmarks
+        log_dir: ${LOG_DIR:str:/benchmarks}
 1:
   models:
     price_api:
       args:
-        url: https://api.kraken.com/0/public/Ticker
-        api_id: kraken
+        url: ${PRICE_API_URL_1:str:https://api.kraken.com/0/public/Ticker}
+        api_id: ${PRICE_API_ID_1:str:kraken}
         parameters:
-          pair: BTCUSD
-        response_key: result:XXBTZUSD:b
-        response_index: 0
+          pair: ${PRICE_API_PAIR_1:str:BTCUSD}
+        response_key: ${PRICE_API_RESPONSE_KEY_1:str:result:XXBTZUSD:b}
+        response_index: ${PRICE_API_RESPONSE_INDEX_1:int:0}
+        headers: {}
     randomness_api:
       args:
-        url: https://api.drand.sh/public/latest
-        api_id: protocollabs1
+        url: ${RANDOMNESS_API_URL_1:str:https://api.drand.sh/public/latest}
+        api_id: ${RANDOMNESS_API_ID_1:str:protocollabs1}
     params:
       args:
         setup: *id001
-        max_healthcheck: 43200
-        multisend_address: '0xA238CBeb142c10Ef7Ad8442C6D1f9E89e07e7761'
+        max_healthcheck: ${MAX_HEALTHCHECK:int:43200}
+        multisend_address: ${MULTISEND_ADDRESS:str:'0xA238CBeb142c10Ef7Ad8442C6D1f9E89e07e7761'}
         tendermint_p2p_url: ${TM_P2P_ENDPOINT_NODE_1:str:node1:26666}
         reset_pause_duration: ${RESET_PAUSE_DURATION:int:3000}
         broadcast_to_server: ${BROADCAST_TO_SERVER:bool:false}
@@ -97,20 +98,20 @@ type: skill
   models:
     price_api:
       args:
-        url: https://api.coinbase.com/v2/prices/BTC-USD/buy
-        api_id: coinbase
-        response_key: data:amount
+        url: ${PRICE_API_URL_2:str:https://api.coinbase.com/v2/prices/BTC-USD/buy}
+        api_id: ${PRICE_API_ID_2:str:coinbase}
+        response_key: ${PRICE_API_RESPONSE_KEY_2:str:data:amount}
         headers: {}
         parameters: {}
     randomness_api:
       args:
-        url: https://api2.drand.sh/public/latest
-        api_id: protocollabs2
+        url: ${RANDOMNESS_API_URL_2:str:https://api2.drand.sh/public/latest}
+        api_id: ${RANDOMNESS_API_ID_2:str:protocollabs2}
     params:
       args:
         setup: *id001
-        max_healthcheck: 43200
-        multisend_address: '0xA238CBeb142c10Ef7Ad8442C6D1f9E89e07e7761'
+        max_healthcheck: ${MAX_HEALTHCHECK:int:43200}
+        multisend_address: ${MULTISEND_ADDRESS:str:'0xA238CBeb142c10Ef7Ad8442C6D1f9E89e07e7761'}
         tendermint_p2p_url: ${TM_P2P_ENDPOINT_NODE_2:str:node2:26676}
         reset_pause_duration: ${RESET_PAUSE_DURATION:int:3000}
         broadcast_to_server: ${BROADCAST_TO_SERVER:bool:false}
@@ -127,21 +128,21 @@ type: skill
   models:
     price_api:
       args:
-        url: https://api.binance.com/api/v3/ticker/price
-        api_id: binance
+        url: ${PRICE_API_URL_3:str:https://api.binance.com/api/v3/ticker/price}
+        api_id: ${PRICE_API_ID_3:str:binance}
         parameters:
-          symbol: BTCUSDT
-        response_key: price
+          symbol: ${PRICE_API_SYMBOL_3:str:BTCUSDT}
+        response_key: ${PRICE_API_RESPONSE_KEY_3:str:price}
         headers: {}
     randomness_api:
       args:
-        url: https://api3.drand.sh/public/latest
-        api_id: protocollabs3
+        url: ${RANDOMNESS_API_URL_3:str:https://api3.drand.sh/public/latest}
+        api_id: ${RANDOMNESS_API_ID_3:str:protocollabs3}
     params:
       args:
         setup: *id001
-        max_healthcheck: 43200
-        multisend_address: '0xA238CBeb142c10Ef7Ad8442C6D1f9E89e07e7761'
+        max_healthcheck: ${MAX_HEALTHCHECK:int:43200}
+        multisend_address: ${MULTISEND_ADDRESS:str:'0xA238CBeb142c10Ef7Ad8442C6D1f9E89e07e7761'}
         tendermint_p2p_url: ${TM_P2P_ENDPOINT_NODE_3:str:node3:26686}
         reset_pause_duration: ${RESET_PAUSE_DURATION:int:3000}
         broadcast_to_server: ${BROADCAST_TO_SERVER:bool:false}
