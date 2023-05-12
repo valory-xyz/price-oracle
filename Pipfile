@@ -18,8 +18,8 @@ open-aea = {version = "==1.33.0", extras = ["all"]}
 open-aea-ledger-ethereum = "==1.33.0"
 open-aea-ledger-cosmos = "==1.33.0"
 open-aea-cli-ipfs = "==1.33.0"
-open-aea-test-autonomy = "==0.10.3"
-open-autonomy = {version = "==0.10.3", extras = [ "all"]}
+open-aea-test-autonomy = "==0.10.4"
+open-autonomy = {version = "==0.10.4", extras = [ "all"]}
 pytz = "==2022.2.1"
 py-ecc = "==5.2.0"
 py-eth-sig-utils = "==0.4.0"
