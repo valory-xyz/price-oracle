@@ -1,5 +1,8 @@
 # Release History - `price-oracle`
 
+## 0.10.5 (2023-05-12)
+
+- Bumps `open-autonomy` framework to `v0.10.4` #67
 
 ## 0.10.4 (2023-05-05)
 
