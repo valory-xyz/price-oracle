@@ -1,11 +1,11 @@
 {
     "dev": {
-        "contract/valory/offchain_aggregator/0.1.0": "bafybeibeysu6wfomfuach4wfpzf452plyo7rk7qshkubuypt4izx5b27va",
-        "skill/valory/oracle_deployment_abci/0.1.0": "bafybeidi3swc6li5ypkkzpldp5l7xvdclv4fuwqwhwkntopga4t2kcvbqq",
-        "skill/valory/price_estimation_abci/0.1.0": "bafybeic45jpdpo2bumispkkqaxbs4j5pbwcjj6ujopz5svzkznpzux26h4",
-        "skill/valory/oracle_abci/0.1.0": "bafybeicxkhhvc2gtqesh3nsgxkzenxse4hmuvx3htk2yuhzzkf7utdcsnq",
-        "agent/valory/oracle/0.1.0": "bafybeifn3pzkfaluv3vfo4io42g6tquemtfzsvrsvv44icuqdwcrmseebu",
-        "service/valory/oracle/0.1.0": "bafybeicp2kuzz4bofplgwvh7uayytda2x6qhxrzprhz36yjr67qvqqlorq"
+        "contract/valory/offchain_aggregator/0.1.0": "bafybeido7nd5k5goowkqauvhclt3oukjci5nrdwfnovy6fizc3si5tapla",
+        "skill/valory/oracle_deployment_abci/0.1.0": "bafybeidvivp45f7rwb72auv4kgfxb2qdvfkz3yl4teisym3th2pagqdzbq",
+        "skill/valory/price_estimation_abci/0.1.0": "bafybeidwzxrrauape25vng6dbkzgmlxsdadytwcjsyxxljwwdd5eujnjy4",
+        "skill/valory/oracle_abci/0.1.0": "bafybeigbxsjpnjbo2mqfq23eeuonwyvaohn6wkt3qcjqpbwtbgvvpot6om",
+        "agent/valory/oracle/0.1.0": "bafybeifivhgpegx2rmzakdo5lrumsiuihj6tdcp2zjgipaxa6qb2tmvrhe",
+        "service/valory/oracle/0.1.0": "bafybeicmfzcrsjfft6x5be3nhz5d4p7z6am4kgzmhnyxuakiucotgm54fa"
     },
     "third_party": {
         "connection/valory/ipfs/0.1.0": "bafybeigr2cipad23aebjpnqtzpgymiwrwgmnior2fk4inbscdnqyl5epla",
