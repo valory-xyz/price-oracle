@@ -81,7 +81,7 @@ generators: clean-cache
 
 .PHONY: common-checks-1
 common-checks-1:
-	tox -p -e check-copyright -e check-hash -e check-packages -e check-doc-links-hashes
+	tox -p -e check-copyright -e check-hash -e check-packages -e check-doc-links-hashes -e analyse-service
 
 .PHONY: common-checks-2
 common-checks-2:
