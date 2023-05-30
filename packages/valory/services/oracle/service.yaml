@@ -7,7 +7,7 @@ license: Apache-2.0
 fingerprint:
   README.md: bafybeidfvq6yso3dpxgglq7fvviy42xjf3s7bn5thmi7ogv2j6pag3rene
 fingerprint_ignore_patterns: []
-agent: valory/oracle:0.1.0:bafybeifn3pzkfaluv3vfo4io42g6tquemtfzsvrsvv44icuqdwcrmseebu
+agent: valory/oracle:0.1.0:bafybeifivhgpegx2rmzakdo5lrumsiuihj6tdcp2zjgipaxa6qb2tmvrhe
 number_of_agents: 4
 deployment:
   agent:
@@ -47,7 +47,7 @@ type: skill
           oracle_contract_address: ${ORACLE_CONTRACT_ADDRESS:str:null}
           consensus_threshold: ${CONSENSUS_THRESHOLD:int:null}
         max_healthcheck: ${MAX_HEALTHCHECK:int:43200}
-        multisend_address: ${MULTISEND_ADDRESS:str:'0xA238CBeb142c10Ef7Ad8442C6D1f9E89e07e7761'}
+        multisend_address: ${MULTISEND_ADDRESS:str:0xA238CBeb142c10Ef7Ad8442C6D1f9E89e07e7761}
         tendermint_p2p_url: ${TM_P2P_ENDPOINT_NODE_0:str:node0:26656}
         reset_pause_duration: ${RESET_PAUSE_DURATION:int:3000}
         broadcast_to_server: ${BROADCAST_TO_SERVER:bool:false}
@@ -81,7 +81,7 @@ type: skill
       args:
         setup: *id001
         max_healthcheck: ${MAX_HEALTHCHECK:int:43200}
-        multisend_address: ${MULTISEND_ADDRESS:str:'0xA238CBeb142c10Ef7Ad8442C6D1f9E89e07e7761'}
+        multisend_address: ${MULTISEND_ADDRESS:str:0xA238CBeb142c10Ef7Ad8442C6D1f9E89e07e7761}
         tendermint_p2p_url: ${TM_P2P_ENDPOINT_NODE_1:str:node1:26666}
         reset_pause_duration: ${RESET_PAUSE_DURATION:int:3000}
         broadcast_to_server: ${BROADCAST_TO_SERVER:bool:false}
@@ -111,7 +111,7 @@ type: skill
       args:
         setup: *id001
         max_healthcheck: ${MAX_HEALTHCHECK:int:43200}
-        multisend_address: ${MULTISEND_ADDRESS:str:'0xA238CBeb142c10Ef7Ad8442C6D1f9E89e07e7761'}
+        multisend_address: ${MULTISEND_ADDRESS:str:0xA238CBeb142c10Ef7Ad8442C6D1f9E89e07e7761}
         tendermint_p2p_url: ${TM_P2P_ENDPOINT_NODE_2:str:node2:26676}
         reset_pause_duration: ${RESET_PAUSE_DURATION:int:3000}
         broadcast_to_server: ${BROADCAST_TO_SERVER:bool:false}
@@ -142,7 +142,7 @@ type: skill
       args:
         setup: *id001
         max_healthcheck: ${MAX_HEALTHCHECK:int:43200}
-        multisend_address: ${MULTISEND_ADDRESS:str:'0xA238CBeb142c10Ef7Ad8442C6D1f9E89e07e7761'}
+        multisend_address: ${MULTISEND_ADDRESS:str:0xA238CBeb142c10Ef7Ad8442C6D1f9E89e07e7761}
         tendermint_p2p_url: ${TM_P2P_ENDPOINT_NODE_3:str:node3:26686}
         reset_pause_duration: ${RESET_PAUSE_DURATION:int:3000}
         broadcast_to_server: ${BROADCAST_TO_SERVER:bool:false}
