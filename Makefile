@@ -46,26 +46,24 @@ clean-cache:
 # black: format files according to the pep standards
 .PHONY: formatters
 formatters:
-	tox -e isort
-	tox -e black
+	tomte format-code
 
 # black-check: check code style
 # isort-check: check for import order
 # flake8: wrapper around various code checks, https://flake8.pycqa.org/en/latest/user/error-codes.html
 # mypy: static type checker
 # pylint: code analysis for code smells and refactoring suggestions
-# vulture: finds dead code
 # darglint: docstring linter
 .PHONY: code-checks
 code-checks:
-	tox -p -e black-check -e isort-check -e flake8 -e mypy -e pylint -e vulture -e darglint
+	tomte check-code
 
 # safety: checks dependencies for known security vulnerabilities
 # bandit: security linter
 # gitleaks: checks for sensitive information
 .PHONY: security
 security:
-	tox -p -e safety -e bandit
+	tomte check-security
 	gitleaks detect --report-format json --report-path leak_report
 
 # generate abci docstrings
@@ -74,14 +72,15 @@ security:
 .PHONY: generators
 generators: clean-cache
 	tox -e abci-docstrings
-	tox -e fix-copyright
-	autonomy hash all
+	tomte format-copyright --author valory --exclude-part connections --exclude-part contracts --exclude-part protocols --exclude-part abstract_abci --exclude-part abstract_round_abci --exclude-part registration_abci --exclude-part reset_pause_abci --exclude-part termination_abci --exclude-part transaction_settlement_abci
 	autonomy packages lock
 	tox -e fix-doc-hashes
 
 .PHONY: common-checks-1
 common-checks-1:
-	tox -p -e check-copyright -e check-hash -e check-packages -e check-doc-links-hashes -e analyse-service
+	tomte check-copyright --author valory --exclude-part connections --exclude-part contracts --exclude-part protocols --exclude-part abstract_abci --exclude-part abstract_round_abci --exclude-part registration_abci --exclude-part reset_pause_abci --exclude-part termination_abci --exclude-part transaction_settlement_abci
+	tomte check-doc-links --url-skips "http://127.0.0.1:{i}" --http-skips "http://127.0.0.1:{i}"
+	tox -p -e check-hash -e check-packages -e check-doc-hashes -e analyse-service
 
 .PHONY: common-checks-2
 common-checks-2:
