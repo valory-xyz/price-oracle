@@ -1,6 +1,11 @@
 # Release History - `price-oracle`
 
 
+## 0.10.7 (2023-06-07)
+
+- Bumps `open-autonomy` framework to `v0.10.5.post2` #70
+
+
 ## 0.10.6 (2023-05-31)
 
 - Bumps to `tomte@v0.2.12` and cleans up the repo #69
