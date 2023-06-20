@@ -1,5 +1,5 @@
 ![OracleKit](images/oraclekit.svg){ align=left }
-The OracleKit is aimed at building services providing data streams onto the blockchain. For example, The Price Oracle is an {{agent_service_link}} that provides an estimation of the Bitcoin price (USD) based on observations coming from different data sources. In the live demo, the service is using observations from [Kraken](https://www.kraken.com/), [CoinGecko](https://www.coingecko.com/), [Coinbase](https://www.coinbase.com/), and [Binance](https://www.binance.com/).
+The OracleKit is aimed at building services providing data streams onto the blockchain. For example, The Price Oracle is an [agent service](https://docs.autonolas.network/open-autonomy/get_started/what_is_an_agent_service/) that provides an estimation of the Bitcoin price (USD) based on observations coming from different data sources. In the live demo, the service is using observations from [Kraken](https://www.kraken.com/), [CoinGecko](https://www.coingecko.com/), [Coinbase](https://www.coinbase.com/), and [Binance](https://www.binance.com/).
 
 Each agent collects an observation from one of the data sources above and
 shares it with the rest of the agents through the consensus gadget.
