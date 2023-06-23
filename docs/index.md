@@ -27,14 +27,14 @@ In order to run a local demo of the Price Oracle service with a Hardhat node:
     mkdir your_workspace && cd your_workspace
     touch Pipfile && pipenv --python 3.10 && pipenv shell
 
-    pipenv install open-autonomy[all]==0.10.6
+    pipenv install open-autonomy[all]==0.10.7
     autonomy init --remote --ipfs --reset --author=your_name
     ```
 
 2. Fetch the Price Oracle service.
 
 	```bash
-	autonomy fetch valory/oracle:0.1.0:bafybeicdyn6cnubhvo5ifiii6stxzm4xnfwp3mg5fqasd2uxvj4bwhnmlm --service
+	autonomy fetch valory/oracle:0.1.0:bafybeibn4feauzkq5gkiejfrbptcmfwlevj32n5uevxt4ygzyjdfa3fbju --service
 	```
 
 3. Build the Docker image of the service agents
@@ -74,14 +74,14 @@ In order to run a local demo of the Price Oracle service with a Hardhat node:
         ```
 
 5. Build the service deployment.
-   
-    The `--use-hardhat` flag below, adds an image with a Hardhat node containing some default smart contracts 
-    (e.g., a [Safe](https://safe.global/)) to the service deployment. You can use any image with a Hardhat node, 
-    instead of the default `valory/open-autonomy-hardhat`. To achieve that, you need to modify the environment variable 
+
+    The `--use-hardhat` flag below, adds an image with a Hardhat node containing some default smart contracts
+    (e.g., a [Safe](https://safe.global/)) to the service deployment. You can use any image with a Hardhat node,
+    instead of the default `valory/open-autonomy-hardhat`. To achieve that, you need to modify the environment variable
     `HARDHAT_IMAGE_NAME`.
 
-    The Price Oracle service demo requires the Autonolas Protocol registry contracts in order to run. 
-    We conveniently provide the image `valory/autonolas-registries` containing them. 
+    The Price Oracle service demo requires the Autonolas Protocol registry contracts in order to run.
+    We conveniently provide the image `valory/autonolas-registries` containing them.
     Therefore, build the deployment as follows:
 
     ```bash
@@ -102,13 +102,13 @@ To understand the deployment process better, follow the deployment guide [here](
 
 ### Querying the service
 
-Querying autonomous services can become very simple by using the 
+Querying autonomous services can become very simple by using the
 [Open Autonomy Client SDK](https://github.com/valory-xyz/open-autonomy-client).
-This is a library that helps to query multi-agent systems built with the Open Autonomy framework 
+This is a library that helps to query multi-agent systems built with the Open Autonomy framework
 It provides a simplified approach for making requests to a service as if it were a single endpoint.
 The SDK queries multiple agents in the background to retrieve information and returns a result that is presumed to be reached by consensus among the agents.
 
-Let's take a look at a simple example, using the SDK. First of all we need to make sure 
+Let's take a look at a simple example, using the SDK. First of all we need to make sure
 that we have the necessary requirements installed:
 
 ```bash
@@ -116,7 +116,7 @@ pip install open-autonomy-client
 pip install aiohttp
 ```
 
-Having installed the requirements and while running the hardhat demo above, you can use this simple script 
+Having installed the requirements and while running the hardhat demo above, you can use this simple script
 to get a result for which the agents have reached consensus on:
 
 ```python
@@ -144,14 +144,14 @@ if __name__ == '__main__':
 
 Let's take a look at this script step by step:
 
-1. We import the `asyncio` library, because the Client SDK queries the agents in an asynchronous way 
-   in order to save time. The `json` library is not necessary, but helps us format the data before printing them 
-   for this demo. The `open_autonomy_client` is the SDK, and the `Client` is the class that we are going to use 
+1. We import the `asyncio` library, because the Client SDK queries the agents in an asynchronous way
+   in order to save time. The `json` library is not necessary, but helps us format the data before printing them
+   for this demo. The `open_autonomy_client` is the SDK, and the `Client` is the class that we are going to use
    to fetch the agents' data.
-2. We specify a list with the public keys and the URLs of the agents that we would like to query. 
+2. We specify a list with the public keys and the URLs of the agents that we would like to query.
    These are the only parameters that need to be changed in this script in order to run it for any service.
-3. Next, we define an asynchronous function which initializes a client, using the constants above, 
-   and calls the `fetch()` method on the instance. Using these two lines of code, we have received the `agents_data`, 
+3. Next, we define an asynchronous function which initializes a client, using the constants above,
+   and calls the `fetch()` method on the instance. Using these two lines of code, we have received the `agents_data`,
    which we continue to print in a JSON format.
 4. We use `asyncio` in order to execute the asynchronous function that we defined.
 

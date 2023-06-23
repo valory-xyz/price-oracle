@@ -1,5 +1,9 @@
 # Release History - `price-oracle`
 
+## 0.10.9 (2023-06-23)
+
+- Bumps `open-autonomy` framework to `v0.10.7`
+
 
 ## 0.10.8 (2023-06-19)
 
@@ -11,10 +15,10 @@
 - Bumps `open-autonomy` framework to `v0.10.5.post2` #70
 
 
-## 0.10.6 (2023-05-31)
+## 0.10.7 (2023-05-31)
 
 - Bumps to `tomte@v0.2.12` and cleans up the repo #69
-- Bumps `open-aea` and `open-autonomy` frameworks to `v1.34.0` and `v0.10.5.post1` correspondingly #68
+- Bumps `open-aea` and `open-autonomy` frameworks to `v1.35.0` and `v0.10.5.post1` correspondingly #68
 
 
 ## 0.10.5 (2023-05-12)
