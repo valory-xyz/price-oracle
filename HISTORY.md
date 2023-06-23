@@ -2,7 +2,7 @@
 
 ## 0.10.9 (2023-06-23)
 
-- Bumps `open-autonomy` framework to `v0.10.7`
+- Bumps `open-autonomy` framework to `v0.10.7` #73
 
 
 ## 0.10.8 (2023-06-19)
