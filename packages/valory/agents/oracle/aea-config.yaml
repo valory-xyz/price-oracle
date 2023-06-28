@@ -141,6 +141,7 @@ models:
       broadcast_to_server: ${bool:false}
       validate_timeout: ${int:1205}
       service_registry_address: ${str:null}
+      tendermint_check_sleep_delay: ${int:3}
       tendermint_p2p_url: ${str:localhost:26656}
       termination_sleep: ${int:900}
       share_tm_config_on_startup: ${bool:false}

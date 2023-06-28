@@ -7,7 +7,7 @@ license: Apache-2.0
 fingerprint:
   README.md: bafybeidfvq6yso3dpxgglq7fvviy42xjf3s7bn5thmi7ogv2j6pag3rene
 fingerprint_ignore_patterns: []
-agent: valory/oracle:0.1.0:bafybeievp2keu2264s5is5fyq6aiugbkn2zgcp7psx7li73tas3vl4sqcy
+agent: valory/oracle:0.1.0:bafybeihoch7ptofrf3hcdfqnyuthg7xuk33tiiagmgmuup2oqq2gamrj2y
 number_of_agents: 4
 deployment:
   agent:
@@ -49,6 +49,7 @@ type: skill
         max_healthcheck: ${MAX_HEALTHCHECK:int:43200}
         multisend_address: ${MULTISEND_ADDRESS:str:0xA238CBeb142c10Ef7Ad8442C6D1f9E89e07e7761}
         tendermint_p2p_url: ${TM_P2P_ENDPOINT_NODE_0:str:node0:26656}
+        tendermint_check_sleep_delay: ${TENDERMINT_DELAY:int:30}
         reset_pause_duration: ${RESET_PAUSE_DURATION:int:3000}
         broadcast_to_server: ${BROADCAST_TO_SERVER:bool:false}
         service_registry_address: ${SERVICE_REGISTRY_ADDRESS:str:0x998abeb3E57409262aE5b751f60747921B33613E}
@@ -85,6 +86,7 @@ type: skill
         tendermint_p2p_url: ${TM_P2P_ENDPOINT_NODE_1:str:node1:26666}
         reset_pause_duration: ${RESET_PAUSE_DURATION:int:3000}
         broadcast_to_server: ${BROADCAST_TO_SERVER:bool:false}
+        tendermint_check_sleep_delay: ${TENDERMINT_DELAY:int:30}
         service_registry_address: ${SERVICE_REGISTRY_ADDRESS:str:0x998abeb3E57409262aE5b751f60747921B33613E}
         share_tm_config_on_startup: ${USE_ACN:bool:false}
         on_chain_service_id: ${ON_CHAIN_SERVICE_ID:int:null}
@@ -114,6 +116,7 @@ type: skill
         multisend_address: ${MULTISEND_ADDRESS:str:0xA238CBeb142c10Ef7Ad8442C6D1f9E89e07e7761}
         tendermint_p2p_url: ${TM_P2P_ENDPOINT_NODE_2:str:node2:26676}
         reset_pause_duration: ${RESET_PAUSE_DURATION:int:3000}
+        tendermint_check_sleep_delay: ${TENDERMINT_DELAY:int:30}
         broadcast_to_server: ${BROADCAST_TO_SERVER:bool:false}
         service_registry_address: ${SERVICE_REGISTRY_ADDRESS:str:0x998abeb3E57409262aE5b751f60747921B33613E}
         share_tm_config_on_startup: ${USE_ACN:bool:false}
@@ -145,6 +148,7 @@ type: skill
         multisend_address: ${MULTISEND_ADDRESS:str:0xA238CBeb142c10Ef7Ad8442C6D1f9E89e07e7761}
         tendermint_p2p_url: ${TM_P2P_ENDPOINT_NODE_3:str:node3:26686}
         reset_pause_duration: ${RESET_PAUSE_DURATION:int:3000}
+        tendermint_check_sleep_delay: ${TENDERMINT_DELAY:int:30}
         broadcast_to_server: ${BROADCAST_TO_SERVER:bool:false}
         service_registry_address: ${SERVICE_REGISTRY_ADDRESS:str:0x998abeb3E57409262aE5b751f60747921B33613E}
         share_tm_config_on_startup: ${USE_ACN:bool:false}
