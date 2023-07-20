@@ -94,3 +94,62 @@ jobs:
           docker push $DOCKER_USER/oar-$AGENT:$VERSION
           docker push $DOCKER_USER/oar-$AGENT:$DEFAULT_IMAGE_TAG
 
+  deploy-on-propel:
+    name: Deploy service on propel
+    runs-on: ${{ matrix.os }}
+    needs:
+      - "publish-images"
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        python-version: ["3.10"]
+    env:
+        PROPEL_USER: ${{secrets.PROPEL_USER}}
+        PROPEL_PASSWORD: ${{secrets.PROPEL_PASSWORD}}
+        PROPEL_URL: https://app.propel-dev1.autonolas.tech/
+        ALL_PARTICIPANTS: ${{vars.ALL_PARTICIPANTS}}
+        VARIABLES: ${{vars.VARIABLES}}
+        AGENT_NAMES: ${{vars.AGENT_NAMES}}
+        KEYS_IDS: ${{vars.KEYS_IDS}}
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up tag and vars
+        uses: addnab/docker-run-action@v3
+        with:
+            image: valory/open-autonomy-user:latest
+            options: -v ${{ github.workspace }}:/work
+            run: |
+              echo "Setting Tag Images"
+              cd /work
+              apt-get update && apt-get install git -y || exit 1
+              git config --global --add safe.directory /work
+              export TAG=$(git describe --exact-match --tags $(git rev-parse HEAD)) || exit 1
+              if [ $? -eq 0 ]; then
+                  export TAG=`echo $TAG | sed 's/^v//'`
+              else
+                  echo "You are not on a tagged branch"
+                  exit 1
+              fi
+              echo VERSION=$TAG> env.sh
+              echo AUTHOR=$(grep 'service' packages/packages.json | awk -F/ '{print $2}' | head -1) >> env.sh
+              echo SERVICE=$(grep 'service' packages/packages.json | awk -F/ '{print $3}' | head -1) >> env.sh
+              echo AGENT=$(grep 'agent' packages/packages.json | awk -F/ '{print $3}' | head -1) >> env.sh
+              echo DEFAULT_IMAGE_TAG=$(cat packages/packages.json | grep agent | awk -F: '{print $2}' | tr -d '", ') >> env.sh
+              source env.sh
+              echo SERVICE_IPFS_HASH=$(cat packages/packages.json | grep service/ | awk -F: '{print $2}' | tr -d '", '|head -1) >> env.sh
+              cat env.sh
+      - name: install propel-client
+        run: |
+            pip install propel-client==0.0.2
+      - name: Propel login
+        run: |
+            propel -U $PROPEL_URL login -u $PROPEL_USER -p $PROPEL_PASSWORD
+      - name: Set variables!
+        run: |
+          source env.sh
+          propel -U $PROPEL_URL variables create ALL_PARTICIPANTS ALL_PARTICIPANTS \'${ALL_PARTICIPANTS}\'
+      - name: Do deploy!
+        run: |
+          source env.sh
+          echo propel -U $PROPEL_URL agents deploy-multi --names $AGENT_NAMES --keys $KEYS_IDS --service-ipfs-hash $SERVICE_IPFS_HASH --variables $VARIABLES
+          propel -U $PROPEL_URL agents deploy-multi --names $AGENT_NAMES --keys $KEYS_IDS --service-ipfs-hash $SERVICE_IPFS_HASH --variables $VARIABLES
