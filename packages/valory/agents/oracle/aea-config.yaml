@@ -11,7 +11,7 @@ fingerprint:
   tests/test_oracle.py: bafybeidkhguqtwdm46mwybyrsergajqfyqu262ikfqwu7vxfzsox5bli5i
 fingerprint_ignore_patterns: []
 connections:
-- fetchai/http_server:0.22.0:bafybeig36q57libg5q3ral6fzeiobxoc4jvmum3hin6s5n6wuhhl2lvewu
+- fetchai/http_server:0.22.0:bafybeihp5umafxzx45aad5pj7s3343se2wjkgnbirt4pybrape22swm6de
 - valory/abci:0.1.0:bafybeig6difzdar2n5gya7cq2xa7c2rxxp65xlxviatqzg33kivvc3zaam
 - valory/http_client:0.23.0:bafybeieoeuy4brzimtnubmokwirhrx27ezls6cdnl5qik4rkykfle3nn2y
 - valory/ledger:0.19.0:bafybeiejc7g7ebv3cleiqb4f4h4pspcu6vtr54332szwlqiabfs3sfdh44
@@ -32,9 +32,9 @@ protocols:
 skills:
 - valory/abstract_abci:0.1.0:bafybeiamr3cwetayz6lr72buhq6iviabtboj4hhpq47tlumimxolvvqjcy
 - valory/abstract_round_abci:0.1.0:bafybeiaseziuvbzh3trjggl5hx2tv3fduqrpiwiyksudaf6nvuxmwrg74i
-- valory/oracle_abci:0.1.0:bafybeiguxv4lrzhoktikggglg54mlm36fatdvflqwg4lrx7a7wlbgjvlsq
+- valory/oracle_abci:0.1.0:bafybeigjkfjmwg5patcz43oijzrnduce6vlf4jxj7o3wdavaqvybqqo7tq
 - valory/oracle_deployment_abci:0.1.0:bafybeifwk7qekkiamm5kuywl3wjssavovia7imcinpu2aoku7awkfni7ja
-- valory/price_estimation_abci:0.1.0:bafybeifz6ffxrgxy7eqgbjhxcurq6c2xqmcoi27aghkfbxckmwmp5pwpkq
+- valory/price_estimation_abci:0.1.0:bafybeiheuc2erahckzmyianp2v4tyxoxpncjdmas7wta7peolim3c56dr4
 - valory/registration_abci:0.1.0:bafybeibafy7qmcvvzaykimy3mbqdwtcuajmbghqilaa7zwkh6wla33cfce
 - valory/reset_pause_abci:0.1.0:bafybeialcwck7fahrr23jckv5qjwg3cdq4ai2ihyjsofnbj44jzyl4cjmm
 - valory/termination_abci:0.1.0:bafybeifqsogqiar4yook5bu3j6z66dbdcizey7dr3e5oxeocdjijvfbaja
