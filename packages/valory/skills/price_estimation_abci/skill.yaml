@@ -31,18 +31,18 @@ fingerprint:
   tests/test_tools.py: bafybeicvwyu4csbn3foyp5mvcdlnu3uiwwvmvnh5m74sspe77nws5ulm6i
 fingerprint_ignore_patterns: []
 connections:
-- fetchai/http_server:0.22.0:bafybeihaax5od5zo5jk2l62hv4jwuwtxloh5mijozudpsjombqc4ncmi6i
+- fetchai/http_server:0.22.0:bafybeig36q57libg5q3ral6fzeiobxoc4jvmum3hin6s5n6wuhhl2lvewu
 contracts:
-- valory/gnosis_safe:0.1.0:bafybeif5fdwoxq5mscrurtuimadmtctyxxeeui45u4g6leqobzls7bsl3u
+- valory/gnosis_safe:0.1.0:bafybeic3ajabs7sl6qgkzy452szlsdeitj746kdzfd7k4m4ixtxw4g33qi
 - valory/offchain_aggregator:0.1.0:bafybeifo46fg63of7iu76l6k3nbyjkxukx3lk46com567cuudmj23vkrp4
 protocols:
-- open_aea/signing:1.0.0:bafybeibqlfmikg5hk4phzak6gqzhpkt6akckx7xppbp53mvwt6r73h7tk4
-- valory/contract_api:1.0.0:bafybeidv6wxpjyb2sdyibnmmum45et4zcla6tl63bnol6ztyoqvpl4spmy
-- valory/http:1.0.0:bafybeifyoio7nlh5zzyn5yz7krkou56l22to3cwg7gw5v5o3vxwklibhty
+- open_aea/signing:1.0.0:bafybeifuxs7gdg2okbn7uofymenjlmnih2wxwkym44lsgwmklgwuckxm2m
+- valory/contract_api:1.0.0:bafybeiasywsvax45qmugus5kxogejj66c5taen27h4voriodz7rgushtqa
+- valory/http:1.0.0:bafybeia5bxdua2i6chw6pg47bvoljzcpuqxzy4rdrorbdmcbnwmnfdobtu
 skills:
-- valory/abstract_round_abci:0.1.0:bafybeiac62ennpw54gns2quk4g3yoaili2mb72nj6c52czobz5dcwj4mwi
-- valory/oracle_deployment_abci:0.1.0:bafybeibmmfhuaaa5lnz6jo4k5nrnlqlhxoywsn3k6ek65xpgbkuj2qwlom
-- valory/transaction_settlement_abci:0.1.0:bafybeihdpac4ayfgop3ixflimlb3zzyeejlpqtljfptdak6tc7aq4u5fzi
+- valory/abstract_round_abci:0.1.0:bafybeiaseziuvbzh3trjggl5hx2tv3fduqrpiwiyksudaf6nvuxmwrg74i
+- valory/oracle_deployment_abci:0.1.0:bafybeig6vdz3w62ugdq5l37zdhwhvjzdsxd7du37w54x7jfimyuknwgeby
+- valory/transaction_settlement_abci:0.1.0:bafybeiacwr7p4nhhufoey7uz2jqkegrlykdrmc7mm3rzkvh2mslu66gyle
 behaviours:
   main:
     args: {}

@@ -106,7 +106,7 @@ jobs:
     env:
         PROPEL_USER: ${{secrets.PROPEL_USER}}
         PROPEL_PASSWORD: ${{secrets.PROPEL_PASSWORD}}
-        PROPEL_URL: https://app.propel-dev1.autonolas.tech/
+        PROPEL_URL: ${{vars.PROPEL_URL}}
         ALL_PARTICIPANTS: ${{vars.ALL_PARTICIPANTS}}
         VARIABLES: ${{vars.VARIABLES}}
         AGENT_NAMES: ${{vars.AGENT_NAMES}}
