@@ -1,8 +1,13 @@
 # Release History - `price-oracle`
 
+## 0.10.10 (2023-08-03)
+
+- Bumps `open-aea` and `open-autonomy` frameworks to `v1.37.0` and `v0.10.10.post1` #74
+
 ## 0.10.9 (2023-06-23)
 
-- Bumps `open-aea` and `open-autonomy` frameworks to `v1.35.0` and `v0.10.7`
+- Bumps `open-aea` and `open-autonomy` frameworks to `v1.35.0` and `v0.10.7` #73
+- Fix olas links #72
 
 
 ## 0.10.8 (2023-06-19)
