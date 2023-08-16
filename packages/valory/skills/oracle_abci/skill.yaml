@@ -31,8 +31,8 @@ protocols:
 - valory/ledger_api:1.0.0:bafybeigsvceac33asd6ecbqev34meyyjwu3rangenv6xp5rkxyz4krvcby
 skills:
 - valory/abstract_round_abci:0.1.0:bafybeicyy4g3x6ol6x2ayzcdkg2wstubqecp6ycgo6f2c2bhjnhwdjs3qa
-- valory/oracle_deployment_abci:0.1.0:bafybeihea2d2bzsj3khvcjymop3nwofsk2wunjudewyotfzhbuk6jjbj5q
-- valory/price_estimation_abci:0.1.0:bafybeiamqxrbmvl4qvjgzgboefafnwc5md24sa35ppyb72zw7r6h2b4zou
+- valory/oracle_deployment_abci:0.1.0:bafybeia4g6pwma5pldbekirvgwmaazk3zq47elwnx6vpfacma7nen66byq
+- valory/price_estimation_abci:0.1.0:bafybeibzlbyprvybyh3ptpk4uk5vibkmut2twi2re3ie4zi5v7kvnj53xi
 - valory/registration_abci:0.1.0:bafybeigexg5mw5sh35qkhlaeegycgtkd2ym5o4marjc5o7gl7t352hohiu
 - valory/reset_pause_abci:0.1.0:bafybeigabcdz5en52zuxzxa6a4p5c7z4qyi3fcfp7lodqusjh32z5obcqy
 - valory/termination_abci:0.1.0:bafybeies2zrbcsajnsgjq2ljr352gzvjsvkoycu65tuj5avnxlgjqlevci

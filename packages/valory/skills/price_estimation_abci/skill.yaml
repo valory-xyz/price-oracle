@@ -34,14 +34,14 @@ connections:
 - fetchai/http_server:0.22.0:bafybeihp5umafxzx45aad5pj7s3343se2wjkgnbirt4pybrape22swm6de
 contracts:
 - valory/gnosis_safe:0.1.0:bafybeigaeon5qhgdwhduw4wtjt7x7o3hpz62aifr5a7522ynll3nps3qnm
-- valory/offchain_aggregator:0.1.0:bafybeiax44notwwevwyyqewtirzedms6iokxsdfzuooic5mbwoithsp4wu
+- valory/offchain_aggregator:0.1.0:bafybeigmq5puwhpnlypyrfvglmzr7bx3xtmzdjalxogilzriuf7h2wn574
 protocols:
 - open_aea/signing:1.0.0:bafybeifuxs7gdg2okbn7uofymenjlmnih2wxwkym44lsgwmklgwuckxm2m
 - valory/contract_api:1.0.0:bafybeiasywsvax45qmugus5kxogejj66c5taen27h4voriodz7rgushtqa
 - valory/http:1.0.0:bafybeia5bxdua2i6chw6pg47bvoljzcpuqxzy4rdrorbdmcbnwmnfdobtu
 skills:
 - valory/abstract_round_abci:0.1.0:bafybeicyy4g3x6ol6x2ayzcdkg2wstubqecp6ycgo6f2c2bhjnhwdjs3qa
-- valory/oracle_deployment_abci:0.1.0:bafybeihea2d2bzsj3khvcjymop3nwofsk2wunjudewyotfzhbuk6jjbj5q
+- valory/oracle_deployment_abci:0.1.0:bafybeia4g6pwma5pldbekirvgwmaazk3zq47elwnx6vpfacma7nen66byq
 - valory/transaction_settlement_abci:0.1.0:bafybeic7vatd3um6en3fqdxpbdsdq4n2zdqf3c4m5cs2r73ag5pbgdohoe
 behaviours:
   main:

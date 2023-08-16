@@ -23,7 +23,7 @@ fingerprint:
 fingerprint_ignore_patterns: []
 connections: []
 contracts:
-- valory/offchain_aggregator:0.1.0:bafybeiax44notwwevwyyqewtirzedms6iokxsdfzuooic5mbwoithsp4wu
+- valory/offchain_aggregator:0.1.0:bafybeigmq5puwhpnlypyrfvglmzr7bx3xtmzdjalxogilzriuf7h2wn574
 protocols:
 - open_aea/signing:1.0.0:bafybeifuxs7gdg2okbn7uofymenjlmnih2wxwkym44lsgwmklgwuckxm2m
 - valory/contract_api:1.0.0:bafybeiasywsvax45qmugus5kxogejj66c5taen27h4voriodz7rgushtqa
