@@ -42,14 +42,14 @@ PACKAGE_DIR = Path(__file__).parent.parent
 class BaseContractTest(BaseGanacheContractTest):
     """Base test case for OffchainAggregatorContract"""
 
-    MIN_ANSWER: int = 10 ** 18
-    MAX_ANSWER: int = 10 ** 24
+    MIN_ANSWER: int = 10**18
+    MAX_ANSWER: int = 10**24
     DECIMALS: int = 18
     DESCRIPTION: str = "BTC"
     NB_TRANSMITTERS: int = 1
-    GAS: int = 10 ** 10
-    DEFAULT_MAX_FEE_PER_GAS: int = 10 ** 10
-    DEFAULT_MAX_PRIORITY_FEE_PER_GAS: int = 10 ** 10
+    GAS: int = 10**10
+    DEFAULT_MAX_FEE_PER_GAS: int = 10**10
+    DEFAULT_MAX_PRIORITY_FEE_PER_GAS: int = 10**10
     contract_directory = PACKAGE_DIR
     contract: OffchainAggregatorContract
 
@@ -69,7 +69,7 @@ class BaseContractTest(BaseGanacheContractTest):
     def transmitters(cls) -> List[str]:
         """Get the owners."""
         return [
-            Web3.toChecksumAddress(t[0])
+            Web3.to_checksum_address(t[0])
             for t in cls.key_pairs()[1 : cls.NB_TRANSMITTERS + 1]
         ]
 
@@ -131,7 +131,7 @@ class TestDeployTransaction(BaseContractTest):
             contract_address=self.contract_address,
             epoch_=1,
             round_=1,
-            amount_=10 ** 19,
+            amount_=10**19,
         )
         assert result["data"], "Contract did not return data."
 
@@ -158,7 +158,7 @@ class TestDeployTransaction(BaseContractTest):
         assert self.contract_address is not None
         epoch_ = 1
         round_ = 2
-        amount_ = 10 ** 19
+        amount_ = 10**19
         result = self.contract.transmit(
             ledger_api=self.ledger_api,
             contract_address=self.contract_address,

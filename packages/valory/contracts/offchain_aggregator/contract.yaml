@@ -9,9 +9,9 @@ fingerprint:
   README.md: bafybeibyvhjdwsaynamktjbweo4jjy4gukqajuqkajacdlmo6opkckiqru
   __init__.py: bafybeiajrrcbyww23fli2iohxdludlazjpc5hmhz4sux6yfs2mq6g54feu
   build/VerySimpleOffchainAggregator.json: bafybeifep3bchwafqplqgtvaujvfwkfdx46ptrsbe574wziohr2kofja6q
-  contract.py: bafybeig3xajfle6gepb4ttk732gleog7c7iibi3jwtgqyzgd24kyqimhde
+  contract.py: bafybeic7r5fjgjxoyra4p2i4iixbg3m7m54urhl2k3gtprsbpghk46iqgq
   tests/__init__.py: bafybeigmhbpdohq3f7sxidkgout3zftzx4ib45s5jke6gs3tcdewnvg2ci
-  tests/test_contract.py: bafybeidaqrl2qmvk4jl6zk4h5fsa5g3vj53mfqjc4u5mo2drw75l4lpc2a
+  tests/test_contract.py: bafybeieecoeypyfupuhdgqw6thg4rwj22wrdblkynp3cs7c5sesqzv3viy
 fingerprint_ignore_patterns: []
 contracts: []
 class_name: OffchainAggregatorContract
@@ -19,8 +19,10 @@ contract_interface_paths:
   ethereum: build/VerySimpleOffchainAggregator.json
 dependencies:
   eth-abi:
-    version: ==2.2.0
+    version: ==4.0.0
   open-aea-ledger-ethereum:
-    version: ==1.37.0
+    version: ==1.38.0
   open-aea-test-autonomy:
-    version: ==0.10.10.post1
+    version: ==0.11.1
+  eth-typing:
+    version: ==3.4.0

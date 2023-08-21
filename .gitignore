@@ -27,3 +27,4 @@ packages/valory/skills/transaction_settlement_abci
 packages/open_aea
 packages/fetchai
 /logs/
+__pycache__
