@@ -40,10 +40,14 @@ type: skill
         api_id: ${RANDOMNESS_API_ID_0:str:cloudflare}
     params:
       args:
-        setup: &id001
+        gas_params: &id001
+          gas_price: ${GAS_PRICE:int:null}
+          max_fee_per_gas: ${MAX_FEE_PER_GAS:int:null}
+          max_priority_fee_per_gas: ${MAX_PRIORITY_FEE_PER_GAS:int:null}
+        setup: &id002
           all_participants: ${ALL_PARTICIPANTS:list:["0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266","0x70997970C51812dc3A010C7d01b50e0d17dc79C8",
             "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC", "0x90F79bf6EB2c4f870365E785982E1f101E93b906"]}
-          safe_contract_address: ${SAFE_CONTRACT_ADDRESS:str:0xD8dE647170163a981bb3Fdb2063583eAcF7D55AC}
+          safe_contract_address: ${SAFE_CONTRACT_ADDRESS:str:0x77b783e911F4398D75908Cc60C7138Bd1eFe35Fd}
           oracle_contract_address: ${ORACLE_CONTRACT_ADDRESS:str:null}
           consensus_threshold: ${CONSENSUS_THRESHOLD:int:null}
         max_healthcheck: ${MAX_HEALTHCHECK:int:43200}
@@ -57,10 +61,10 @@ type: skill
         validate_timeout: ${VALIDATE_TIMEOUT:int:1205}
         use_termination: ${USE_TERMINATION:bool:false}
     server_api:
-      args: &id002
+      args: &id003
         url: ${SERVER_API:str:http://localhost:8060/deposit}
     benchmark_tool:
-      args: &id003
+      args: &id004
         log_dir: ${LOG_DIR:str:/benchmarks}
 1:
   models:
@@ -79,7 +83,8 @@ type: skill
         api_id: ${RANDOMNESS_API_ID_1:str:protocollabs1}
     params:
       args:
-        setup: *id001
+        gas_params: *id001
+        setup: *id002
         max_healthcheck: ${MAX_HEALTHCHECK:int:43200}
         multisend_address: ${MULTISEND_ADDRESS:str:0xA238CBeb142c10Ef7Ad8442C6D1f9E89e07e7761}
         tendermint_p2p_url: ${TM_P2P_ENDPOINT_NODE_1:str:node1:26666}
@@ -91,9 +96,9 @@ type: skill
         validate_timeout: ${VALIDATE_TIMEOUT:int:1205}
         use_termination: ${USE_TERMINATION:bool:false}
     server_api:
-      args: *id002
-    benchmark_tool:
       args: *id003
+    benchmark_tool:
+      args: *id004
 2:
   models:
     price_api:
@@ -109,7 +114,8 @@ type: skill
         api_id: ${RANDOMNESS_API_ID_2:str:protocollabs2}
     params:
       args:
-        setup: *id001
+        gas_params: *id001
+        setup: *id002
         max_healthcheck: ${MAX_HEALTHCHECK:int:43200}
         multisend_address: ${MULTISEND_ADDRESS:str:0xA238CBeb142c10Ef7Ad8442C6D1f9E89e07e7761}
         tendermint_p2p_url: ${TM_P2P_ENDPOINT_NODE_2:str:node2:26676}
@@ -121,9 +127,9 @@ type: skill
         validate_timeout: ${VALIDATE_TIMEOUT:int:1205}
         use_termination: ${USE_TERMINATION:bool:false}
     server_api:
-      args: *id002
-    benchmark_tool:
       args: *id003
+    benchmark_tool:
+      args: *id004
 3:
   models:
     price_api:
@@ -140,7 +146,8 @@ type: skill
         api_id: ${RANDOMNESS_API_ID_3:str:protocollabs3}
     params:
       args:
-        setup: *id001
+        gas_params: *id001
+        setup: *id002
         max_healthcheck: ${MAX_HEALTHCHECK:int:43200}
         multisend_address: ${MULTISEND_ADDRESS:str:0xA238CBeb142c10Ef7Ad8442C6D1f9E89e07e7761}
         tendermint_p2p_url: ${TM_P2P_ENDPOINT_NODE_3:str:node3:26686}
@@ -152,9 +159,9 @@ type: skill
         validate_timeout: ${VALIDATE_TIMEOUT:int:1205}
         use_termination: ${USE_TERMINATION:bool:false}
     server_api:
-      args: *id002
-    benchmark_tool:
       args: *id003
+    benchmark_tool:
+      args: *id004
 ---
 public_id: valory/ledger:0.19.0
 type: connection

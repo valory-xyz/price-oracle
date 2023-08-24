@@ -131,6 +131,10 @@ models:
         safe_contract_address: ${str:null}
         oracle_contract_address: ${str:null}
         consensus_threshold: ${int:null}
+      gas_params:
+        gas_price: ${int:null}
+        max_fee_per_gas: ${int:null}
+        max_priority_fee_per_gas: ${int:null}
       round_timeout_seconds: ${float:35.0}
       tendermint_url: ${str:http://localhost:26657}
       tendermint_com_url: ${str:http://localhost:8080}
