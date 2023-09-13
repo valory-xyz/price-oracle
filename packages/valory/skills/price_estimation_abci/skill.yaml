@@ -12,8 +12,8 @@ fingerprint:
   behaviours.py: bafybeiaipavir3wtyhi6vgby2zgnoidjrytvxqmbsa2blrwtixgle2h5p4
   dialogues.py: bafybeigabhaykiyzbluu4mk6bbrmqhzld2kyp32pg24bvjmzrrb74einwm
   fsm_specification.yaml: bafybeihumi2e44hgpqktsprko7x2e6qslusjqkzjml7hdyc7t3nsnjbu2i
-  handlers.py: bafybeigbswxbsyuhd3gprsltscmlsjilaro5dddlqovgyb6scmtsbx4zlu
-  models.py: bafybeidasktvpbrjpbn2v6fqw2uatujhppsezjocuywodj56hbo7mehuuu
+  handlers.py: bafybeicww67sn33lwlrvslcc6ctt52mlnachoztpaj2y3muse5vsu4newu
+  models.py: bafybeihotycuu5hsxtynxpxb37kd64ezwftni5hmvugt4vtrg6a4pjzke4
   payloads.py: bafybeici2wnrin4jdbbnjcxo7cjvsoevztvsjl7v4gsivgdbisydq6li4m
   rounds.py: bafybeifbvnqeivfuakcev5k4sxt7npzfl7rjjegkb4r724p3zlrqb4sbva
   tests/__init__.py: bafybeic73ajpjybqzpvmyjnl5ejsq6ytibs3r7czvz7re3gmtdkpunqap4
@@ -148,6 +148,7 @@ models:
       tendermint_p2p_url: localhost:26656
       tendermint_url: http://localhost:26657
       tx_timeout: 10.0
+      service_endpoint_base: https://dummy_service.autonolas.tech/
       use_termination: false
       validate_timeout: 1205
     class_name: Params

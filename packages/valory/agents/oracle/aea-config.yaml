@@ -32,9 +32,9 @@ protocols:
 skills:
 - valory/abstract_abci:0.1.0:bafybeicg7dv7cff34nv2k2z47c4yp4kddsxp3wozonzow6tnvfvwndz3cy
 - valory/abstract_round_abci:0.1.0:bafybeigxjcci53vwytymzlhr37436yvenh7jup4astrn7dgyixo24aq2pq
-- valory/oracle_abci:0.1.0:bafybeih45dmhqinemlclebrcxxrziknjs4ypjkafit76mf5pyzq3rjyt4y
+- valory/oracle_abci:0.1.0:bafybeif47rc4j7afjoov3uzfivojmvto5m5t6biiz7tmmnp5qpsmfdmuia
 - valory/oracle_deployment_abci:0.1.0:bafybeia3nty7pp4prodoe4brx7galb2awsacan6fdwfbsp3vsgxbkt2bpm
-- valory/price_estimation_abci:0.1.0:bafybeig2gapmu23v5y5mcg5dpgmrasatos6fcb4rqcijdvlcroxhg6iwpa
+- valory/price_estimation_abci:0.1.0:bafybeicosqohpauycxp2zao4k3njngq22a3jzg3yk5sift7psp4p6lu4vu
 - valory/registration_abci:0.1.0:bafybeibc4kczqbh23sc6tufrzn3axmhp3vjav7fa3u6cnpvolrbbc2fd7i
 - valory/reset_pause_abci:0.1.0:bafybeid445uy6wwvugf3byzl7r73c7teu6xr5ezxb4h7cxbenghg3copvy
 - valory/termination_abci:0.1.0:bafybeiguy7pkrcptg6c754ioig4mlkr7truccym3fpv6jwpjx2tmpdbzhi
@@ -151,6 +151,7 @@ models:
       on_chain_service_id: ${int:null}
       init_fallback_gas: ${int:270000}
       use_termination: ${bool:false}
+      service_endpoint_base: ${str:https://dummy_service.autonolas.tech/}
   server_api:
     args:
       url: ${str:http://192.168.2.17:9999/deposit}
