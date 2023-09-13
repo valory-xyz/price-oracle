@@ -264,7 +264,7 @@ class HttpServerHandler(BaseHttpHandler):
             status_code=HttpCode.NOT_READY.value,
             status_text="Data not ready",
             headers=http_msg.headers,
-            body=b"",
+            body=b"Data not ready",
         )
         # Send response
         self.context.logger.info("Responding with: {}".format(http_response))
