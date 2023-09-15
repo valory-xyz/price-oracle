@@ -83,7 +83,7 @@ class TestHttpHandler(BaseSkillTestCase):
         cls.post_method = "post"
         cls.url = "http://localhost:8000/"
         cls.version = "some_version"
-        cls.headers = "some_headers"
+        cls.headers = ""
         cls.body = b"some_body/"
         cls.sender = HTTP_SERVER_SENDER
         cls.skill_id = str(cls._skill.skill_context.skill_id)
@@ -192,7 +192,6 @@ class TestHttpHandler(BaseSkillTestCase):
             sender=incoming_message.to,
             version=incoming_message.version,
             status_code=503,
-            headers="Content-Type: application/json\n",
         )
         assert has_attributes, error_str
         assert message.body == b"Data not ready"

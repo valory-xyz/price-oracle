@@ -32,7 +32,7 @@ protocols:
 skills:
 - valory/abstract_round_abci:0.1.0:bafybeigxjcci53vwytymzlhr37436yvenh7jup4astrn7dgyixo24aq2pq
 - valory/oracle_deployment_abci:0.1.0:bafybeia3nty7pp4prodoe4brx7galb2awsacan6fdwfbsp3vsgxbkt2bpm
-- valory/price_estimation_abci:0.1.0:bafybeig2gapmu23v5y5mcg5dpgmrasatos6fcb4rqcijdvlcroxhg6iwpa
+- valory/price_estimation_abci:0.1.0:bafybeief3xzxlxd6mj7hanefgr5bj3jun4kt4uj5bhzngpfin6s5qokcsa
 - valory/registration_abci:0.1.0:bafybeibc4kczqbh23sc6tufrzn3axmhp3vjav7fa3u6cnpvolrbbc2fd7i
 - valory/reset_pause_abci:0.1.0:bafybeid445uy6wwvugf3byzl7r73c7teu6xr5ezxb4h7cxbenghg3copvy
 - valory/termination_abci:0.1.0:bafybeiguy7pkrcptg6c754ioig4mlkr7truccym3fpv6jwpjx2tmpdbzhi
@@ -151,6 +151,7 @@ models:
       tx_timeout: 10.0
       use_termination: false
       validate_timeout: 1205
+      service_endpoint_base: https://dummy_service.autonolas.tech/
     class_name: Params
   price_api:
     args:
