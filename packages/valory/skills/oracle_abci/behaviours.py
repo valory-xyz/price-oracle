@@ -61,4 +61,4 @@ class OracleAbciAppConsensusBehaviour(AbstractRoundBehaviour):
         *ObserverRoundBehaviour.behaviours,
         *TerminationAbciBehaviours.behaviours,
     }
-    background_behaviours_cls = {BackgroundBehaviour}
+    background_behaviours_cls = {BackgroundBehaviour}  # type: ignore
