@@ -24,6 +24,7 @@
 import logging  # noqa: F401
 from typing import Dict, FrozenSet, Optional
 from unittest import mock
+
 from packages.valory.skills.abstract_round_abci.base import AbciAppDB
 from packages.valory.skills.abstract_round_abci.base import (
     BaseSynchronizedData as SynchronizedData,
@@ -185,7 +186,9 @@ class TestRandomnessTransactionSubmissionRound(BaseCollectSameUntilThresholdRoun
     ) -> None:
         """Run tests."""
 
-        test_round = RandomnessTransactionSubmissionRound(self.synchronized_data, context=mock.MagicMock())
+        test_round = RandomnessTransactionSubmissionRound(
+            self.synchronized_data, context=mock.MagicMock()
+        )
         self._complete_run(
             self._test_round(
                 test_round=test_round,
