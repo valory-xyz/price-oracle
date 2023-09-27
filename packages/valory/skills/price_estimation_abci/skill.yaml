@@ -27,22 +27,22 @@ fingerprint:
   tests/test_handlers.py: bafybeia7ialzvyqfzswjl2a3ry4e2qxy6r2lwqnrj64nwzkhwhs3pvr354
   tests/test_models.py: bafybeifjn64lb2xo5blgpynfc5t6jrgwi6belth4gt3nel6lm4snv4ctoa
   tests/test_payloads.py: bafybeiaoxctskz5qbs33tdrbazembviryr55qudqwvxx2tga6jv6dmhhha
-  tests/test_rounds.py: bafybeieqnfzsu5qknplugvho3m4lwf4f4q2ohj2mpgz4deyqh2gh47jjvu
+  tests/test_rounds.py: bafybeifolrkfy4slb45yuxm47aa6brva33j22kcmybcplvlsuw373jyo6i
   tests/test_tools.py: bafybeicvwyu4csbn3foyp5mvcdlnu3uiwwvmvnh5m74sspe77nws5ulm6i
 fingerprint_ignore_patterns: []
 connections:
 - fetchai/http_server:0.22.0:bafybeihp5umafxzx45aad5pj7s3343se2wjkgnbirt4pybrape22swm6de
 contracts:
-- valory/gnosis_safe:0.1.0:bafybeigvqg4lapdaa23dpc3pv67rdptdhey6e435mxqsw2gb2u74yw4yei
-- valory/offchain_aggregator:0.1.0:bafybeihnsvh6ua6367hoyuryehdh7d2izqvccb5qbpkzqsrujzftsg6hnq
+- valory/gnosis_safe:0.1.0:bafybeih6d3vxz3jlgodxm5b2qcwsmansqj4xobuyd6hjnhzremuvd65yrm
+- valory/offchain_aggregator:0.1.0:bafybeid4lg3rpoje7k3kvx456pex5ln5mazcvcj6cf7pkj6nn3vy7mf6be
 protocols:
 - open_aea/signing:1.0.0:bafybeifuxs7gdg2okbn7uofymenjlmnih2wxwkym44lsgwmklgwuckxm2m
 - valory/contract_api:1.0.0:bafybeiasywsvax45qmugus5kxogejj66c5taen27h4voriodz7rgushtqa
 - valory/http:1.0.0:bafybeia5bxdua2i6chw6pg47bvoljzcpuqxzy4rdrorbdmcbnwmnfdobtu
 skills:
-- valory/abstract_round_abci:0.1.0:bafybeigxjcci53vwytymzlhr37436yvenh7jup4astrn7dgyixo24aq2pq
-- valory/oracle_deployment_abci:0.1.0:bafybeia3nty7pp4prodoe4brx7galb2awsacan6fdwfbsp3vsgxbkt2bpm
-- valory/transaction_settlement_abci:0.1.0:bafybeidpsnguxizkpihtkqzojr3em7yy7c6qc7gxpbh5vglmwws5wke7bi
+- valory/abstract_round_abci:0.1.0:bafybeih2fyfb6kkf7r45pvdk7pyyebr5xloia4xiqxtb3qsrasnstqmepq
+- valory/oracle_deployment_abci:0.1.0:bafybeibzepg5d3sxkpay4dqqgpxuxrdi6bgubv45hu3y4gt53iyqmxbcqa
+- valory/transaction_settlement_abci:0.1.0:bafybeia7rzsbea3ch4gcafyp3z6uvqh4npws2xpdwbkkdbrqqpjops7nui
 behaviours:
   main:
     args: {}
