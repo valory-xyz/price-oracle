@@ -23,6 +23,7 @@
 
 import logging  # noqa: F401
 from typing import Any, Dict, FrozenSet, Mapping, Optional, Type, cast
+from unittest import mock
 
 from packages.valory.skills.abstract_round_abci.base import AbciAppDB, AbstractRound
 from packages.valory.skills.abstract_round_abci.base import (
@@ -135,7 +136,7 @@ class BaseDeployTestClass(BaseOnlyKeeperSendsRoundTest):
         )
 
         test_round = self.round_class(
-            synchronized_data=self.synchronized_data,
+            synchronized_data=self.synchronized_data, context=mock.MagicMock()
         )
 
         self._complete_run(
@@ -179,7 +180,7 @@ class BaseValidateRoundTest(BaseVotingRoundTest):
         self.synchronized_data.update(tx_hashes_history="t" * 66)
 
         test_round = self.test_class(
-            synchronized_data=self.synchronized_data,
+            synchronized_data=self.synchronized_data, context=mock.MagicMock()
         )
 
         self._complete_run(
@@ -204,7 +205,7 @@ class BaseValidateRoundTest(BaseVotingRoundTest):
         """Test ValidateRound."""
 
         test_round = self.test_class(
-            synchronized_data=self.synchronized_data,
+            synchronized_data=self.synchronized_data, context=mock.MagicMock()
         )
 
         self._complete_run(
@@ -227,7 +228,7 @@ class BaseValidateRoundTest(BaseVotingRoundTest):
         """Test ValidateRound."""
 
         test_round = self.test_class(
-            synchronized_data=self.synchronized_data,
+            synchronized_data=self.synchronized_data, context=mock.MagicMock()
         )
 
         self._complete_run(
@@ -280,6 +281,7 @@ class BaseSelectKeeperRoundTest(BaseCollectSameUntilThresholdRoundTest):
             synchronized_data=self.synchronized_data.update(
                 keepers=keepers,
             ),
+            context=mock.MagicMock(),
         )
 
         self._complete_run(

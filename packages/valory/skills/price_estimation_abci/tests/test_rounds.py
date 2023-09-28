@@ -23,6 +23,7 @@
 
 import logging  # noqa: F401
 from typing import Dict, FrozenSet, Optional
+from unittest import mock
 
 from packages.valory.skills.abstract_round_abci.base import AbciAppDB
 from packages.valory.skills.abstract_round_abci.base import (
@@ -185,7 +186,9 @@ class TestRandomnessTransactionSubmissionRound(BaseCollectSameUntilThresholdRoun
     ) -> None:
         """Run tests."""
 
-        test_round = RandomnessTransactionSubmissionRound(self.synchronized_data)
+        test_round = RandomnessTransactionSubmissionRound(
+            self.synchronized_data, context=mock.MagicMock()
+        )
         self._complete_run(
             self._test_round(
                 test_round=test_round,
@@ -220,7 +223,7 @@ class TestCollectObservationRound(BaseCollectDifferentUntilThresholdRoundTest):
         """Runs tests."""
 
         test_round = CollectObservationRound(
-            synchronized_data=self.synchronized_data,
+            synchronized_data=self.synchronized_data, context=mock.MagicMock()
         )
         self._complete_run(
             self._test_round(
@@ -244,7 +247,7 @@ class TestCollectObservationRound(BaseCollectDifferentUntilThresholdRoundTest):
         """Runs tests with one less observation."""
 
         test_round = CollectObservationRound(
-            synchronized_data=self.synchronized_data,
+            synchronized_data=self.synchronized_data, context=mock.MagicMock()
         )
 
         self._complete_run(
@@ -280,7 +283,7 @@ class TestEstimateConsensusRound(BaseCollectSameUntilThresholdRoundTest):
         """Runs test."""
 
         test_round = EstimateConsensusRound(
-            synchronized_data=self.synchronized_data,
+            synchronized_data=self.synchronized_data, context=mock.MagicMock()
         )
         self._complete_run(
             self._test_round(
@@ -313,7 +316,7 @@ class TestTxHashRound(BaseCollectSameUntilThresholdRoundTest):
         """Runs test."""
 
         test_round = TxHashRound(
-            synchronized_data=self.synchronized_data,
+            synchronized_data=self.synchronized_data, context=mock.MagicMock()
         )
 
         signature = "sig"
@@ -352,7 +355,7 @@ class TestTxHashRound(BaseCollectSameUntilThresholdRoundTest):
         """Runs test."""
 
         test_round = TxHashRound(
-            synchronized_data=self.synchronized_data,
+            synchronized_data=self.synchronized_data, context=mock.MagicMock()
         )
 
         signature = data = hash_ = None

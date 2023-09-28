@@ -19,17 +19,17 @@ fingerprint:
   tests/test_behaviours.py: bafybeibdsrrkieorr45pm6quycdtoq6nflcymje5k6e3fs7lrbontpmybq
   tests/test_dialogues.py: bafybeie2terywcwf6o5xdhua5jxgadowyz4qszjkw4hjym5pba5ma5kvkq
   tests/test_handlers.py: bafybeihlanj36h26jo5aiepjpfefsjzrzhouidsshijuvn6qd3z3bmaqcy
-  tests/test_rounds.py: bafybeiahexczwarewa7vd5fz46pz64dmfbusssl2avs2o7swsi7rfavaku
+  tests/test_rounds.py: bafybeihutabsaujgmun2kfcbbdlptns5vioyllp66752jju3fxvlfvdwbm
 fingerprint_ignore_patterns: []
 connections: []
 contracts:
-- valory/offchain_aggregator:0.1.0:bafybeihnsvh6ua6367hoyuryehdh7d2izqvccb5qbpkzqsrujzftsg6hnq
+- valory/offchain_aggregator:0.1.0:bafybeid4lg3rpoje7k3kvx456pex5ln5mazcvcj6cf7pkj6nn3vy7mf6be
 protocols:
 - open_aea/signing:1.0.0:bafybeifuxs7gdg2okbn7uofymenjlmnih2wxwkym44lsgwmklgwuckxm2m
 - valory/contract_api:1.0.0:bafybeiasywsvax45qmugus5kxogejj66c5taen27h4voriodz7rgushtqa
 - valory/ledger_api:1.0.0:bafybeigsvceac33asd6ecbqev34meyyjwu3rangenv6xp5rkxyz4krvcby
 skills:
-- valory/abstract_round_abci:0.1.0:bafybeigxjcci53vwytymzlhr37436yvenh7jup4astrn7dgyixo24aq2pq
+- valory/abstract_round_abci:0.1.0:bafybeih2fyfb6kkf7r45pvdk7pyyebr5xloia4xiqxtb3qsrasnstqmepq
 behaviours:
   main:
     args: {}
@@ -132,6 +132,11 @@ models:
       tendermint_url: http://localhost:26657
       tx_timeout: 10.0
       use_termination: false
+      use_slashing: false
+      slash_cooldown_hours: 3
+      slash_threshold_amount: 10000000000000000
+      light_slash_unit_amount: 5000000000000000
+      serious_slash_unit_amount: 8000000000000000
     class_name: Params
   randomness_api:
     args:
@@ -158,5 +163,5 @@ models:
     class_name: TendermintDialogues
 dependencies:
   open-aea-ledger-ethereum:
-    version: ==1.38.0
+    version: ==1.39.0.post1
 is_abstract: true
