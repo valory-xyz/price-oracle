@@ -618,20 +618,20 @@ class TestSyncing(TransactionSettlementIntegrationBaseCase):
             for hashes in self.tx_settlement_synchronized_data.late_arriving_tx_hashes.values()
             for hash_ in hashes
         ]
-        n_hashes = len(flattened_hashes)
+        n_msgs = len(flattened_hashes) + 1
         handlers: HandlersType = [
             self.contract_handler,
-        ] * n_hashes
+        ] * n_msgs
         expected_content: ExpectedContentType = [
             {"performative": ContractApiMessage.Performative.STATE},
-        ] * n_hashes
+        ] * n_msgs
         expected_types: ExpectedTypesType = [
             {
                 "state": State,
             },
-        ] * n_hashes
+        ] * n_msgs
         msgs = self.process_n_messages(
-            n_hashes,
+            n_msgs,
             self.tx_settlement_synchronized_data,
             CheckLateTxHashesBehaviour.auto_behaviour_id(),
             handlers,
@@ -646,13 +646,13 @@ class TestSyncing(TransactionSettlementIntegrationBaseCase):
 
         verified_idx = -1
         verified_count = 0
-        for i in range(len(msgs)):
+        for i in range(1, n_msgs):
             current_message = msgs[i]
             assert current_message is not None and isinstance(
                 current_message, ContractApiMessage
             )
             if current_message.state.body["verified"]:
-                verified_idx = i
+                verified_idx = i - 1
                 verified_count += 1
         assert verified_idx != -1, f"No message has been verified: {msgs}"
         assert verified_count == 1, "More than 1 messages have been verified!"
