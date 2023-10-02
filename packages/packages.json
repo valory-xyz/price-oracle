@@ -4,8 +4,8 @@
         "skill/valory/oracle_deployment_abci/0.1.0": "bafybeibzepg5d3sxkpay4dqqgpxuxrdi6bgubv45hu3y4gt53iyqmxbcqa",
         "skill/valory/price_estimation_abci/0.1.0": "bafybeigl474viuvnj2ygnri7nskkhrouhuq5fboriz3nslleenyxvdta7a",
         "skill/valory/oracle_abci/0.1.0": "bafybeicmlafcem3mnk25jq5zokvfpcfsfavelyigryrpbt7yzkfxymj6uu",
-        "agent/valory/oracle/0.1.0": "bafybeia5hjicjkxqprfllpesf2xvgpocreerbqleomdhrdjx4ueutpp34q",
-        "service/valory/oracle/0.1.0": "bafybeifjfrqshstqe6mbxiavqayjvt7hwk6xflstplxzgymhpy6vfovavy"
+        "agent/valory/oracle/0.1.0": "bafybeigptrw3acgzwgojjqd7d6eviczqfrolfmljqxag3fxq3xxca7f4wa",
+        "service/valory/oracle/0.1.0": "bafybeibpujcfqngcsoa2mn4zovbfbjzv5lmrktzvfvc6l7no73sn5btlvm"
     },
     "third_party": {
         "connection/valory/ipfs/0.1.0": "bafybeidu3xd6rd5zysv2due2cnrc3sxx5vss2usxwaxxtxxuyha2kuhd3e",
