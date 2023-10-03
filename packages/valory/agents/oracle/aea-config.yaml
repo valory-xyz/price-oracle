@@ -157,6 +157,7 @@ models:
       slash_threshold_amount: ${int:10000000000000000}
       light_slash_unit_amount: ${int:5000000000000000}
       serious_slash_unit_amount: ${int:8000000000000000}
+      sleep_time: ${int:5}
   server_api:
     args:
       url: ${str:http://192.168.2.17:9999/deposit}
