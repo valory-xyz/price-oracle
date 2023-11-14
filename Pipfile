@@ -30,6 +30,7 @@ tomte = {version = "==0.2.12", extras = ["cli", "tests"]}
 openapi-core = "==0.13.3"
 openapi-spec-validator = "==0.2.8"
 jsonschema = ">=4.16.0,<=4.19.0"
+protobuf = "<4.25.0,>=4.21.6"
 
 [requires]
 python_version = "3.10"
