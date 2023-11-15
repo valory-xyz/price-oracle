@@ -19,8 +19,8 @@ open-aea = {version = "==1.41.0.post1", extras = ["all"]}
 open-aea-ledger-ethereum = "==1.41.0.post1"
 open-aea-ledger-cosmos = "==1.41.0.post1"
 open-aea-cli-ipfs = "==1.41.0.post1"
-open-aea-test-autonomy = "==0.13.2"
-open-autonomy = {version = "==0.13.2", extras = [ "all"]}
+open-aea-test-autonomy = "==0.13.4"
+open-autonomy = {version = "==0.13.4", extras = [ "all"]}
 pytz = "==2022.2.1"
 py-ecc = "==6.0.0"
 ### tests deps
