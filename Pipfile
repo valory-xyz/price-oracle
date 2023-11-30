@@ -25,7 +25,7 @@ pytz = "==2022.2.1"
 py-ecc = "==6.0.0"
 ### tests deps
 mistune = "==2.0.3"
-tomte = {version = "==0.2.12", extras = ["cli", "tests"]}
+tomte = {version = "==0.2.15", extras = ["cli", "tests"]}
 # for http server connection
 openapi-core = "==0.13.2"
 openapi-spec-validator = "==0.2.8"

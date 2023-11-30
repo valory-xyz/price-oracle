@@ -22,7 +22,7 @@
 
 ## 0.10.6 (2023-05-31)
 
-- Bumps to `tomte@v0.2.12` and cleans up the repo #69
+- Bumps to `tomte@v0.2.15` and cleans up the repo #69
 - Bumps `open-aea` and `open-autonomy` frameworks to `v1.34.0` and `v0.10.5.post1` correspondingly #68
 
 
