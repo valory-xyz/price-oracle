@@ -31,7 +31,7 @@ fingerprint:
   tests/test_tools.py: bafybeicvwyu4csbn3foyp5mvcdlnu3uiwwvmvnh5m74sspe77nws5ulm6i
 fingerprint_ignore_patterns: []
 connections:
-- fetchai/http_server:0.22.0:bafybeihvscddpxjbtqsetngmxo3kiht2wqhosmwiyuh3f6zjti3x3byu5u
+- valory/http_server:0.22.0:bafybeiesafy2af2wakqvsal4hz6ldycb73j5w62szhwy25iyhlf2wgyg44
 contracts:
 - valory/gnosis_safe:0.1.0:bafybeidll7frtdsq2ckiluazkwk4zpkp7natt4kdejjehwvykqwzyuf6ei
 - valory/offchain_aggregator:0.1.0:bafybeiggq6jexouybigjiphcf45jsovf5np4uln4r375d43e6yq5mtcrba
