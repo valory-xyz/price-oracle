@@ -52,4 +52,4 @@ jobs:
           source github.vars
 
           # make service deployment with env var as source of variables
-          $CMD service deploy --name  ${{ vars.SERVICE_NAME }}  --service-dir $SERVICE_PATH --service-ipfs-hash $IPFS_HASH --keys ${{ vars.SERVICE_KEYS }} --timeout 320 | grep -v "Create/update variable"
+          $CMD service deploy --name  ${{ vars.SERVICE_NAME }}  --service-dir $SERVICE_PATH --service-ipfs-hash $IPFS_HASH  --ingress-enabled true --keys ${{ vars.SERVICE_KEYS }} --timeout 320 | grep -v "Create/update variable"
