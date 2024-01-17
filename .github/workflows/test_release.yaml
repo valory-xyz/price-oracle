@@ -33,6 +33,10 @@ jobs:
           python -m pip install --upgrade pip
           pip install git+https://github.com/valory-xyz/propel-client.git@feature/service-deploy open-autonomy
 
+      - name: Make use proxy istead of actual nlb
+        run: |
+          sudo echo -e "\n35.180.69.115\tapp.propel.staging.valory.xyz\n"  | sudo tee -a /etc/hosts
+  
       - name: Login to propel
         run: |
           $CMD login -u  ${{ secrets.PROPEL_USERNAME }} -p  ${{ secrets.PROPEL_PASSWORD }}
