@@ -132,7 +132,7 @@ jobs:
 
       - name: Login to propel
         run: |
-          $CMD login -u  ${{ secrets.PROPEL_USERNAME }} -p  ${{ secrets.PROPEL_PASSWORD }}
+          $CMD login -u  ${{ vars.PROPEL_USERNAME }} -p  ${{ secrets.PROPEL_PASSWORD }}
 
       - name: Do a deployment
         run: |
