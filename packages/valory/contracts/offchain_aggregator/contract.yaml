@@ -21,8 +21,8 @@ dependencies:
   eth-abi:
     version: ==4.0.0
   open-aea-ledger-ethereum:
-    version: ==1.42.0
+    version: ==1.47.0
   open-aea-test-autonomy:
-    version: ==0.13.8
+    version: ==0.14.5
   eth-typing:
     version: ==3.4.0
