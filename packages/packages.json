@@ -5,7 +5,7 @@
         "skill/valory/price_estimation_abci/0.1.0": "bafybeiesqk47zrnvnasumlsmsapis724pfx6yjj6is4dqwopmzvij4zahm",
         "skill/valory/oracle_abci/0.1.0": "bafybeify3squhc6bs7kwygitrvqw2uscca5puakfiq2u5wxjkmtrpvnone",
         "agent/valory/oracle/0.1.0": "bafybeihhf3u4ya7tvvxrqfevtwe3rbwx5mcloiooweuqnqgsfpv5pbdrsy",
-        "service/valory/oracle/0.1.0": "bafybeiejskhux6r6limm4s3bwfvhuniwbfbvl36di6t67ablgigqt37w5u"
+        "service/valory/oracle/0.1.0": "bafybeibppbbnoz4fupamzdg7rzgnh276ogb5uk52yusr34vrtwf6c2h2ay"
     },
     "third_party": {
         "connection/valory/ipfs/0.1.0": "bafybeieobovka44gjw5pqbypmtrxmqklojzw7v5jsacoqxvpp2imsyd53y",
