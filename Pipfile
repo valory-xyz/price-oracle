@@ -15,12 +15,12 @@ asn1crypto = "==1.4.0"
 grpcio = "==1.53.0"
 hypothesis = "==6.21.6"
 eth-abi = "==4.0.0"
-open-aea = {version = "==1.47.0", extras = ["all"]}
-open-aea-ledger-ethereum = "==1.47.0"
-open-aea-ledger-cosmos = "==1.47.0"
-open-aea-cli-ipfs = "==1.47.0"
-open-aea-test-autonomy = "==0.14.5"
-open-autonomy = {version = "==0.14.5", extras = ["all"]}
+open-aea = {version = "==1.48.0", extras = ["all"]}
+open-aea-ledger-ethereum = "==1.48.0"
+open-aea-ledger-cosmos = "==1.48.0"
+open-aea-cli-ipfs = "==1.48.0"
+open-aea-test-autonomy = "==0.14.6"
+open-autonomy = {version = "==0.14.6", extras = ["all"]}
 pytz = "==2022.2.1"
 py-ecc = "==6.0.0"
 ### tests deps
