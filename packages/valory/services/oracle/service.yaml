@@ -67,6 +67,7 @@ type: skill
         light_slash_unit_amount: ${LIGHT_SLASH_UNIT_AMOUNT:int:5000000000000000}
         serious_slash_unit_amount: ${SERIOUS_SLASH_UNIT_AMOUNT:int:8000000000000000}
         sleep_time: ${SLEEP_TIME:int:5}
+        termination_from_block: ${TERMINATION_FROM_BLOCK:int:0}
     server_api:
       args: &id003
         url: ${SERVER_API:str:http://localhost:8060/deposit}
@@ -109,6 +110,7 @@ type: skill
         light_slash_unit_amount: ${LIGHT_SLASH_UNIT_AMOUNT:int:5000000000000000}
         serious_slash_unit_amount: ${SERIOUS_SLASH_UNIT_AMOUNT:int:8000000000000000}
         sleep_time: ${SLEEP_TIME:int:5}
+        termination_from_block: ${TERMINATION_FROM_BLOCK:int:0}
     server_api:
       args: *id003
     benchmark_tool:
@@ -147,6 +149,7 @@ type: skill
         light_slash_unit_amount: ${LIGHT_SLASH_UNIT_AMOUNT:int:5000000000000000}
         serious_slash_unit_amount: ${SERIOUS_SLASH_UNIT_AMOUNT:int:8000000000000000}
         sleep_time: ${SLEEP_TIME:int:5}
+        termination_from_block: ${TERMINATION_FROM_BLOCK:int:0}
     server_api:
       args: *id003
     benchmark_tool:
@@ -186,6 +189,7 @@ type: skill
         light_slash_unit_amount: ${LIGHT_SLASH_UNIT_AMOUNT:int:5000000000000000}
         serious_slash_unit_amount: ${SERIOUS_SLASH_UNIT_AMOUNT:int:8000000000000000}
         sleep_time: ${SLEEP_TIME:int:5}
+        termination_from_block: ${TERMINATION_FROM_BLOCK:int:0}
     server_api:
       args: *id003
     benchmark_tool:
