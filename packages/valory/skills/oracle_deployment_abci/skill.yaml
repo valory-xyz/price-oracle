@@ -23,13 +23,13 @@ fingerprint:
 fingerprint_ignore_patterns: []
 connections: []
 contracts:
-- valory/offchain_aggregator:0.1.0:bafybeic3arg733rc2hcbuluitp2qtv2hrl3lw2vcyl736bhacetviokm6u
+- valory/offchain_aggregator:0.1.0:bafybeickenshmea7ugokmpnau32jg3iofpebhmyzqnn3wxny7zpwcqndmi
 protocols:
 - open_aea/signing:1.0.0:bafybeihv62fim3wl2bayavfcg3u5e5cxu3b7brtu4cn5xoxd6lqwachasi
 - valory/contract_api:1.0.0:bafybeidgu7o5llh26xp3u3ebq3yluull5lupiyeu6iooi2xyymdrgnzq5i
 - valory/ledger_api:1.0.0:bafybeihdk6psr4guxmbcrc26jr2cbgzpd5aljkqvpwo64bvaz7tdti2oni
 skills:
-- valory/abstract_round_abci:0.1.0:bafybeigjrepaqpb3m7zunmt4hryos4vto4yyj3u6iyofdb2fotwho3bqvm
+- valory/abstract_round_abci:0.1.0:bafybeifrsatxr4syaccaxnirpvm2zetttlmrp3vr3fmqm7vc7lazy4i2bm
 behaviours:
   main:
     args: {}
@@ -163,5 +163,5 @@ models:
     class_name: TendermintDialogues
 dependencies:
   open-aea-ledger-ethereum:
-    version: ==1.48.0
+    version: ==1.48.0.post1
 is_abstract: true
