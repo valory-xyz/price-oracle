@@ -1,11 +1,11 @@
 {
     "dev": {
-        "contract/valory/offchain_aggregator/0.1.0": "bafybeiggpiyn62cuifsp4lje2vlstxjh3hnfdqy6as7azdnqgysonlppsy",
-        "skill/valory/oracle_deployment_abci/0.1.0": "bafybeiewkximkiqerl6owgapfpjsudfmbm4rphcv7bjblupqo67aqo5osa",
-        "skill/valory/price_estimation_abci/0.1.0": "bafybeidy747coldkvfgmqlbartedyxrbmrsu2txk5aifugy7m54hprezgu",
-        "skill/valory/oracle_abci/0.1.0": "bafybeifxvtdlonfugyiw4zsmi3kffau6vkx2rsrzkdy3kajkrz3n755s2q",
-        "agent/valory/oracle/0.1.0": "bafybeiafmboaybe3dsoo2e4cilf3m334c5dhpjws54pbwqnm5ksnrkctrq",
-        "service/valory/oracle/0.1.0": "bafybeib5q5rjt4oi22txpkqapw5ofwkhpiqcibczhe7cyfxij2wckcesh4"
+        "contract/valory/offchain_aggregator/0.1.0": "bafybeihylhpw3zo7ekeqc3rmzli7zmndjvba5bby6kfdddpq4wuay4o6xy",
+        "skill/valory/oracle_deployment_abci/0.1.0": "bafybeigd2jfr4ny4sfnfifdkxwkpopam5gfkxv3fd47bljb5bpulgmimie",
+        "skill/valory/price_estimation_abci/0.1.0": "bafybeiehrctjvr7qiflhe6cx6hc3fcflkcnsnni6accujhoi2i5st7dtxy",
+        "skill/valory/oracle_abci/0.1.0": "bafybeig2xhv64a3dvdgjft2ohqdqwqojrplkacodglkjmiu6zenhmrnqly",
+        "agent/valory/oracle/0.1.0": "bafybeigrsn3hrmao6df4p2ia6aw2r7bzaebm5lq7ggi3jhbtqqupchnmre",
+        "service/valory/oracle/0.1.0": "bafybeifb4sb4qzp6l4es52gvckiutcmyif7goxsojgamgh3ocx674sjizq"
     },
     "third_party": {
         "protocol/valory/ipfs/0.1.0": "bafybeiftxi2qhreewgsc5wevogi7yc5g6hbcbo4uiuaibauhv3nhfcdtvm",
@@ -16,21 +16,21 @@
         "protocol/open_aea/signing/1.0.0": "bafybeihv62fim3wl2bayavfcg3u5e5cxu3b7brtu4cn5xoxd6lqwachasi",
         "protocol/valory/tendermint/0.1.0": "bafybeig4mi3vmlv5zpbjbfuzcgida6j5f2nhrpedxicmrrfjweqc5r7cra",
         "protocol/valory/acn/1.1.0": "bafybeidluaoeakae3exseupaea4i3yvvk5vivyt227xshjlffywwxzcxqe",
-        "contract/valory/gnosis_safe_proxy_factory/0.1.0": "bafybeib6podeifufgmawvicm3xyz3uaplbcrsptjzz4unpseh7qtcpar74",
-        "contract/valory/service_registry/0.1.0": "bafybeicbxmbzt757lbmyh6762lrkcrp3oeum6dk3z7pvosixasifsk6xlm",
-        "contract/valory/gnosis_safe/0.1.0": "bafybeibq77mgzhyb23blf2eqmia3kc6io5karedfzhntvpcebeqdzrgyqa",
+        "contract/valory/gnosis_safe_proxy_factory/0.1.0": "bafybeic5dql7cmwrbabgp47s5tfvdmurm2rxl3jfpda76urdnehiaidq4e",
+        "contract/valory/service_registry/0.1.0": "bafybeicl7756aaactmuazwnouua27vo6mkh4fzoikg2sv3mv2mlbqpifpq",
+        "contract/valory/gnosis_safe/0.1.0": "bafybeie53qvfrzkhuaxtazcqjiseo2ax2o74nytzfvb6wbgijv3p5svto4",
         "contract/valory/multisend/0.1.0": "bafybeig5byt5urg2d2bsecufxe5ql7f4mezg3mekfleeh32nmuusx66p4y",
-        "connection/valory/ipfs/0.1.0": "bafybeihndk6hohj3yncgrye5pw7b7w2kztj3avby5u5mfk2fpjh7hqphii",
-        "connection/valory/abci/0.1.0": "bafybeiclexb6cnsog5yjz2qtvqyfnf7x5m7tpp56hblhk3pbocbvgjzhze",
-        "connection/valory/http_client/0.23.0": "bafybeih5vzo22p2umhqo52nzluaanxx7kejvvpcpdsrdymckkyvmsim6gm",
-        "connection/valory/ledger/0.19.0": "bafybeic3ft7l7ca3qgnderm4xupsfmyoihgi27ukotnz7b5hdczla2enya",
+        "connection/valory/ipfs/0.1.0": "bafybeifqca6e232lbvwrjhd7ioh43bo3evxfkpumdvcr6re2sdwjuntgna",
+        "connection/valory/abci/0.1.0": "bafybeib7hxfzqm6fmtv73rb5gv22mv7tzweerge4jyfaxl2v5bf3ohxyf4",
+        "connection/valory/http_client/0.23.0": "bafybeihi772xgzpqeipp3fhmvpct4y6e6tpjp4sogwqrnf3wqspgeilg4u",
+        "connection/valory/ledger/0.19.0": "bafybeig7woeog4srdby75hpjkmx4rhpkzncbf4h2pm5r6varsp26pf2uhu",
         "connection/valory/p2p_libp2p_client/0.1.0": "bafybeid3xg5k2ol5adflqloy75ibgljmol6xsvzvezebsg7oudxeeolz7e",
         "connection/valory/http_server/0.22.0": "bafybeihpgu56ovmq4npazdbh6y6ru5i7zuv6wvdglpxavsckyih56smu7m",
-        "skill/valory/abstract_abci/0.1.0": "bafybeihat4giyc4bz6zopvahcj4iw53356pbtwfn7p4d5yflwly2qhahum",
-        "skill/valory/abstract_round_abci/0.1.0": "bafybeih3enhagoql7kzpeyzzu2scpkif6y3ubakpralfnwxcvxexdyvy5i",
-        "skill/valory/transaction_settlement_abci/0.1.0": "bafybeigtzlk4uakmd54rxnznorcrstsr52kta474lgrnvx5ovr546vj7sq",
-        "skill/valory/registration_abci/0.1.0": "bafybeiek7zcsxbucjwzgqfftafhfrocvc7q4yxllh2q44jeemsjxg3rcfm",
-        "skill/valory/reset_pause_abci/0.1.0": "bafybeidw4mbx3os3hmv7ley7b3g3gja7ydpitr7mxbjpwzxin2mzyt5yam",
-        "skill/valory/termination_abci/0.1.0": "bafybeihq6qtbwt6i53ayqym63vhjexkcppy26gguzhhjqywfmiuqghvv44"
+        "skill/valory/abstract_abci/0.1.0": "bafybeicpmdv62m2mgzkvircr6lmp3vohwombe4hixgooeeqwf7vvb5lwqa",
+        "skill/valory/abstract_round_abci/0.1.0": "bafybeieizi5fg45l72lgohfi34bzgn7ejqd6s5jxbcklwxfjtenpndztfi",
+        "skill/valory/transaction_settlement_abci/0.1.0": "bafybeicqpmlkz22dodkul5672zqsagu5upzmt2djyo3rrc7xs2ttxanjgy",
+        "skill/valory/registration_abci/0.1.0": "bafybeiffjshiqdszr3rvcuyynyitwqagfoewil2324moby6obxubzc2wla",
+        "skill/valory/reset_pause_abci/0.1.0": "bafybeiali66vbm7haj5zonihdr5u3audcwcu4ojlfnmw5gbu42fm5pzowi",
+        "skill/valory/termination_abci/0.1.0": "bafybeiecnsmeng5sjzalbrbuc7ryabtpsiu7f474uyywkmaszzicwnpmqi"
     }
 }
