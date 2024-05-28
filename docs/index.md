@@ -27,14 +27,14 @@ In order to run a local demo of the Price Oracle service with a Hardhat node:
     mkdir your_workspace && cd your_workspace
     touch Pipfile && pipenv --python 3.10 && pipenv shell
 
-    pipenv install open-autonomy[all]==0.14.12
+    pipenv install open-autonomy[all]==0.14.13
     autonomy init --remote --ipfs --reset --author=your_name
     ```
 
 2. Fetch the Price Oracle service.
 
 	```bash
-	autonomy fetch valory/oracle:0.1.0:bafybeigf3k5qzhfbfu6xec7qgfdmz7sb4s5ef3iy2jwv2pzzk6ncxwupp4 --service
+	autonomy fetch valory/oracle:0.1.0:bafybeicilibbkpmaz24s2e2cqi5usaajdxe36aodlon2mvg7rmdblykavq --service
 	```
 
 3. Build the Docker image of the service agents
