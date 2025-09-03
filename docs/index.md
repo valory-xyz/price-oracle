@@ -1,5 +1,5 @@
 ![OracleKit](images/oraclekit.svg){ align=left }
-The OracleKit is aimed at building services providing data streams onto the blockchain. For example, The Price Oracle is an [agent service](https://docs.autonolas.network/open-autonomy/get_started/what_is_an_agent_service/) that provides an estimation of the Bitcoin price (USD) based on observations coming from different data sources. In the live demo, the service is using observations from [Kraken](https://www.kraken.com/), [CoinGecko](https://www.coingecko.com/), [Coinbase](https://www.coinbase.com/), and [Binance](https://www.binance.com/).
+The OracleKit is aimed at building services providing data streams onto the blockchain. For example, The Price Oracle is an [agent service](https://stack.olas.network/open-autonomy/get_started/what_is_an_agent_service/) that provides an estimation of the Bitcoin price (USD) based on observations coming from different data sources. In the live demo, the service is using observations from [Kraken](https://www.kraken.com/), [CoinGecko](https://www.coingecko.com/), [Coinbase](https://www.coinbase.com/), and [Binance](https://www.binance.com/).
 
 Each agent collects an observation from one of the data sources above and
 shares it with the rest of the agents through the consensus gadget.
@@ -21,7 +21,7 @@ Finally, a random agent (keeper) is voted among the agents in the service to sub
 
 In order to run a local demo of the Price Oracle service with a Hardhat node:
 
-1. [Set up your system](https://docs.autonolas.network/open-autonomy/guides/set_up/) to work with the Open Autonomy framework. We recommend that you use these commands:
+1. [Set up your system](https://stack.olas.network/open-autonomy/guides/set_up/) to work with the Open Autonomy framework. We recommend that you use these commands:
 
     ```bash
     mkdir your_workspace && cd your_workspace
@@ -98,7 +98,7 @@ In order to run a local demo of the Price Oracle service with a Hardhat node:
 
     You can cancel the local execution at any time by pressing ++ctrl+c++.
 
-To understand the deployment process better, follow the deployment guide [here](https://docs.autonolas.network/open-autonomy/guides/deploy_service/).
+To understand the deployment process better, follow the deployment guide [here](https://stack.olas.network/open-autonomy/guides/deploy_service/).
 
 ### Querying the service
 
