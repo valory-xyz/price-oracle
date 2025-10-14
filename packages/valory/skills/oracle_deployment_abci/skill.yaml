@@ -6,7 +6,7 @@ description: ABCI application for oracle deployments.
 license: Apache-2.0
 aea_version: '>=1.0.0, <2.0.0'
 fingerprint:
-  README.md: bafybeigdmgak364qwhiqhho74vamospzu6rzzc57rtqz63qhdhozhu2hxq
+  README.md: bafybeihaerssy4rj5kp3jarzrngmgovyjknlbugfnidrdbttoztcxsppey
   __init__.py: bafybeieijwltt7imihiqtk73oqlcrh4b4bx3g4sty5q326enfronlbkwye
   behaviours.py: bafybeidml6ibslhk4fcm5uzwmcy3eq4rw7ecjkecxhpc5g7ci2gkhcmdzu
   dialogues.py: bafybeigabhaykiyzbluu4mk6bbrmqhzld2kyp32pg24bvjmzrrb74einwm

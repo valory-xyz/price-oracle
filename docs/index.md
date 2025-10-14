@@ -1,27 +1,27 @@
 ![OracleKit](images/oraclekit.svg){ align=left }
-The OracleKit is aimed at building services providing data streams onto the blockchain. For example, The Price Oracle is an [agent service](https://docs.autonolas.network/open-autonomy/get_started/what_is_an_agent_service/) that provides an estimation of the Bitcoin price (USD) based on observations coming from different data sources. In the live demo, the service is using observations from [Kraken](https://www.kraken.com/), [CoinGecko](https://www.coingecko.com/), [Coinbase](https://www.coinbase.com/), and [Binance](https://www.binance.com/).
+The OracleKit is aimed at building AI agents providing data streams onto the blockchain. For example, The Price Oracle is an [AI Agent](https://stack.olas.network/open-autonomy/get_started/what_is_an_agent_service/) that provides an estimation of the Bitcoin price (USD) based on observations coming from different data sources. In the live demo, the AI agent is using observations from [Kraken](https://www.kraken.com/), [CoinGecko](https://www.coingecko.com/), [Coinbase](https://www.coinbase.com/), and [Binance](https://www.binance.com/).
 
-Each agent collects an observation from one of the data sources above and
-shares it with the rest of the agents through the consensus gadget.
+Each agent instance collects an observation from one of the data sources above and
+shares it with the rest of the agent instances through the consensus gadget.
 
-Once all the observations are collected, each agent
+Once all the observations are collected, each agent instance
 computes locally a deterministic function that aggregates the observations shared by all the
-agents, and obtains an estimate of the current Bitcoin price. The live demo is currently using the
+agent instances, and obtains an estimate of the current Bitcoin price. The live demo is currently using the
 average of the observed values, but other functions, such as the median, can also be considered.
-The estimates made by all the agents are shared, and a consensus is reached when one of them
-obtains at least $\lceil(2N + 1) / 3\rceil$ votes, where $N$ is the number of agents in the service.
+The estimates made by all the agent instances are shared, and a consensus is reached when one of them
+obtains at least $\lceil(2N + 1) / 3\rceil$ votes, where $N$ is the number of instances in the AI agent.
 
 Once the consensus on an estimate has been reached, it is settled in the Polygon chain.
-Note that the service is secured through a multisig contract. This means that, in order to settle the
-Bitcoin estimate in Polygon, the agents execute a multi-signature transaction that requires at least $\lceil(2N + 1) / 3\rceil$ agents signatures to be accepted.
+Note that the AI agent is secured through a multisig contract. This means that, in order to settle the
+Bitcoin estimate in Polygon, the agent instance execute a multi-signature transaction that requires at least $\lceil(2N + 1) / 3\rceil$ instances signatures to be accepted.
 
-Finally, a random agent (keeper) is voted among the agents in the service to submit the transaction, and the service starts its cycle again.
+Finally, a random agent instance (keeper) is voted among the instances in the AI agent to submit the transaction, and the AI agent starts its cycle again.
 
 ## Demo
 
-In order to run a local demo of the Price Oracle service with a Hardhat node:
+In order to run a local demo of the Price Oracle AI agent with a Hardhat node:
 
-1. [Set up your system](https://docs.autonolas.network/open-autonomy/guides/set_up/) to work with the Open Autonomy framework. We recommend that you use these commands:
+1. [Set up your system](https://stack.olas.network/open-autonomy/guides/set_up/) to work with the Open Autonomy framework. We recommend that you use these commands:
 
     ```bash
     mkdir your_workspace && cd your_workspace
@@ -31,20 +31,20 @@ In order to run a local demo of the Price Oracle service with a Hardhat node:
     autonomy init --remote --ipfs --reset --author=your_name
     ```
 
-2. Fetch the Price Oracle service.
+2. Fetch the Price Oracle AI agent.
 
 	```bash
-	autonomy fetch valory/oracle:0.1.0:bafybeigf3k5qzhfbfu6xec7qgfdmz7sb4s5ef3iy2jwv2pzzk6ncxwupp4 --service
+	autonomy fetch valory/oracle:0.1.0:bafybeifwes2t5rhv5ezgzm4brrtyoxxhmoimcybe2tjwct4ijhipsi5rl4 --service
 	```
 
-3. Build the Docker image of the service agents
+3. Build the Docker image of the agent blueprint
 
 	```bash
 	cd oracle
 	autonomy build-image
 	```
 
-4. Prepare the `keys.json` file containing the wallet address and the private key for each of the agents.
+4. Prepare the `keys.json` file containing the wallet address and the private key for each of the agent instances.
 
     ??? example "Generating an example `keys.json` file"
 
@@ -73,14 +73,14 @@ In order to run a local demo of the Price Oracle service with a Hardhat node:
         EOF
         ```
 
-5. Build the service deployment.
+5. Build the AI agent deployment.
 
     The `--use-hardhat` flag below, adds an image with a Hardhat node containing some default smart contracts
-    (e.g., a [Safe](https://safe.global/)) to the service deployment. You can use any image with a Hardhat node,
+    (e.g., a [Safe](https://safe.global/)) to the AI agent deployment. You can use any image with a Hardhat node,
     instead of the default `valory/open-autonomy-hardhat`. To achieve that, you need to modify the environment variable
     `HARDHAT_IMAGE_NAME`.
 
-    The Price Oracle service demo requires the Autonolas Protocol registry contracts in order to run.
+    The Price Oracle AI agent demo requires the Autonolas Protocol registry contracts in order to run.
     We conveniently provide the image `valory/autonolas-registries` containing them.
     Therefore, build the deployment as follows:
 
@@ -89,7 +89,7 @@ In order to run a local demo of the Price Oracle service with a Hardhat node:
     autonomy deploy build keys.json --aev -ltm --use-hardhat
     ```
 
-6. Run the service.
+6. Run the AI agent.
 
     ```bash
     cd abci_build
@@ -98,15 +98,15 @@ In order to run a local demo of the Price Oracle service with a Hardhat node:
 
     You can cancel the local execution at any time by pressing ++ctrl+c++.
 
-To understand the deployment process better, follow the deployment guide [here](https://docs.autonolas.network/open-autonomy/guides/deploy_service/).
+To understand the deployment process better, follow the deployment guide [here](https://stack.olas.network/open-autonomy/guides/deploy_service/).
 
-### Querying the service
+### Querying the AI agent
 
-Querying autonomous services can become very simple by using the
+Querying autonomous AI agents can become very simple by using the
 [Open Autonomy Client SDK](https://github.com/valory-xyz/open-autonomy-client).
-This is a library that helps to query multi-agent systems built with the Open Autonomy framework
-It provides a simplified approach for making requests to a service as if it were a single endpoint.
-The SDK queries multiple agents in the background to retrieve information and returns a result that is presumed to be reached by consensus among the agents.
+This is a library that helps to query multi-agent-blueprint-instance systems built with the Open Autonomy framework
+It provides a simplified approach for making requests to an AI agent as if it were a single endpoint.
+The SDK queries multiple agent instance in the background to retrieve information and returns a result that is presumed to be reached by consensus among the instances.
 
 Let's take a look at a simple example, using the SDK. First of all we need to make sure
 that we have the necessary requirements installed:
@@ -117,7 +117,7 @@ pip install aiohttp
 ```
 
 Having installed the requirements and while running the hardhat demo above, you can use this simple script
-to get a result for which the agents have reached consensus on:
+to get a result for which the agent instance have reached consensus on:
 
 ```python
 import asyncio
@@ -144,12 +144,12 @@ if __name__ == '__main__':
 
 Let's take a look at this script step by step:
 
-1. We import the `asyncio` library, because the Client SDK queries the agents in an asynchronous way
+1. We import the `asyncio` library, because the Client SDK queries the agent instances in an asynchronous way
    in order to save time. The `json` library is not necessary, but helps us format the data before printing them
    for this demo. The `open_autonomy_client` is the SDK, and the `Client` is the class that we are going to use
    to fetch the agents' data.
 2. We specify a list with the public keys and the URLs of the agents that we would like to query.
-   These are the only parameters that need to be changed in this script in order to run it for any service.
+   These are the only parameters that need to be changed in this script in order to run it for any AI agent.
 3. Next, we define an asynchronous function which initializes a client, using the constants above,
    and calls the `fetch()` method on the instance. Using these two lines of code, we have received the `agents_data`,
    which we continue to print in a JSON format.
@@ -175,11 +175,11 @@ An example result after running the above script should look like the following:
 ## Build
 
 1. Fork the [OracleKit repository](https://github.com/valory-xyz/price-oracle).
-2. Make the necessary adjustments to tailor the service to your needs. This could include:
+2. Make the necessary adjustments to tailor the AI agent to your needs. This could include:
     * Adjust configuration parameters (e.g., in the `service.yaml` file).
-    * Expand the service finite-state machine with your custom states.
-3. Run your service as detailed above.
+    * Expand the AI agent finite-state machine with your custom states.
+3. Run your AI agent as detailed above.
 
 !!! tip "Looking for help building your own?"
 
-    Refer to the [Autonolas Discord community](https://discord.com/invite/z2PT65jKqQ), or consider ecosystem services like [Valory Propel](https://propel.valory.xyz) for the fastest way to get your first autonomous service in production.
+    Refer to the [Autonolas Discord community](https://discord.com/invite/z2PT65jKqQ), or consider ecosystem services like [Valory Propel](https://app.propel.valory.xyz) for the fastest way to get your first autonomous AI agent in production.

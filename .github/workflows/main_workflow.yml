@@ -64,7 +64,7 @@ jobs:
     - name: Check pipfiles
       run: tox -e check-pipfiles
     - name: Check doc links
-      run: tomte check-doc-links --url-skips "http://127.0.0.1:{i}" --http-skips "http://127.0.0.1:{i}"
+      run: tomte check-doc-links --url-skips "http://127.0.0.1:{i}" --http-skips "http://127.0.0.1:{i}" --url-skips "https://www.binance.com/" --url-skips "https://www.kraken.com/"
     - name: Check doc IPFS hashes
       run: tox -e check-doc-hashes
 

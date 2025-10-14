@@ -5,7 +5,7 @@ license: Apache-2.0
 description: Oracle agent.
 aea_version: '>=1.0.0, <2.0.0'
 fingerprint:
-  README.md: bafybeia6rbpcaovvels4mn3ufkbbvwrsibury3x5g6eyo4lws4w2uk3x4q
+  README.md: bafybeifzirq3vejuas7ruo6geip4ckxhx5ge7mk3ezagl4hzhtovcsr26m
   __init__.py: bafybeieja6fkcncllqarspvtzsnm25g6ttxkxfdk2jduuozvt5a3uin6t4
   tests/__init__.py: bafybeiddkyv7ohqiylizxurzs4ihom2o5rpqbwf5xufzkz3jpa7umpwgmm
   tests/test_oracle.py: bafybeihglxaoll54hfsbkaqykysldjg5usbk26hjhrrckob7tohdvpizmy
@@ -32,9 +32,9 @@ protocols:
 skills:
 - valory/abstract_abci:0.1.0:bafybeieh4ei3qdelmacnm7vwq57phoewgumr3udvxt6pybmuggwc3yk65q
 - valory/abstract_round_abci:0.1.0:bafybeiar2yhzxacfe3qqamqhaihtlcimquwedffctw55sowx6rac3cm3ui
-- valory/oracle_abci:0.1.0:bafybeicpqq3dmaya5i3t7h7vnavbkesvudtdu7cwxdk7ed436z3uqlmxsq
-- valory/oracle_deployment_abci:0.1.0:bafybeihe2tdmvuqpjhtbl3d6346p7hfsrgguzptnkdbvsul7l32n24r7xq
-- valory/price_estimation_abci:0.1.0:bafybeify524b6qx2glyau67fnvz7rqvfd24m6gx6r34hubek56hjusis5q
+- valory/oracle_abci:0.1.0:bafybeidzk2wikageqtygqqlj5e4mxokp6d3hdga4bv7vj2zbyjqxwwsuay
+- valory/oracle_deployment_abci:0.1.0:bafybeictey4rirhtxzy7eouxz67wxtcwkgfsgbct2m3icj6fmnhq4yhn4q
+- valory/price_estimation_abci:0.1.0:bafybeicjeo6bhtvuq33sbygdnem6nn5w5wg7qnfeivpqjf5377k5n7p6ei
 - valory/registration_abci:0.1.0:bafybeieu7vq3pyns4t5ty6u3sbmpkd7yznpg3rmqifoz3jhy7pmqyg3w6q
 - valory/reset_pause_abci:0.1.0:bafybeiameewywqigpupy3u2iwnkfczeiiucue74x2l5lbge74rmw6bgaie
 - valory/termination_abci:0.1.0:bafybeif2zim2de356eo3sipkmoev5emwadpqqzk3huwqarywh4tmqt3vzq
