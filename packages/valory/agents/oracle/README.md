@@ -1,4 +1,4 @@
-# ABCI Oracle Agent
+# ABCI Oracle Agent Blueprint
 
-This agent uses the `abci` connection and the `oracle_abci` skill
+This agent blueprint uses the `abci` connection and the `oracle_abci` skill
 to agree on a price estimation together with a set of AEAs.

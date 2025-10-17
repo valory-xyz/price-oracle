@@ -20,7 +20,7 @@ This module contains the ABCI oracle deployment skill for an AEA.
 
 * `SelectKeeperOracleBehaviour`
 
-   Select the keeper agent.
+   Select the keeper agent instance.
 
 * `ValidateOracleBehaviour`
 

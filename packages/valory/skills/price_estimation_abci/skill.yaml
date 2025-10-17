@@ -41,7 +41,7 @@ protocols:
 - valory/http:1.0.0:bafybeifugzl63kfdmwrxwphrnrhj7bn6iruxieme3a4ntzejf6kmtuwmae
 skills:
 - valory/abstract_round_abci:0.1.0:bafybeiar2yhzxacfe3qqamqhaihtlcimquwedffctw55sowx6rac3cm3ui
-- valory/oracle_deployment_abci:0.1.0:bafybeihe2tdmvuqpjhtbl3d6346p7hfsrgguzptnkdbvsul7l32n24r7xq
+- valory/oracle_deployment_abci:0.1.0:bafybeictey4rirhtxzy7eouxz67wxtcwkgfsgbct2m3icj6fmnhq4yhn4q
 - valory/transaction_settlement_abci:0.1.0:bafybeic3tccdjypuge2lewtlgprwkbb53lhgsgn7oiwzyrcrrptrbeyote
 behaviours:
   main:
